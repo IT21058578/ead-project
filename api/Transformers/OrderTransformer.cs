@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
 using api.Models;
+using api.Utilities;
 using MongoDB.Bson;
 
 namespace api.Transformers
@@ -15,8 +16,8 @@ namespace api.Transformers
             return new Order
             {
                 UserId = new ObjectId(request.UserId),
-                Status = request.Status,
                 DeliveryAddress = request.DeliveryAddress,
+                Status = OrderStatus.Pending,
                 DeliveryDate = request.DeliveryDate,
                 DeliveryNote = request.DeliveryNote,
                 Products = request.Products.Select(item =>
@@ -25,9 +26,9 @@ namespace api.Transformers
                     {
                         ProductId = new ObjectId(item.ProductId),
                         VendorId = new ObjectId(item.VendorId),
+                        Status = OrderStatus.Pending,
                         Name = item.Name,
                         Price = item.Price,
-                        Status = item.Status,
                         Quantity = item.Quantity,
                     };
                 }).ToList(),

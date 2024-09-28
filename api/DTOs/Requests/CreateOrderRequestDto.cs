@@ -17,8 +17,6 @@ namespace api.DTOs.Requests
         [ValidObjectId]
         public string VendorId { get; set; } = string.Empty;
         [Required]
-        public string Status { get; set; } = null!;
-        [Required]
         [MinLength(1)]
         public List<Item> Products { get; set; } = [];
         [MinLength(300)]
@@ -40,8 +38,6 @@ namespace api.DTOs.Requests
             [Required]
             [Range(1, int.MaxValue)]
             public int Quantity { get; set; } = 0;
-            [Required]
-            public string Status { get; set; } = null!;
             [Required]
             [MinLength(1)]
             [MaxLength(100)]

@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using api.Configurations;
+using api.Configuratons;
 using api.Models;
 using api.Repositories;
 using api.Services;
@@ -30,11 +32,18 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<ReviewService>();
 
 // Add Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 // Add Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SchemaFilter<ValidObjectIdFilter>();
+    options.SchemaFilter<ValidEnumValueFilter>();
+});
 
 // Add Exception Handlers
 builder.Services.AddProblemDetails();
