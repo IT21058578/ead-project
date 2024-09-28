@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Annotations.Validation;
 
 namespace api.DTOs.Requests
 {
     public class CreateProductRequestDto
     {
         [Required]
+        [ValidObjectId]
         public string VendorId { get; set; } = string.Empty;
         [Required]
         [MinLength(1)]
