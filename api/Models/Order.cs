@@ -11,12 +11,14 @@ namespace api.Models
     public class Order : BaseModel
     {
         public ObjectId UserId { get; set; } = ObjectId.Empty;
-        public ObjectId VendorId { get; set; } = ObjectId.Empty;
         public string Status { get; set; } = null!;
         public List<Item> Products { get; set; } = [];
         public string DeliveryNote { get; set; } = null!;
         public string DeliveryAddress { get; set; } = null!;
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
+        public DateTime? ActualDeliveryDate { get; set; } = null!;
+        public IEnumerable<string> VendorIds { get; set; } = [];
+        // Assumption: Payments are always done when Order is created.
 
         public class Item
         {

@@ -14,6 +14,8 @@ namespace api.Configurations
         public DbSet<Product> Products { get; init; }
         public DbSet<User> Users { get; init; }
         public DbSet<Credential> Credentials { get; init; }
+        public DbSet<Review> Reviews { get; init; }
+        public DbSet<Notification> Notifications { get; init; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,6 +24,8 @@ namespace api.Configurations
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<Credential>().HasKey(c => c.Id);
+            modelBuilder.Entity<Review>().HasKey(r => r.Id);
+            modelBuilder.Entity<Notification>().HasKey(n => n.Id);
         }
     }
 }

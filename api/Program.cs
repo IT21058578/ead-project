@@ -19,11 +19,15 @@ builder.Services.AddTransient<OrderRepository>();
 builder.Services.AddTransient<ProductRepository>();
 builder.Services.AddTransient<UserRepository>();
 builder.Services.AddTransient<CredentialRepository>();
+builder.Services.AddTransient<NotificationRepository>();
+builder.Services.AddTransient<ReviewRepository>();
 
 // Add Services
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<ReviewService>();
 
 // Add Controllers
 builder.Services.AddControllers();

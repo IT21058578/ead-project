@@ -18,9 +18,8 @@ namespace api.Controllers.V1
         private readonly ILogger<OrderController> _logger = logger;
         private readonly OrderService _orderService = orderService;
 
-
         [HttpGet("{id}")]
-        public IActionResult GetOrder([FromRoute] String id)
+        public IActionResult GetOrder([FromRoute] string id)
         {
             var result = _orderService.GetOrder(id);
             return Ok(result);
@@ -34,14 +33,14 @@ namespace api.Controllers.V1
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteOrder([FromRoute] String id)
+        public IActionResult DeleteOrder([FromRoute] string id)
         {
             _orderService.DeleteOrder(id);
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateOrder([FromRoute] String id, [FromBody] CreateOrderRequestDto request)
+        public IActionResult UpdateOrder([FromRoute] string id, [FromBody] CreateOrderRequestDto request)
         {
             var result = _orderService.UpdateOrder(id, request);
             return Ok(result);
@@ -53,6 +52,5 @@ namespace api.Controllers.V1
             var result = _orderService.CreateOrder(request);
             return Ok(result);
         }
-
     }
 }

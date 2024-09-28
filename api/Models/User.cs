@@ -16,6 +16,6 @@ namespace api.Models
         public string Role { get; set; } = null!;
         public bool IsVerified { get; set; } = false;
         public bool IsApproved { get; set; } = false;
-
+        public double Rating { get; set; } = 0.0;
     }
 }

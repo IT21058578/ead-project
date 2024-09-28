@@ -30,5 +30,8 @@ namespace api.DTOs.Requests
         [Required]
         [Range(0, int.MaxValue)]
         public int LowStockThreshold { get; set; } = 10;
+        [Url]
+        [Required]
+        public string ImageUrl { get; set; } = null!;
     }
 }
