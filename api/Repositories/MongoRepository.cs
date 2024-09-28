@@ -75,21 +75,26 @@ namespace api.Repositories
             return entities;
         }
 
-        public T Delete(T entity)
+        public T Delete(ObjectId id)
         {
-            var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == id);
             if (entityToDelete != null)
             {
                 _dbSet.Remove(entityToDelete);
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
                 _dbContext.SaveChanges();
-                return entity;
+                return entityToDelete;
             }
             else
             {
-                throw new ArgumentException($"Entity with ID {entity.Id} cannot be found.");
+                throw new ArgumentException($"Entity with ID {id} cannot be found.");
             }
+        }
+
+        public T Delete(String id)
+        {
+            return this.Delete(new ObjectId(id));
         }
 
         public IEnumerable<T> DeleteMany(IEnumerable<T> entities)
