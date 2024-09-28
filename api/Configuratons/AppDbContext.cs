@@ -6,7 +6,7 @@ using api.Models;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace api.Services
+namespace api.Configurations
 {
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {

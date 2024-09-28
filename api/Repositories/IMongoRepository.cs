@@ -12,12 +12,12 @@ namespace api.Repositories
         T? GetById(string id);
         T? GetById(ObjectId id);
         IEnumerable<T> GetAll();
-        void Add(T entity);
-        void AddMany(IEnumerable<T> entities);
-        void Update(T entity);
-        void UpdateMany(IEnumerable<T> entities);
-        void Delete(T entity);
-        void DeleteMany(IEnumerable<T> entities);
+        T Add(T entity);
+        IEnumerable<T> AddMany(IEnumerable<T> entities);
+        T Update(T entity);
+        IEnumerable<T> UpdateMany(IEnumerable<T> entities);
+        T Delete(T entity);
+        IEnumerable<T> DeleteMany(IEnumerable<T> entities);
         Page<T> GetPage(PageRequest<T> pageRequest);
     }
 }

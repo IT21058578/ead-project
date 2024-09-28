@@ -8,9 +8,8 @@ using MongoDB.EntityFrameworkCore;
 namespace api.Models
 {
     [Collection("products")]
-    public class Product : IMongoModel
+    public class Product : BaseModel
     {
-        public ObjectId Id { get; set; }
         public ObjectId VendorId { get; set; } = ObjectId.Empty;
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;

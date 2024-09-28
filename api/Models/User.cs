@@ -8,11 +8,9 @@ using MongoDB.EntityFrameworkCore;
 namespace api.Models
 {
     [Collection("users")]
-    public class User : IMongoModel
+    public class User : BaseModel
     {
-        public ObjectId Id { get; set; }
         public string Email { get; set; } = null!;
-        public string Password { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Role { get; set; } = null!;
         public bool IsVerified { get; set; } = false;
