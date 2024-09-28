@@ -1794,19 +1794,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/tharindu/.nuget/packages/": {}
+    "C:\\Users\\USER\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj",
+      "projectUniqueName": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj",
       "projectName": "api",
-      "projectPath": "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj",
-      "packagesPath": "/Users/tharindu/.nuget/packages/",
-      "outputPath": "/Users/tharindu/Personal_Repositories/ead-project/api/obj/",
+      "projectPath": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj",
+      "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/tharindu/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
@@ -1871,7 +1871,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

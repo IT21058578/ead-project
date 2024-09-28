@@ -1,5 +1,7 @@
 using api.Configurations;
 using api.Models;
+using api.Repositories;
+using api.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +13,27 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databa
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Setup Repositories
+builder.Services.AddTransient<OrderRepository>();
+builder.Services.AddTransient<ProductRepository>();
+builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<CredentialRepository>();
+
+// Add Services
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddScoped<UserService>();
+
+// Add Controllers
+builder.Services.AddControllers();
+
+// Add Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Add Exception Handlers
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -24,5 +45,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();

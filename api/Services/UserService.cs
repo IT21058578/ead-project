@@ -9,9 +9,9 @@ using api.Utilities;
 
 namespace api.Services
 {
-    public class UserService(UserRepository userRepository, Logger<UserService> logger)
+    public class UserService(UserRepository userRepository, ILogger<UserService> logger)
     {
-        private readonly Logger<UserService> _logger = logger;
+        private readonly ILogger<UserService> _logger = logger;
         private readonly UserRepository _userRepository = userRepository;
 
         public User GetUser(string id)

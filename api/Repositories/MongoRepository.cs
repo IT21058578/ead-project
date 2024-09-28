@@ -33,6 +33,13 @@ namespace api.Repositories
 
         public T Add(T entity)
         {
+            if (entity.Id != ObjectId.Empty)
+            {
+                // Don't let these objects save
+                throw new ArgumentException("Entity ID must be empty.");
+            }
+            entity.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+            entity.CreatedAt = DateTime.UtcNow;
             _dbSet.Add(entity);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
@@ -42,6 +49,16 @@ namespace api.Repositories
 
         public IEnumerable<T> AddMany(IEnumerable<T> entities)
         {
+            entities.ToList().ForEach(e =>
+            {
+                if (e.Id != ObjectId.Empty)
+                {
+                    // Don't let these objects save
+                    throw new ArgumentException("Entity ID must be empty.");
+                }
+                e.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+                e.CreatedAt = DateTime.UtcNow;
+            });
             _dbSet.AddRange(entities);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
@@ -54,6 +71,8 @@ namespace api.Repositories
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToUpdate != null)
             {
+                entityToUpdate.UpdatedAt = DateTime.UtcNow;
+                entityToUpdate.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
                 _dbSet.Update(entity);
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
@@ -68,6 +87,16 @@ namespace api.Repositories
 
         public IEnumerable<T> UpdateMany(IEnumerable<T> entities)
         {
+            entities.ToList().ForEach(e =>
+            {
+                if (e.Id == ObjectId.Empty)
+                {
+                    // Don't let these objects save
+                    throw new ArgumentException("Entity ID must not be empty.");
+                }
+                e.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+                e.CreatedAt = DateTime.UtcNow;
+            });
             _dbSet.UpdateRange(entities);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);

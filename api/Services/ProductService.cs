@@ -10,9 +10,9 @@ using api.Utilities;
 
 namespace api.Services
 {
-    public class ProductService(ProductRepository productRepository, Logger<ProductService> logger)
+    public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger)
     {
-        private readonly Logger<ProductService> _logger = logger;
+        private readonly ILogger<ProductService> _logger = logger;
         private readonly ProductRepository _productRepository = productRepository;
 
         public Product CreateProduct(CreateProductRequestDto request)

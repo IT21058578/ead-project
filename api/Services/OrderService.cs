@@ -10,9 +10,9 @@ using api.Utilities;
 
 namespace api.Services
 {
-    public class OrderService(OrderRepository orderRepository, Logger<OrderService> logger)
+    public class OrderService(OrderRepository orderRepository, ILogger<OrderService> logger)
     {
-        private readonly Logger<OrderService> _logger = logger;
+        private readonly ILogger<OrderService> _logger = logger;
         private readonly OrderRepository _orderRepository = orderRepository;
 
         public Order CreateOrder(CreateOrderRequestDto request)
