@@ -15,7 +15,6 @@ namespace api.Transformers
             return new Order
             {
                 UserId = new ObjectId(request.UserId),
-                VendorId = new ObjectId(request.VendorId),
                 Status = request.Status,
                 DeliveryAddress = request.DeliveryAddress,
                 DeliveryDate = request.DeliveryDate,
