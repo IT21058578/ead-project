@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace api.V1.Controllers
+namespace api.Controllers.V1
 {
     [Route("api/v1/users")]
     [ApiController]

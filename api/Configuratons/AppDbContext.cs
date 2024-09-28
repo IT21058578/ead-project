@@ -13,6 +13,7 @@ namespace api.Configurations
         public DbSet<Order> Orders { get; init; }
         public DbSet<Product> Products { get; init; }
         public DbSet<User> Users { get; init; }
+        public DbSet<Credential> Credentials { get; init; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace api.Configurations
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<Credential>().HasKey(c => c.Id);
         }
     }
 }
