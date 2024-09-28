@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace api.Repositories
 {
-    public interface IMongoRepository<T>
+    public interface IMongoRepository<T> where T : class
     {
-        T GetById(int id);
+        T GetById(string id);
         IEnumerable<T> GetAll();
         void Add(T entity);
         void Update(T entity);
