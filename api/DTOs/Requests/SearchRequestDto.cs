@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using api.Annotations.Validation;
 using api.Models;
 using api.Utilities;
 
@@ -25,19 +26,9 @@ namespace api.DTOs.Requests
         public class Filter
         {
             [Required]
-            public Criteria Operator { get; set; } = Criteria.EQUALS;
+            [ValidEnumValue(typeof(Criteria))]
+            public Criteria Operator { get; set; } = Criteria.Equals;
             public object Value { get; set; } = null!;
-
-            public enum Criteria
-            {
-                EQUALS,
-                NOT_EQUALS,
-                GREATER_THAN,
-                LESS_THAN,
-                GREATER_THAN_OR_EQUAL,
-                LESS_THAN_OR_EQUAL,
-                CONTAINS,
-            }
         }
 
         public PageRequest<T> ToPageRequest()
@@ -49,9 +40,7 @@ namespace api.DTOs.Requests
             if (!string.IsNullOrEmpty(SortBy))
             {
                 var property = typeof(T).GetProperty(SortBy) ?? throw new ArgumentException($"Invalid SortBy property: {SortBy}");
-                var sortExpression = Expression.Property(null, typeof(T), SortBy);
-                var sortLambda = Expression.Lambda<Func<T, object>>(sortExpression, null);
-                query = SortDirection == "asc" ? query.OrderBy(sortLambda) : query.OrderByDescending(sortLambda);
+                query = SortDirection == "asc" ? query.OrderBy(x => property.GetValue(x)) : query.OrderByDescending(x => property.GetValue(x));
             }
 
             // Apply filters if available
@@ -65,8 +54,8 @@ namespace api.DTOs.Requests
                     // Apply filter based on the operator and property type
                     query = filter.Operator switch
                     {
-                        Filter.Criteria.EQUALS => query.Where(x => filter.Value.Equals(property.GetValue(x))),
-                        Filter.Criteria.NOT_EQUALS => query.Where(x => !filter.Value.Equals(property.GetValue(x))),
+                        Criteria.Equals => query.Where(x => filter.Value.Equals(property.GetValue(x))),
+                        Criteria.NotEquals => query.Where(x => !filter.Value.Equals(property.GetValue(x))),
                         _ => throw new ArgumentException($"Unsupported filter operator: {filter.Operator}"),
                     };
                 }
