@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Models;
 using api.Utilities;
 using MongoDB.Bson;
 
 namespace api.Repositories
 {
-    public interface IMongoRepository<T> where T : class
+    public interface IMongoRepository<T> where T : BaseModel
     {
         T? GetById(string id);
         T? GetById(ObjectId id);
