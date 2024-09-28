@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
-using api.Services;
+using api.Configurations;
 using api.Utilities;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
@@ -11,7 +11,7 @@ using MongoDB.Driver;
 
 namespace api.Repositories
 {
-    public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : class, IMongoModel
+    public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : BaseModel
     {
         private readonly AppDbContext _dbContext = dbContext;
         private readonly DbSet<T> _dbSet = dbContext.Set<T>();
@@ -31,25 +31,25 @@ namespace api.Repositories
             return _dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries
         }
 
-        public void Add(T entity)
+        public T Add(T entity)
         {
             _dbSet.Add(entity);
-
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
-
             _dbContext.SaveChanges();
+            return entity;
         }
 
-        public void AddMany(IEnumerable<T> entities)
+        public IEnumerable<T> AddMany(IEnumerable<T> entities)
         {
             _dbSet.AddRange(entities);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
             _dbContext.SaveChanges();
+            return entities;
         }
 
-        public void Update(T entity)
+        public T Update(T entity)
         {
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToUpdate != null)
@@ -58,6 +58,7 @@ namespace api.Repositories
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
                 _dbContext.SaveChanges();
+                return entity;
             }
             else
             {
@@ -65,15 +66,16 @@ namespace api.Repositories
             }
         }
 
-        public void UpdateMany(IEnumerable<T> entities)
+        public IEnumerable<T> UpdateMany(IEnumerable<T> entities)
         {
             _dbSet.UpdateRange(entities);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
             _dbContext.SaveChanges();
+            return entities;
         }
 
-        public void Delete(T entity)
+        public T Delete(T entity)
         {
             var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToDelete != null)
@@ -82,6 +84,7 @@ namespace api.Repositories
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
                 _dbContext.SaveChanges();
+                return entity;
             }
             else
             {
@@ -89,12 +92,13 @@ namespace api.Repositories
             }
         }
 
-        public void DeleteMany(IEnumerable<T> entities)
+        public IEnumerable<T> DeleteMany(IEnumerable<T> entities)
         {
             _dbSet.RemoveRange(entities);
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
             _dbContext.SaveChanges();
+            return entities;
         }
 
         public Page<T> GetPage(PageRequest<T> pageRequest)

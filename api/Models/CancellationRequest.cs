@@ -6,9 +6,8 @@ using MongoDB.Bson;
 
 namespace api.Models
 {
-    public class CancellationRequest : IMongoModel
+    public class CancellationRequest : BaseModel
     {
-        public ObjectId Id { get; set; }
         public ObjectId OrderId { get; set; } = ObjectId.Empty;
         public string Reason { get; set; } = null!;
         public string Status { get; set; } = null!;
