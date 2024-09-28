@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    [Collection("orders")]
     public class Order : IMongoModel
     {
-        public string? Id { get; set; }
+        public ObjectId Id { get; set; }
         public string UserId { get; set; } = null!;
         public string Status { get; set; } = null!;
         public List<SimpleProduct> Products { get; set; } = [];

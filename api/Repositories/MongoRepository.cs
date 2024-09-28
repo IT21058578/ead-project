@@ -3,38 +3,105 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
+using api.Services;
+using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace api.Repositories
 {
-    public class MongoRepository<T>(IMongoDatabase db, string collectionName) : IMongoRepository<T> where T : class, IMongoModel
+    public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : class, IMongoModel
     {
-        private readonly IMongoCollection<T> _collection = db.GetCollection<T>(collectionName);
+        private readonly AppDbContext dbContext = dbContext;
+        private readonly DbSet<T> dbSet = dbContext.Set<T>();
 
-        public T GetById(string id)
+        // Get an entity by its string Id
+        public T? GetById(ObjectId id)
         {
-            return _collection.Find<T>(Builders<T>.Filter.Eq("_id", new ObjectId(id))).FirstOrDefault();
+            return dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
         }
 
+        public T? GetById(String id)
+        {
+            return this.GetById(new ObjectId(id)); // Assuming Id is a string in IMongoModel
+        }
+
+        // Get all entities
         public IEnumerable<T> GetAll()
         {
-            return _collection.Find<T>(new BsonDocument()).ToList();
+            return dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries
         }
 
+        // Add a single entity
         public void Add(T entity)
         {
-            _collection.InsertOne(entity);
+            dbSet.Add(entity);
+
+            dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+
+            dbContext.SaveChanges();
         }
 
+        // Add multiple entities
+        public void AddMany(IEnumerable<T> entities)
+        {
+            dbSet.AddRange(entities);
+            dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+            dbContext.SaveChanges();
+        }
+
+        // Update a single entity
         public void Update(T entity)
         {
-            _collection.ReplaceOne(Builders<T>.Filter.Eq("_id", new ObjectId(entity.Id)), entity);
+            var entityToUpdate = dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            if (entityToUpdate != null)
+            {
+                dbSet.Update(entity);
+                dbContext.ChangeTracker.DetectChanges();
+                Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException($"Entity with ID {entity.Id} cannot be found.");
+            }
         }
 
+        // Update multiple entities
+        public void UpdateMany(IEnumerable<T> entities)
+        {
+            dbSet.UpdateRange(entities);
+            dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+            dbContext.SaveChanges();
+        }
+
+        // Delete a single entity
         public void Delete(T entity)
         {
-            _collection.DeleteOne(Builders<T>.Filter.Eq("_id", new ObjectId(entity.Id)));
+            var entityToDelete = dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            if (entityToDelete != null)
+            {
+                dbSet.Remove(entityToDelete);
+                dbContext.ChangeTracker.DetectChanges();
+                Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+                dbContext.SaveChanges();
+            }
+            else
+            {
+                throw new ArgumentException($"Entity with ID {entity.Id} cannot be found.");
+            }
+        }
+
+        // Delete multiple entities
+        public void DeleteMany(IEnumerable<T> entities)
+        {
+            dbSet.RemoveRange(entities);
+            dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+            dbContext.SaveChanges();
         }
     }
 }
