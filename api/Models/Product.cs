@@ -11,7 +11,7 @@ namespace api.Models
     public class Product : IMongoModel
     {
         public ObjectId Id { get; set; }
-        public string VendorId { get; set; } = null!;
+        public ObjectId VendorId { get; set; } = ObjectId.Empty;
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Category { get; set; } = null!;
