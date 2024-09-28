@@ -7,7 +7,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace api.Models
 {
-    public class BaseModel
+    public abstract class BaseModel
     {
         public ObjectId Id { get; set; }
         public ObjectId CreatedBy { get; set; }

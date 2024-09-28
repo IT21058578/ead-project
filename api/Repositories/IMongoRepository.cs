@@ -16,7 +16,8 @@ namespace api.Repositories
         IEnumerable<T> AddMany(IEnumerable<T> entities);
         T Update(T entity);
         IEnumerable<T> UpdateMany(IEnumerable<T> entities);
-        T Delete(T entity);
+        T Delete(string id);
+        T Delete(ObjectId entity);
         IEnumerable<T> DeleteMany(IEnumerable<T> entities);
         Page<T> GetPage(PageRequest<T> pageRequest);
     }

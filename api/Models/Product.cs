@@ -17,5 +17,6 @@ namespace api.Models
         public string Price { get; set; } = null!;
         public bool IsActive { get; set; } = true;
         public int CountInStock { get; set; } = 0;
+        public int LowStockThreshold { get; set; } = 10;
     }
 }
