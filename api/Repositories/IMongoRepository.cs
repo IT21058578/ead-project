@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Utilities;
 using MongoDB.Bson;
 
 namespace api.Repositories
@@ -17,5 +18,6 @@ namespace api.Repositories
         void UpdateMany(IEnumerable<T> entities);
         void Delete(T entity);
         void DeleteMany(IEnumerable<T> entities);
+        Page<T> GetPage(PageRequest<T> pageRequest);
     }
 }

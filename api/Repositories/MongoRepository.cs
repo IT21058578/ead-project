@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
 using api.Services;
+using api.Utilities;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -12,13 +13,12 @@ namespace api.Repositories
 {
     public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : class, IMongoModel
     {
-        private readonly AppDbContext dbContext = dbContext;
-        private readonly DbSet<T> dbSet = dbContext.Set<T>();
+        private readonly AppDbContext _dbContext = dbContext;
+        private readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
-        // Get an entity by its string Id
         public T? GetById(ObjectId id)
         {
-            return dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
+            return _dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
         }
 
         public T? GetById(String id)
@@ -26,42 +26,38 @@ namespace api.Repositories
             return this.GetById(new ObjectId(id)); // Assuming Id is a string in IMongoModel
         }
 
-        // Get all entities
         public IEnumerable<T> GetAll()
         {
-            return dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries
+            return _dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries
         }
 
-        // Add a single entity
         public void Add(T entity)
         {
-            dbSet.Add(entity);
+            _dbSet.Add(entity);
 
-            dbContext.ChangeTracker.DetectChanges();
-            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
 
-            dbContext.SaveChanges();
+            _dbContext.SaveChanges();
         }
 
-        // Add multiple entities
         public void AddMany(IEnumerable<T> entities)
         {
-            dbSet.AddRange(entities);
-            dbContext.ChangeTracker.DetectChanges();
-            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
-            dbContext.SaveChanges();
+            _dbSet.AddRange(entities);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
         }
 
-        // Update a single entity
         public void Update(T entity)
         {
-            var entityToUpdate = dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToUpdate != null)
             {
-                dbSet.Update(entity);
-                dbContext.ChangeTracker.DetectChanges();
-                Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
-                dbContext.SaveChanges();
+                _dbSet.Update(entity);
+                _dbContext.ChangeTracker.DetectChanges();
+                Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+                _dbContext.SaveChanges();
             }
             else
             {
@@ -69,25 +65,23 @@ namespace api.Repositories
             }
         }
 
-        // Update multiple entities
         public void UpdateMany(IEnumerable<T> entities)
         {
-            dbSet.UpdateRange(entities);
-            dbContext.ChangeTracker.DetectChanges();
-            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
-            dbContext.SaveChanges();
+            _dbSet.UpdateRange(entities);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
         }
 
-        // Delete a single entity
         public void Delete(T entity)
         {
-            var entityToDelete = dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToDelete != null)
             {
-                dbSet.Remove(entityToDelete);
-                dbContext.ChangeTracker.DetectChanges();
-                Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
-                dbContext.SaveChanges();
+                _dbSet.Remove(entityToDelete);
+                _dbContext.ChangeTracker.DetectChanges();
+                Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+                _dbContext.SaveChanges();
             }
             else
             {
@@ -95,13 +89,37 @@ namespace api.Repositories
             }
         }
 
-        // Delete multiple entities
         public void DeleteMany(IEnumerable<T> entities)
         {
-            dbSet.RemoveRange(entities);
-            dbContext.ChangeTracker.DetectChanges();
-            Console.WriteLine(dbContext.ChangeTracker.DebugView.LongView);
-            dbContext.SaveChanges();
+            _dbSet.RemoveRange(entities);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
+        }
+
+        public Page<T> GetPage(PageRequest<T> pageRequest)
+        {
+            var query = pageRequest.Query;
+            var totalItems = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalItems / pageRequest.PageSize);
+            var items = query.Skip((pageRequest.Page - 1) * pageRequest.PageSize).Take(pageRequest.PageSize).ToList();
+            var isFirst = pageRequest.Page == 1;
+            var isLast = pageRequest.Page == totalPages;
+
+            return new Page<T>
+            {
+                Data = items,
+                Meta = new Page<T>.Metadata
+                {
+                    Page = pageRequest.Page,
+                    PageSize = pageRequest.PageSize,
+                    Total = totalItems,
+                    TotalPages = totalPages,
+                    TotalInPage = items.Count,
+                    IsFirst = isFirst,
+                    IsLast = isLast
+                }
+            };
         }
     }
 }

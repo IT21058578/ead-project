@@ -15,5 +15,8 @@ namespace api.Models
         public string Password { get; set; } = null!;
         public string Name { get; set; } = null!;
         public string Role { get; set; } = null!;
+        public bool IsVerified { get; set; } = false;
+        public bool IsApproved { get; set; } = false;
+
     }
 }
