@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    [Collection("users")]
     public class User : IMongoModel
     {
-        public string? Id { get; set; }
+        public ObjectId Id { get; set; }
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Name { get; set; } = null!;

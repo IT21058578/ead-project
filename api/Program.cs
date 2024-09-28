@@ -1,19 +1,13 @@
 using api.Models;
-using api.Repositories;
-using MongoDB.Driver;
+using api.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MongoDB configuration
+// MongoDB-EFCore configuration
 var databaseSettings = builder.Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>() ?? throw new InvalidOperationException("Database settings are required");
-var client = new MongoClient(databaseSettings.ConnectionString);
-var database = client.GetDatabase(databaseSettings.DatabaseName);
-
-// Register the MongoDB context or direct collections
-builder.Services.AddSingleton<IMongoDatabase>(database);
-
-// Register the generic repository for dependency injection
-builder.Services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
