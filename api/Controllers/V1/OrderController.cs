@@ -9,7 +9,7 @@ using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace api.V1.Controllers
+namespace api.Controllers.V1
 {
     [Route("api/v1/orders")]
     [ApiController]
@@ -29,7 +29,7 @@ namespace api.V1.Controllers
         [HttpPost("search")]
         public IActionResult SearchOrders([FromBody] SearchRequestDto<Order> request)
         {
-            var result = _orderService.SearchOrders();
+            var result = _orderService.SearchOrders(request.ToPageRequest());
             return Ok(result);
         }
 
