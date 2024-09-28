@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
+using api.Models;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,31 +22,35 @@ namespace api.V1.Controllers
         [HttpGet("{id}")]
         public IActionResult GetOrder([FromRoute] String id)
         {
-            return Ok();
+            var result = _orderService.GetOrder(id);
+            return Ok(result);
         }
 
-        [HttpGet("search")]
-        public IActionResult SearchOrders()
+        [HttpPost("search")]
+        public IActionResult SearchOrders([FromBody] SearchRequestDto<Order> request)
         {
-            return Ok();
+            var result = _orderService.SearchOrders();
+            return Ok(result);
         }
 
         [HttpDelete("{id}")]
         public IActionResult DeleteOrder([FromRoute] String id)
         {
+            _orderService.DeleteOrder(id);
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateOrder([FromRoute] String id)
+        public IActionResult UpdateOrder([FromRoute] String id, [FromBody] CreateOrderRequestDto request)
         {
-            return Ok();
+            var result = _orderService.UpdateOrder(id, request);
+            return Ok(result);
         }
 
         [HttpPost]
         public IActionResult CreateOrder([FromBody] CreateOrderRequestDto request)
         {
-            var result = _orderService.CreateOrder(request);    
+            var result = _orderService.CreateOrder(request);
             return Ok(result);
         }
 
