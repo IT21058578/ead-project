@@ -1,20 +1,33 @@
+using System.Net;
+using System.Net.Mail;
 using System.Text.Json.Serialization;
 using api.Configurations;
 using api.Configuratons;
-using api.Models;
 using api.Repositories;
 using api.Services;
+using Fluid;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// MongoDB-EFCore configuration
+// Load Configurations
 var databaseSettings = builder.Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>() ?? throw new InvalidOperationException("Database settings are required");
-builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
-builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
+var mailSettings = builder.Configuration.GetSection("MailSettings").Get<MailSettings>() ?? throw new InvalidOperationException("Mail settings are required");
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Register Configuration
+builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+
+// Setup External Services
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
+builder.Services.AddSingleton<FluidParser>();
+builder.Services.AddFluentEmail(mailSettings.Username)
+                .AddLiquidRenderer()
+                .AddSmtpSender(() => new SmtpClient(mailSettings.Host, mailSettings.Port)
+                {
+                    EnableSsl = true,
+                    Credentials = new NetworkCredential(mailSettings.Username, mailSettings.Password)
+                });
 
 // Setup Repositories
 builder.Services.AddTransient<OrderRepository>();
@@ -25,6 +38,7 @@ builder.Services.AddTransient<NotificationRepository>();
 builder.Services.AddTransient<ReviewRepository>();
 
 // Add Services
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
