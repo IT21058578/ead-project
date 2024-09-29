@@ -6,3 +6,6 @@
 - ChatGPT for migrating code meant for older versions of ASP.NET
 - https://www.youtube.com/@TeddySmithDev
 - https://www.youtube.com/watch?v=fv2-A5e-KHA&ab_channel=freeCodeCamp.org
+- https://daninacan.com/how-to-use-enums-in-asp-net-core-routes/
+- https://mehdi.me/generating-html-emails-with-razorengine-introduction/
+- https://www.codemag.com/Article/1103081
