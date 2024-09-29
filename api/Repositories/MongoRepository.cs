@@ -14,7 +14,7 @@ namespace api.Repositories
     public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : BaseModel
     {
         private readonly AppDbContext _dbContext = dbContext;
-        private readonly DbSet<T> _dbSet = dbContext.Set<T>();
+        protected readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
         public T? GetById(ObjectId id)
         {

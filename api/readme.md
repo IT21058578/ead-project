@@ -9,3 +9,4 @@
 - https://daninacan.com/how-to-use-enums-in-asp-net-core-routes/
 - https://mehdi.me/generating-html-emails-with-razorengine-introduction/
 - https://www.codemag.com/Article/1103081
+- https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-8.0

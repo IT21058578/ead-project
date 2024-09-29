@@ -8,11 +8,11 @@ using MongoDB.Bson;
 
 namespace api.Repositories
 {
-  public class CredentialRepository(AppDbContext dbContext) : MongoRepository<Order>(dbContext)
+  public class CredentialRepository(AppDbContext dbContext) : MongoRepository<Credential>(dbContext)
   {
     public Credential? FindByUserId(ObjectId userId)
     {
-      return dbContext.Credentials.Where(c => c.UserId == userId).FirstOrDefault();
+      return _dbSet.Where(c => c.UserId == userId).FirstOrDefault();
     }
   }
 }

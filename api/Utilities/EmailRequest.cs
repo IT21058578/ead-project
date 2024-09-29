@@ -10,7 +10,13 @@ namespace api.Utilities
         public string To { get; set; } = "";
         public string Subject { get; set; } = "";
         public string From { get; set; } = "";
-        public string Template { get; set; } = "";
+        public Template TemplateName { get; set; } = Template.Registration;
         public Dictionary<string, object> TemplateData { get; set; } = [];
+        public enum Template
+        {
+            Registration,
+            ResetPassword,
+            PasswordChanged
+        }
     }
 }

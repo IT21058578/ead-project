@@ -29,7 +29,7 @@ namespace api.Services
             _logger.LogInformation("Deleting order {id}", id);
             _orderRepository.Delete(id);
             _logger.LogInformation("Order deleted");
-        }
+        }   
 
         public Order GetOrder(string id)
         {

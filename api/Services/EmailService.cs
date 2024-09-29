@@ -7,26 +7,27 @@ using FluentEmail.Core;
 
 namespace api.Services
 {
-    public class EmailService(IFluentEmailFactory emailFactory)
+    public class EmailService(IFluentEmailFactory emailFactory, ILogger<EmailService> logger)
     {
+        private readonly ILogger<EmailService> _logger = logger;
         private readonly IFluentEmailFactory _emailFactory = emailFactory;
 
-        public async void SendEmail(EmailRequest emailRequest)
+        public async Task SendEmail(EmailRequest emailRequest)
         {
             var email = _emailFactory.Create();
+            // TODO: Get template from file
             email.To(emailRequest.To)
                 .Subject(emailRequest.Subject)
-                .UsingTemplateFromFile(emailRequest.Template, emailRequest.TemplateData)
+                .UsingTemplateFromFile("", emailRequest.TemplateData)
                 .Send();
             await email.SendAsync();
         }
 
-        public async void SendEmails(List<EmailRequest> emailRequests)
+        public async Task SendEmails(List<EmailRequest> emailRequests)
         {
-            foreach (var emailRequest in emailRequests)
-            {
-                SendEmail(emailRequest);
-            }
+
+            var tasks = emailRequests.Select(SendEmail).ToList();
+            await Task.WhenAll(tasks);
         }
     }
 }

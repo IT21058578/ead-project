@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
     [Collection("users")]
-    public class User : BaseModel
+    public class User: BaseModel
     {
         public string Email { get; set; } = null!;
         public string FirstName { get; set; } = null!;
