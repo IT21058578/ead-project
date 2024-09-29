@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Utilities;
 using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
 
@@ -11,7 +12,7 @@ namespace api.Models
     public class Order : BaseModel
     {
         public ObjectId UserId { get; set; } = ObjectId.Empty;
-        public string Status { get; set; } = null!;
+        public OrderStatus Status { get; set; } = OrderStatus.Pending!;
         public List<Item> Products { get; set; } = [];
         public string DeliveryNote { get; set; } = null!;
         public string DeliveryAddress { get; set; } = null!;
@@ -25,7 +26,7 @@ namespace api.Models
             public ObjectId ProductId { get; set; } = ObjectId.Empty;
             public ObjectId VendorId { get; set; } = ObjectId.Empty;
             public int Quantity { get; set; } = 0;
-            public string Status { get; set; } = null!;
+            public OrderStatus Status { get; set; } = OrderStatus.Pending!;
             public string Name { get; set; } = null!;
             public double Price { get; set; }
         }

@@ -97,3 +97,9 @@ C:\Users\USER\Documents\Repositories\ead-project\api\obj\Debug\net8.0\refint\api
 C:\Users\USER\Documents\Repositories\ead-project\api\obj\Debug\net8.0\api.pdb
 C:\Users\USER\Documents\Repositories\ead-project\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\USER\Documents\Repositories\ead-project\api\obj\Debug\net8.0\ref\api.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\FluentEmail.Core.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\FluentEmail.Liquid.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\FluentEmail.Smtp.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\Fluid.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\Parlot.dll
+C:\Users\USER\Documents\Repositories\ead-project\api\bin\Debug\net8.0\TimeZoneConverter.dll
