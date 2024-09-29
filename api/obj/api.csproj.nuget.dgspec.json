@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj": {}
+    "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj": {
+    "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj",
+        "projectUniqueName": "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj",
         "projectName": "api",
-        "projectPath": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\api.csproj",
-        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Documents\\Repositories\\ead-project\\api\\obj\\",
+        "projectPath": "/Users/tharindu/Personal_Repositories/ead-project/api/api.csproj",
+        "packagesPath": "/Users/tharindu/.nuget/packages/",
+        "outputPath": "/Users/tharindu/Personal_Repositories/ead-project/api/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/tharindu/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -55,7 +55,19 @@
               "target": "Package",
               "version": "[2.11.1, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
               "version": "[8.0.8, )"
             },
@@ -91,7 +103,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.402/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

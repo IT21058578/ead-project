@@ -9,5 +9,9 @@ namespace api.Repositories
 {
     public class UserRepository(AppDbContext dbContext) : MongoRepository<User>(dbContext)
     {
+        public User? FindByEmail(string email)
+        {
+            return _dbSet.Where(o => o.Email == email).FirstOrDefault();
+        }
     }
 }
