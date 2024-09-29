@@ -1,62 +1,45 @@
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
-using api.Configuratons;
 using api.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using api.Repositories;
+using api.Utilities;
 
 namespace api.Services
 {
-    public class TokenService(IOptions<JwtSettings> config)
+    public class TokenService(TokenRepository tokenRepository, ILogger<TokenService> logger)
     {
-        private readonly IOptions<JwtSettings> _config = config;
-        private readonly SymmetricSecurityKey _accessKey = new(Encoding.UTF8.GetBytes(config.Value.AccessSecret));
-        private readonly SymmetricSecurityKey _refreshKey = new(Encoding.UTF8.GetBytes(config.Value.RefreshSecret));
-        public string CreateAccessToken(User user)
+        private readonly ILogger<TokenService> _logger = logger;
+        private readonly TokenRepository _tokenRepository = tokenRepository;
+
+        public Token CreateToken(TokenPurpose purpose, string email)
         {
-            var claims = new List<Claim> {
-                new(JwtRegisteredClaimNames.Email, user.Email),
-                new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName} {user.LastName}"),
-                new(JwtRegisteredClaimNames.NameId, ""),
-            };
-            var creds = new SigningCredentials(_accessKey, SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var result = _tokenRepository.Add(new()
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddHours(_config.Value.AccessExpiryMs),
-                SigningCredentials = creds,
-                Issuer = _config.Value.Issuer,
-                Audience = _config.Value.Audience
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                Code = "12345",
+                Email = email,
+                Purpose = purpose,
+                Status = TokenStatus.Active
+            });
+            return result;
         }
 
-        public string CreateRefreshToken(User user)
+        public Token ClaimToken(string code, string email)
         {
-            var claims = new List<Claim> {
-                new(JwtRegisteredClaimNames.Email, user.Email),
-                new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName} {user.LastName}"),
-                new(JwtRegisteredClaimNames.NameId, ""),
-            };
-            var creds = new SigningCredentials(_refreshKey, SecurityAlgorithms.HmacSha512Signature);
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var result = _tokenRepository.FindByCodeAndEmail(code, email) ?? throw new Exception("Token does not exist");
+            if (!IsTokenValid(result))
             {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now,
-                SigningCredentials = creds,
-                Issuer = _config.Value.Issuer,
-                Audience = _config.Value.Audience
-            };
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+                throw new Exception("Token is not valid");
+            }
+            result.Status = TokenStatus.Claimed;
+            _tokenRepository.Update(result);
+            return result;
+        }
+
+        public bool IsTokenValid(Token token)
+        {
+            return new List<TokenStatus> { TokenStatus.Claimed, TokenStatus.Expired, TokenStatus.Revoked }.Contains(token.Status);
         }
     }
 }

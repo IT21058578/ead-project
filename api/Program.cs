@@ -49,7 +49,7 @@ builder.Services.AddIdentityCore<User>()
 .AddDefaultTokenProviders();
 
 // Add Services
-builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<ProductService>();

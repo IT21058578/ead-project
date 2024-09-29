@@ -30,9 +30,16 @@ namespace api.Controllers.V1
         }
 
         [HttpPut("register/verify")]
-        public async Task<IActionResult> VerifyRegistration([FromQuery] String code)
+        public async Task<IActionResult> VerifyRegistration([FromQuery] String code, [FromQuery] String email)
         {
-            await _authService.VerifyRegistration(code);
+            await _authService.VerifyRegistration(code, email);
+            return Ok();
+        }
+
+        [HttpPut("register/approve")]
+        public async Task<IActionResult> ApproveRegistration([FromQuery] String email)
+        {
+            await _authService.ApproveRegistration(email);
             return Ok();
         }
 
