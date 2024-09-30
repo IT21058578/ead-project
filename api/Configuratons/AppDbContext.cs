@@ -16,6 +16,7 @@ namespace api.Configurations
         public DbSet<Credential> Credentials { get; init; }
         public DbSet<Review> Reviews { get; init; }
         public DbSet<Notification> Notifications { get; init; }
+        public DbSet<Token> Tokens { get; init; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace api.Configurations
             modelBuilder.Entity<Credential>().HasKey(c => c.Id);
             modelBuilder.Entity<Review>().HasKey(r => r.Id);
             modelBuilder.Entity<Notification>().HasKey(n => n.Id);
+            modelBuilder.Entity<Token>().HasKey(t => t.Id);
         }
     }
 }

@@ -44,6 +44,24 @@ namespace api.Repositories
             _dbContext.ChangeTracker.DetectChanges();
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
             _dbContext.SaveChanges();
+            Console.WriteLine(entity);
+            return entity;
+        }
+
+        public async Task<T> AddAsync(T entity)
+        {
+            if (entity.Id != ObjectId.Empty)
+            {
+                // Don't let these objects save
+                throw new ArgumentException("Entity ID must be empty.");
+            }
+            entity.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+            entity.CreatedAt = DateTime.UtcNow;
+            await _dbSet.AddAsync(entity);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
+            Console.WriteLine(entity);
             return entity;
         }
 
@@ -66,6 +84,25 @@ namespace api.Repositories
             return entities;
         }
 
+        public Task<IEnumerable<T>> AddManyAsync(IEnumerable<T> entities)
+        {
+            entities.ToList().ForEach(e =>
+            {
+                if (e.Id != ObjectId.Empty)
+                {
+                    // Don't let these objects save
+                    throw new ArgumentException("Entity ID must be empty.");
+                }
+                e.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+                e.CreatedAt = DateTime.UtcNow;
+            });
+            _dbSet.AddRange(entities);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
+            return Task.FromResult(entities);
+        }
+
         public T Update(T entity)
         {
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
@@ -78,6 +115,25 @@ namespace api.Repositories
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
                 _dbContext.SaveChanges();
                 return entity;
+            }
+            else
+            {
+                throw new ArgumentException($"Entity with ID {entity.Id} cannot be found.");
+            }
+        }
+
+        public Task<T> UpdateAsync(T entity)
+        {
+            var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            if (entityToUpdate != null)
+            {
+                entityToUpdate.UpdatedAt = DateTime.UtcNow;
+                entityToUpdate.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
+                _dbSet.Update(entity);
+                _dbContext.ChangeTracker.DetectChanges();
+                Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+                _dbContext.SaveChanges();
+                return Task.FromResult(entity);
             }
             else
             {
@@ -102,6 +158,25 @@ namespace api.Repositories
             Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
             _dbContext.SaveChanges();
             return entities;
+        }
+
+        public Task<IEnumerable<T>> UpdateManyAsync(IEnumerable<T> entities)
+        {
+            entities.ToList().ForEach(e =>
+            {
+                if (e.Id == ObjectId.Empty)
+                {
+                    // Don't let these objects save
+                    throw new ArgumentException("Entity ID must not be empty.");
+                }
+                e.CreatedBy = ObjectId.Empty; // TODO: Get id from session
+                e.CreatedAt = DateTime.UtcNow;
+            });
+            _dbSet.UpdateRange(entities);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
+            return Task.FromResult(entities);
         }
 
         public T Delete(ObjectId id)
