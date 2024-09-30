@@ -14,5 +14,8 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         public string OldPassword { get; set; } = "";
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
     }
 }

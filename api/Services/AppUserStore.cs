@@ -5,12 +5,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Models;
 using api.Repositories;
+using api.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
-namespace api.Identity
+namespace api.Services
 {
-    public class AppUserStore(UserRepository userRepository, CredentialRepository credentialRepository) : IUserStore<User>, IUserPasswordStore<User>
+    public class AppUserStore(UserRepository userRepository, CredentialRepository credentialRepository)
+    : IUserStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
     {
         private readonly UserRepository _userRepository = userRepository;
         private readonly CredentialRepository _credentialRepository = credentialRepository;
@@ -113,6 +115,40 @@ namespace api.Identity
         {
             _userRepository.Update(user);
             return Task.FromResult(IdentityResult.Success);
+        }
+
+        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        {
+            var role = AppUserRoleHelper.ToValue(roleName);
+            user.Role = role;
+            _userRepository.Update(user);
+            return Task.CompletedTask;
+        }
+
+        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        {
+            user.Role = AppUserRole.Customer;
+            _userRepository.Update(user);
+            return Task.CompletedTask;
+        }
+
+        public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
+        {
+            var roles = new List<string> { user.Role.ToString() };
+            return Task.FromResult<IList<string>>(roles);
+        }
+
+        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        {
+            var role = AppUserRoleHelper.ToValue(roleName);
+            return Task.FromResult(user.Role == role);
+        }
+
+        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+        {
+            var role = AppUserRoleHelper.ToValue(roleName);
+            var users = _userRepository.FindByRole(role);
+            return Task.FromResult(users.ToList() as IList<User>);
         }
 
         public void Dispose()

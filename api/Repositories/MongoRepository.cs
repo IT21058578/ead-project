@@ -21,7 +21,7 @@ namespace api.Repositories
             return _dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
         }
 
-        public T? GetById(String id)
+        public T? GetById(string id)
         {
             return this.GetById(new ObjectId(id)); // Assuming Id is a string in IMongoModel
         }
@@ -121,7 +121,7 @@ namespace api.Repositories
             }
         }
 
-        public T Delete(String id)
+        public T Delete(string id)
         {
             return this.Delete(new ObjectId(id));
         }
