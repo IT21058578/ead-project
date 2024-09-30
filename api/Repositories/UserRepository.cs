@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using api.Configurations;
 using api.Models;
 using api.Utilities;
+using Microsoft.EntityFrameworkCore;
 
 namespace api.Repositories
 {
@@ -14,6 +15,12 @@ namespace api.Repositories
         {
             return _dbSet.Where(o => o.Email == email).FirstOrDefault();
         }
+
+        public async Task<User?> FindByEmailAsync(string email)
+        {
+            return await _dbSet.Where(o => o.Email == email).FirstOrDefaultAsync();
+        }
+
 
         public IEnumerable<User> FindByRole(AppUserRole role)
         {

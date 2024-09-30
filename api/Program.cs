@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson.Serialization.Conventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 // Setup External Services
+builder.Services.AddHttpLogging(o => { });
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
 builder.Services.AddSingleton<FluidParser>();
 builder.Services.AddFluentEmail(mailSettings.Username)
@@ -39,12 +41,13 @@ builder.Services.AddFluentEmail(mailSettings.Username)
 // Setup Repositories
 builder.Services.AddTransient<OrderRepository>();
 builder.Services.AddTransient<ProductRepository>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<CredentialRepository>();
+builder.Services.AddTransient<UserRepository>();
+builder.Services.AddTransient<CredentialRepository>();
 builder.Services.AddTransient<NotificationRepository>();
 builder.Services.AddTransient<ReviewRepository>();
+builder.Services.AddTransient<TokenRepository>();
 
-// Add Auth
+// Add Auth-Identity Configurations
 builder.Services.AddDataProtection(); // Needed for AddDefaultTokenProviders to work 
 builder.Services.AddIdentityCore<User>(options =>
 {
@@ -55,6 +58,7 @@ builder.Services.AddIdentityCore<User>(options =>
     options.Password.RequireDigit = false;
 })
 .AddUserStore<AppUserStore>()
+.AddSignInManager<SignInManager<User>>()
 .AddDefaultTokenProviders();
 builder.Services.AddAuthentication(options =>
 {
@@ -76,6 +80,7 @@ builder.Services.AddAuthentication(options =>
 });
 
 // Add Services
+builder.Services.AddScoped<PasswordHasher<User>>();
 builder.Services.AddScoped<JwtTokenService>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<OrderService>();
@@ -83,6 +88,8 @@ builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<ReviewService>();
+builder.Services.AddScoped<TokenService>();
+builder.Services.AddScoped<AuthService>();
 
 // Add Controllers
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -111,9 +118,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
-// app.UseAuthentication();
-// app.UseAuthorization();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.Run();

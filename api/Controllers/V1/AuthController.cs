@@ -23,21 +23,21 @@ namespace api.Controllers.V1
         }
 
         [HttpPost("register/re-send")]
-        public async Task<IActionResult> ResendRegisterEmail([FromQuery] String email)
+        public async Task<IActionResult> ResendRegisterEmail([FromQuery] string email)
         {
             await _authService.ResendRegisterEmail(email);
             return Ok();
         }
 
         [HttpPut("register/verify")]
-        public async Task<IActionResult> VerifyRegistration([FromQuery] String code, [FromQuery] String email)
+        public async Task<IActionResult> VerifyRegistration([FromQuery] string code, [FromQuery] string email)
         {
             await _authService.VerifyRegistration(code, email);
             return Ok();
         }
 
         [HttpPut("register/approve")]
-        public async Task<IActionResult> ApproveRegistration([FromQuery] String email)
+        public async Task<IActionResult> ApproveRegistration([FromQuery] string email)
         {
             await _authService.ApproveRegistration(email);
             return Ok();
@@ -51,14 +51,14 @@ namespace api.Controllers.V1
         }
 
         [HttpPost("refresh")]
-        public async Task<IActionResult> RefreshLogin([FromHeader] String authorization)
+        public async Task<IActionResult> RefreshLogin([FromBody] RefreshLoginRequestDto refreshLoginRequestDto)
         {
-            var result = await _authService.RefreshLogin(authorization);
+            var result = await _authService.RefreshLogin(refreshLoginRequestDto.RefreshToken);
             return Ok(result);
         }
 
         [HttpPut("password/forgot")]
-        public async Task<IActionResult> ForgotPassword([FromQuery] String email)
+        public async Task<IActionResult> ForgotPassword([FromQuery] string email)
         {
             await _authService.ForgotPassword(email);
             return Ok();

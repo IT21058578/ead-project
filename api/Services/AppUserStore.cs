@@ -3,24 +3,28 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Configurations;
 using api.Models;
 using api.Repositories;
 using api.Utilities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
-    public class AppUserStore(UserRepository userRepository, CredentialRepository credentialRepository)
-    : IUserStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>
+    public class AppUserStore(UserRepository userRepository, CredentialRepository credentialRepository, AppDbContext dbContext)
+    : IUserStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>, IQueryableUserStore<User>
     {
         private readonly UserRepository _userRepository = userRepository;
         private readonly CredentialRepository _credentialRepository = credentialRepository;
+        protected readonly DbSet<User> _dbSet = dbContext.Set<User>();
+        public IQueryable<User> Users => _dbSet;
 
-        public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            _userRepository.Add(user);
-            return Task.FromResult(IdentityResult.Success);
+            await _userRepository.AddAsync(user);
+            return IdentityResult.Success;
         }
 
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
@@ -76,7 +80,7 @@ namespace api.Services
                 return Task.FromException(new Exception("Email / UserName cannot be empty"));
             }
             user.Email = normalizedName;
-            _userRepository.Update(user);
+            // _userRepository.Update(user); TODO: Figure out why this throws in registration
             return Task.CompletedTask;
         }
 
@@ -153,7 +157,7 @@ namespace api.Services
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            GC.SuppressFinalize(this);
         }
     }
 }
