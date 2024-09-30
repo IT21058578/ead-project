@@ -15,11 +15,17 @@ namespace api.Services
         public async Task SendEmail(EmailRequest emailRequest)
         {
             var email = _emailFactory.Create();
-            // TODO: Get template from file
-            email.To(emailRequest.To)
+            Console.WriteLine("Sending email to " + emailRequest.To);
+            email
+                .To(emailRequest.To)
                 .Subject(emailRequest.Subject)
-                .UsingTemplateFromFile("", emailRequest.TemplateData)
-                .Send();
+                .UsingTemplateFromFile(
+                    Path.Combine(
+                        Directory.GetCurrentDirectory(),
+                        "Assets",
+                        "Templates",
+                        emailRequest.TemplateName.ToString() + ".liquid"),
+                    emailRequest.TemplateData);
             await email.SendAsync();
         }
 

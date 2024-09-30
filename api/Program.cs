@@ -7,10 +7,10 @@ using api.Configuratons;
 using api.Models;
 using api.Repositories;
 using api.Services;
-using Fluid;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.Serialization.Conventions;
 
@@ -29,7 +29,6 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSet
 // Setup External Services
 builder.Services.AddHttpLogging(o => { });
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
-builder.Services.AddSingleton<FluidParser>();
 builder.Services.AddFluentEmail(mailSettings.Username)
 .AddLiquidRenderer()
 .AddSmtpSender(() => new SmtpClient(mailSettings.Host, mailSettings.Port)
