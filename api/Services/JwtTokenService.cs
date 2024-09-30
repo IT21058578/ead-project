@@ -58,5 +58,33 @@ namespace api.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        private ClaimsPrincipal? ValidateAccessToken(string token)
+        {
+            var validation = new TokenValidationParameters
+            {
+                IssuerSigningKey = _accessKey,
+                ValidateLifetime = false,
+                ValidateActor = false,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.ValidateToken(token, validation, out _);
+        }
+
+        public ClaimsPrincipal? ValidateRefreshToken(string token)
+        {
+            var validation = new TokenValidationParameters
+            {
+                IssuerSigningKey = _refreshKey,
+                ValidateLifetime = false,
+                ValidateActor = false,
+                ValidateIssuer = false,
+                ValidateAudience = false,
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+            return tokenHandler.ValidateToken(token, validation, out _);
+        }
     }
 }

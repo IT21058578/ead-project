@@ -14,5 +14,8 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         public string Code { get; set; } = "";
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
     }
 }

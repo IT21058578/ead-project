@@ -7,6 +7,7 @@ using api.DTOs.Responses;
 using api.Models;
 using api.Utilities;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.Data;
 
 namespace api.Services
@@ -24,7 +25,7 @@ namespace api.Services
         private readonly SignInManager<User> _signInManager = signInManager;
         private readonly EmailService _emailService = emailService;
         private readonly TokenService _tokenService = tokenService;
-        private readonly JwtTokenService _jwtTokenServie = jwtTokenService;
+        private readonly JwtTokenService _jwtTokenService = jwtTokenService;
 
         public async Task Register(CreateUserRequestDto createUserRequestDto)
         {
@@ -59,7 +60,7 @@ namespace api.Services
         public async Task ResendRegisterEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email) ?? throw new Exception($"User with email {email} does not exist");
-            // TODO: Claim all previous tokens
+            _tokenService.ClaimAllToken(TokenPurpose.Registration, user.Email);
             var token = _tokenService.CreateToken(TokenPurpose.Registration, user.Email);
             await _emailService.SendEmail(new EmailRequest
             {
@@ -104,26 +105,67 @@ namespace api.Services
                 IsVerified = user.IsVerified,
                 Rating = user.Rating,
                 Role = user.Role,
-                AccessToken = _jwtTokenServie.CreateAccessToken(user),
-                RefreshTokenn = _jwtTokenServie.CreateRefreshToken(user)
+                AccessToken = _jwtTokenService.CreateAccessToken(user),
+                RefreshTokenn = _jwtTokenService.CreateRefreshToken(user)
             };
         }
 
-        public async Task<LoginResponseDto> RefreshLogin(string authorization)
+        public async Task<LoginResponseDto> RefreshLogin(string token)
         {
-            return new();
+            var principal = _jwtTokenService.ValidateRefreshToken(token);
+            if (principal?.Identity?.Name is null)
+            {
+                throw new Exception("Invalid token");
+            }
+            var user = await _userManager.FindByNameAsync(principal.Identity.Name) ?? throw new Exception("User not found");
+            return new()
+            {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                IsApproved = user.IsApproved,
+                IsVerified = user.IsVerified,
+                Rating = user.Rating,
+                Role = user.Role,
+                AccessToken = _jwtTokenService.CreateAccessToken(user),
+                RefreshTokenn = _jwtTokenService.CreateRefreshToken(user)
+            };
         }
 
         public async Task ForgotPassword(string email)
         {
+            var user = await _userManager.FindByEmailAsync(email) ?? throw new Exception($"User with email {email} does not exist");
+            var token = _tokenService.CreateToken(TokenPurpose.ResetPasssword, user.Email);
+            await _emailService.SendEmail(new EmailRequest
+            {
+                Subject = "Forgot Password",
+                To = user.Email,
+                TemplateName = EmailRequest.Template.ResetPassword,
+                TemplateData = {
+                    {"Code", token.Code}
+                }
+            });
         }
 
         public async Task ResetPassword(ResetPasswordRequestDto resetPasswordRequestDto)
         {
+            var token = _tokenService.ClaimToken(resetPasswordRequestDto.Code, resetPasswordRequestDto.Email);
+            var user = await _userManager.FindByEmailAsync(token.Email) ?? throw new Exception($"User with email {resetPasswordRequestDto.Email} does not exist");
+            var result = await _userManager.ResetPasswordAsync(user, token.Code, resetPasswordRequestDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Could not reset password");
+            }
         }
 
         public async Task ChangePassword(ChangePasswordRequestDto changePasswordRequestDto)
         {
+            var user = await _userManager.FindByEmailAsync(changePasswordRequestDto.Email) ?? throw new Exception($"User with email {changePasswordRequestDto.Email} does not exist");
+            var result = await _userManager.ChangePasswordAsync(user, changePasswordRequestDto.OldPassword, changePasswordRequestDto.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new Exception("Could not change password");
+            }
         }
     }
 }

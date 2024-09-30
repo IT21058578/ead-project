@@ -1,15 +1,17 @@
 using System.Net;
 using System.Net.Mail;
+using System.Text;
 using System.Text.Json.Serialization;
 using api.Configurations;
 using api.Configuratons;
-using api.Identity;
 using api.Models;
 using api.Repositories;
 using api.Services;
 using Fluid;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,9 +46,34 @@ builder.Services.AddTransient<ReviewRepository>();
 
 // Add Auth
 builder.Services.AddDataProtection(); // Needed for AddDefaultTokenProviders to work 
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<User>(options =>
+{
+    options.Password.RequiredLength = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireDigit = false;
+})
 .AddUserStore<AppUserStore>()
 .AddDefaultTokenProviders();
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateActor = false,
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        RequireExpirationTime = true,
+        ValidateIssuerSigningKey = true,
+        ClockSkew = TimeSpan.Zero,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.AccessSecret)),
+    };
+});
 
 // Add Services
 builder.Services.AddScoped<JwtTokenService>();

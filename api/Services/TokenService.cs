@@ -37,6 +37,16 @@ namespace api.Services
             return result;
         }
 
+        public void ClaimAllToken(TokenPurpose purpose, string email)
+        {
+            var tokens = _tokenRepository.FindByPurposeAndEmailAndStatusIsNotClaimed(purpose, email);
+            foreach (var token in tokens)
+            {
+                token.Status = TokenStatus.Claimed;
+            }
+            _tokenRepository.UpdateMany(tokens);
+        }
+
         public bool IsTokenValid(Token token)
         {
             return new List<TokenStatus> { TokenStatus.Claimed, TokenStatus.Expired, TokenStatus.Revoked }.Contains(token.Status);
