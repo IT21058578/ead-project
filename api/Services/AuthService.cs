@@ -60,7 +60,9 @@ namespace api.Services
                 To = user.Email,
                 TemplateName = EmailRequest.Template.Registration,
                 TemplateData = {
-                    {"Code", token.Code}
+                    {"FirstName", user.FirstName},
+                    {"VerificationLink", "http://localhost:5000/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email},
+                    {"VerificationCode", token.Code}
                 }
             });
         }
@@ -76,7 +78,9 @@ namespace api.Services
                 To = user.Email,
                 TemplateName = EmailRequest.Template.Registration,
                 TemplateData = {
-                    {"Code", token}
+                    {"FirstName", user.FirstName},
+                    {"VerificationLink", "http://localhost:5000/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email},
+                    {"VerificationCode", token.Code}
                 }
             });
         }
