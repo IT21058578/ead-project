@@ -15,6 +15,7 @@ export interface Product {
   isActive?: boolean;
   countInStock: number;
   lowStockThreshold: number;
+  rating?: number;
   imageUrl: string;
 }
 
@@ -44,11 +45,11 @@ export interface UserType {
   firstName?: string;
   lastName?: string;
   email?: string;
-  region?: string;
-  country?: string;
   password?: string;
   roles?: UserRole[];
-  isAuthorized?: boolean;
+  isVerified?: boolean;
+  isApproved?: boolean;
+  rating?: number;
 }
 
 type UserRole = string; 

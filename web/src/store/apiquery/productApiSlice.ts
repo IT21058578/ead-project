@@ -21,7 +21,18 @@ export const productApiSlice = createApi({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       // query: () => "/products/search",
-      query: () => "/products/",
+      query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'desc') => ({
+        url: 'products/search',
+        method: 'POST',
+        body: {
+          page,
+          pageSize,
+          sortBy,
+          sortDirection,
+          filters: {},
+        },
+      }),
+
       providesTags: ["Products"],
     }),
 
@@ -31,7 +42,7 @@ export const productApiSlice = createApi({
     }),
 
     searchProduct: builder.query({
-      query: (query: string) => `/product/search/${query}`,
+      query: (query: string) => `/products/search/${query}`,
       providesTags: ["Products"],
     }),
 
