@@ -16,6 +16,6 @@ namespace api.DTOs.Responses
         public bool IsApproved { get; set; } = false;
         public double Rating { get; set; } = 0.0;
         public string AccessToken { get; set; } = null!;
-        public string RefreshTokenn { get; set; } = null!;
+        public string RefreshToken { get; set; } = null!;
     }
 }

@@ -10,9 +10,7 @@ using api.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
-using MongoDB.Bson.Serialization.Conventions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +28,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSet
 builder.Services.AddHttpLogging(o => { });
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
 builder.Services.AddFluentEmail(mailSettings.Username)
-.AddLiquidRenderer()
+.AddRazorRenderer()
 .AddSmtpSender(() => new SmtpClient(mailSettings.Host, mailSettings.Port)
 {
     EnableSsl = true,
