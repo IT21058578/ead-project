@@ -52,7 +52,7 @@ namespace api.Services
                 Expires = DateTime.Now,
                 SigningCredentials = creds,
                 Issuer = _config.Value.Issuer,
-                Audience = _config.Value.Audience
+                Audience = _config.Value.Audience,
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -85,6 +85,11 @@ namespace api.Services
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             return tokenHandler.ValidateToken(token, validation, out _);
+        }
+
+        public string? GetEmailFromToken(ClaimsPrincipal principal)
+        {
+            return principal.FindFirstValue(ClaimTypes.Email);
         }
     }
 }
