@@ -9,3 +9,6 @@
 - https://daninacan.com/how-to-use-enums-in-asp-net-core-routes/
 - https://mehdi.me/generating-html-emails-with-razorengine-introduction/
 - https://www.codemag.com/Article/1103081
+- https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity-custom-storage-providers?view=aspnetcore-8.0
+- https://stackoverflow.com/questions/6996399/storing-enums-as-strings-in-mongodb
+- https://gregkedzierski.com/essays/enum-collection-serialization-dotnet-core-entity-framework-core/
