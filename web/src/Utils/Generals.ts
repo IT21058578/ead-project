@@ -68,7 +68,7 @@ export const buildCheckoutData = () => {
 };
 
 
-export const BASE_URL = "http://localhost:3000"; // BASE URL FOR API FETCHING
+export const BASE_URL = "http://localhost:5158/api/v1/"; // BASE URL FOR API FETCHING
 
 const active = "d-block p-3 fd-nav-active"; // WHERE MENU IS ACTIVE CLASS
 
