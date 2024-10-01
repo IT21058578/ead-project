@@ -5,6 +5,19 @@ export interface Review {
     productId: string;
 }
 
+export interface Product {
+  _id:string;
+  vendorId: string;
+  name: string;
+  description: string;
+  category: string;
+  price: number;
+  isActive?: boolean;
+  countInStock: number;
+  lowStockThreshold: number;
+  imageUrl: string;
+}
+
 export interface Order {
     _id: string;
     userId: string;
