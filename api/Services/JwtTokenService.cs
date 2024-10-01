@@ -12,13 +12,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
-    public class JwtTokenService(IOptions<JwtSettings> config)
+    public class JwtTokenService(IOptions<JwtSettings> config, Logger<JwtTokenService> logger)
     {
+        private readonly Logger<JwtTokenService> _logger = logger;
         private readonly IOptions<JwtSettings> _config = config;
         private readonly SymmetricSecurityKey _accessKey = new(Encoding.UTF8.GetBytes(config.Value.AccessSecret));
         private readonly SymmetricSecurityKey _refreshKey = new(Encoding.UTF8.GetBytes(config.Value.RefreshSecret));
         public string CreateAccessToken(User user)
         {
+            _logger.LogInformation("Creating access token for {Email}", user.Email);
             var claims = new List<Claim> {
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName} {user.LastName}"),
@@ -35,11 +37,14 @@ namespace api.Services
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var result = tokenHandler.WriteToken(token);
+            _logger.LogInformation("Access token for {Email} has been created", user.Email);
+            return result;
         }
 
         public string CreateRefreshToken(User user)
         {
+            _logger.LogInformation("Creating refresh token for {Email}", user.Email);
             var claims = new List<Claim> {
                 new(JwtRegisteredClaimNames.Email, user.Email),
                 new(JwtRegisteredClaimNames.GivenName, $"{user.FirstName} {user.LastName}"),
@@ -56,11 +61,14 @@ namespace api.Services
             };
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var result = tokenHandler.WriteToken(token);
+            _logger.LogInformation("Refresh token for {Email} has been created", user.Email);
+            return result;
         }
 
         private ClaimsPrincipal? ValidateAccessToken(string token)
         {
+            _logger.LogInformation("Validating access token {Token}", token.Take(10));
             var validation = new TokenValidationParameters
             {
                 IssuerSigningKey = _accessKey,
@@ -75,6 +83,7 @@ namespace api.Services
 
         public ClaimsPrincipal? ValidateRefreshToken(string token)
         {
+            _logger.LogInformation("Validating refresh token {Token}", token.Take(10));
             var validation = new TokenValidationParameters
             {
                 IssuerSigningKey = _refreshKey,
@@ -89,6 +98,7 @@ namespace api.Services
 
         public string? GetEmailFromToken(ClaimsPrincipal principal)
         {
+            _logger.LogInformation("Getting email from principal");
             return principal.FindFirstValue(ClaimTypes.Email);
         }
     }

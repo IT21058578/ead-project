@@ -15,6 +15,7 @@ namespace api.Services
 
         public async Task SendEmail<T>(EmailRequest<T> emailRequest) where T : ITemplateData
         {
+            _logger.LogInformation("Sending email to {To} with subject {Subject}", emailRequest.To, emailRequest.Subject);
             var email = _emailFactory.Create();
             email
                 .To(emailRequest.To)
@@ -27,13 +28,15 @@ namespace api.Services
                         emailRequest.TemplateName.ToString() + ".cshtml"),
                     emailRequest.TemplateData);
             await email.SendAsync();
+            _logger.LogInformation("Email to {To} with subject {Subject} has been sent", emailRequest.To, emailRequest.Subject);
         }
 
         public async Task SendEmails(List<EmailRequest<ITemplateData>> emailRequests)
         {
-
+            _logger.LogInformation("Sending {Count} emails", emailRequests.Count);
             var tasks = emailRequests.Select(SendEmail).ToList();
             await Task.WhenAll(tasks);
+            _logger.LogInformation("{Count} emails have been sent", emailRequests.Count);
         }
     }
 }
