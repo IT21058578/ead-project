@@ -25,6 +25,12 @@ builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailS
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 // Setup External Services
+builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+{
+    builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+}));
 builder.Services.AddHttpLogging(o => { });
 builder.Services.AddDbContext<AppDbContext>(options => options.UseMongoDB(databaseSettings.ConnectionString, databaseSettings.DatabaseName));
 builder.Services.AddFluentEmail(mailSettings.Username)
@@ -118,6 +124,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.MapControllers();
+app.UseCors("MyPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 
