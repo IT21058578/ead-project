@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ProductType } from "../ProductCart";
+import { Product } from '../../types';
 import {
   useCreateProductMutation,
   useDeleteProductMutation,
@@ -10,10 +10,11 @@ import Swal from "sweetalert2";
 import Spinner from "../Spinner";
 import { useUploadImagesMutation } from "../../store/apiquery/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { Category } from "../../views/includes/Section";
 
 let imageIsChanged = false;
 
-const UpdateProduct = ({ product }: { product: ProductType }) => {
+const UpdateProduct = ({ product }: { product: Product }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
   const [updateData, setUpdateData] = useState(product);
@@ -22,14 +23,15 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
   const productId = product?._id;
 
   const [formData, setFormData] = useState({
+    vendorId: updateData.vendorId,
     name: updateData.name,
-    images: updateData.images,
+    description: updateData.description,
+    category: updateData.category,
     price: updateData.price,
-    color: updateData.color,
+    isActive: updateData.isActive,
     countInStock: updateData.countInStock,
-    brand: updateData.brand,
-    type: updateData.type,
-    tags: updateData.tags,
+    lowStockThreshold: updateData.lowStockThreshold,
+    imageUrl: updateData.imageUrl,
   });
 
   const handleUpdateValue = (
@@ -51,14 +53,15 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
         console.log("Product Updated successfully");
         toast.success("Product Updated successfully");
         setFormData({
+          vendorId: "",
           name: "",
-          images: [],
+          description: "",
+          category: "",
           price: 0,
-          color: "",
+          isActive: false,
           countInStock: 0,
-          brand: "",
-          type: "",
-          tags: [],
+          lowStockThreshold: 0,
+          imageUrl: "",
         });
       } else if ("error" in result && result.error) {
         console.error("Product creation failed", result.error);
@@ -83,7 +86,7 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
         style={{ height: "250px" }}
       >
         <img
-          src={product.images[0]}
+          src={product.imageUrl}
           alt={product.name}
           className="w-100 h-100"
           ref={imageTag}
@@ -91,6 +94,17 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
       </div>
       {/* <div className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary" style={{ height: '250px' }}><img src={product.img} alt={product.name} className='w-100 h-100' ref={imageTag}/></div> */}
       <div className="d-flex gap-2">
+        <label className="w-25">
+          <span>Vendor ID</span>
+          <input
+            type="text"
+            name="vendorId"
+            value={formData.vendorId}
+            className="form-control w-100 rounded-0 p-2"
+            placeholder="Vendor ID"
+            onChange={handleUpdateValue}
+          />
+        </label>
         <label className="w-50">
           <span>Name</span>
           <input
@@ -115,7 +129,18 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
       </div>
       <div className="d-grid grid-4 gap-2 mt-3">
         <label>
-          <span>Price</span>
+          <span>Category</span>
+          <input
+            type="string"
+            step={0.1}
+            name="category"
+            value={formData.category}
+            className="form-control w-100 rounded-0 p-2"
+            onChange={handleUpdateValue}
+          />
+        </label>
+        <label>
+          <span>Price - LKR</span>
           <input
             type="number"
             name="price"
@@ -125,61 +150,58 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
           />
         </label>
         <label>
-          <span>Color</span>
+          <span>In Stock Quantity</span>
           <input
-            type="text"
-            name="color"
-            className="form-control w-100 rounded-0 p-2"
-            value={formData.color}
-            onChange={handleUpdateValue}
-          />
-        </label>
-        <label>
-          <span>Quantity</span>
-          <input
-            type="text"
+            type="number"
             name="countInStock"
-            className="form-control w-100 rounded-0 p-2"
             value={formData.countInStock}
+            className="form-control w-100 rounded-0 p-2"
             onChange={handleUpdateValue}
           />
         </label>
         <label>
-          <span>Brand</span>
+          <span>Low Stock Threshold</span>
           <input
             type="text"
-            name="brand"
+            name="lowStockThreshold"
+            value={formData.lowStockThreshold}
             className="form-control w-100 rounded-0 p-2"
-            value={formData.brand}
+            onChange={handleUpdateValue}
+          />
+        </label>
+        <label className="form-check form-switch pt-4 pl-3">
+          <span className="form-check-label">Active</span>
+          <input
+            type="checkbox"
+            name="isActive"
+            value={formData.isActive}
+            className="form-check-input"
             onChange={handleUpdateValue}
           />
         </label>
       </div>
-      <label>
-        <span>Description</span>
-        <textarea
-          name="type"
-          cols={100}
-          rows={10}
-          value={formData.type}
-          className="w-100 p-2 border"
-          placeholder="Description"
-          onChange={handleUpdateValue}
-        ></textarea>
-      </label>
-      <div className="my-4">
-        <label>
-          <span>Tags</span>
+      <div className="d-flex gap-2">
+        <label className="w-50">
+          <span>Description</span>
+          <textarea
+            name="description"
+            cols={100}
+            rows={5}
+            value={formData.description}
+            className="w-100 p-2 border"
+            onChange={handleUpdateValue}
+          ></textarea>
         </label>
-        <textarea
-          name="tags"
-          cols={100}
-          rows={10}
-          className="w-100 p-2 border"
-          placeholder="tags"
-          value={formData.tags}
-          onChange={handleUpdateValue}
-        ></textarea>
+        <label className="w-50">
+          <span>Image URL</span>
+          <input
+            type="text"
+            name="imageUrl"
+            value={formData.imageUrl}
+            className="form-control w-100 rounded-0 p-2"
+            onChange={handleUpdateValue}
+          />
+        </label>
       </div>
       <div className="mt-4">
         <ToastContainer />
@@ -204,7 +226,7 @@ const UpdateProduct = ({ product }: { product: ProductType }) => {
   );
 };
 
-const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
+const AddOrEditProduct = ({ product }: { product: null | Product }) => {
   // const [data, setData] = useState({});
 
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
@@ -251,14 +273,15 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
   };
 
   const [formData, setFormData] = useState({
+    vendorId: "",
     name: "",
-    images: [],
+    description: "",
+    category: "",
     price: 0,
-    color: "",
+    isActive: false,
     countInStock: 0,
-    brand: "",
-    type: "",
-    tags: [],
+    lowStockThreshold: 0,
+    imageUrl: "",
   });
 
   const handleValue = (
@@ -281,14 +304,15 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
         console.log("Product created successfully");
         toast.success("Product created successfully");
         setFormData({
+          vendorId: "",
           name: "",
-          images: [],
+          description: "",
+          category: "",
           price: 0,
-          color: "",
+          isActive: false,
           countInStock: 0,
-          brand: "",
-          type: "",
-          tags: [],
+          lowStockThreshold: 0,
+          imageUrl: "",
         });
       } else if ("error" in result && result.error) {
         console.error("Product creation failed", result.error);
@@ -321,6 +345,17 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
           </div>
         )}
         <div className="d-flex gap-2">
+          <label className="w-25">
+            <span>Vendor ID</span>
+            <input
+              type="text"
+              name="vendorId"
+              value={formData.vendorId}
+              className="form-control w-100 rounded-0 p-2"
+              placeholder="Vendor ID"
+              onChange={handleValue}
+            />
+          </label>
           <label className="w-50">
             <span>Name</span>
             <input
@@ -329,6 +364,18 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
               value={formData.name}
               className="form-control w-100 rounded-0 p-2"
               placeholder="Product Name"
+              onChange={handleValue}
+            />
+          </label>
+          <label className="w-25">
+            <span>Category</span>
+            <input
+              type="string"
+              step={0.1}
+              name="category"
+              value={formData.category}
+              className="form-control w-100 rounded-0 p-2"
+              placeholder="Category"
               onChange={handleValue}
             />
           </label>
@@ -347,7 +394,7 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
         </div>
         <div className="d-grid grid-4 gap-2 mt-3">
           <label>
-            <span>Price</span>
+            <span>Price - LKR</span>
             <input
               type="number"
               step={0.1}
@@ -359,19 +406,7 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
             />
           </label>
           <label>
-            <span>Color</span>
-            <input
-              type="string"
-              step={0.1}
-              name="color"
-              value={formData.color}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="Color"
-              onChange={handleValue}
-            />
-          </label>
-          <label>
-            <span>Quantity</span>
+            <span>In Stock Quantity</span>
             <input
               type="number"
               name="countInStock"
@@ -382,42 +417,51 @@ const AddOrEditProduct = ({ product }: { product: null | ProductType }) => {
             />
           </label>
           <label>
-            <span>Brand</span>
+            <span>Low Stock Threshold</span>
             <input
               type="text"
-              name="brand"
-              value={formData.brand}
+              name="lowStockThreshold"
+              value={formData.lowStockThreshold}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Brand"
+              placeholder="Low Stock Threshold"
               onChange={handleValue}
             />
           </label>
-          <label>
+          <label className="form-check form-switch pt-4 pl-3">
+            <span className="form-check-label">Active</span>
+            <input
+              type="checkbox"
+              name="isActive"
+              value={formData.isActive}
+              className="form-check-input"
+              onChange={handleValue}
+            />
+          </label>
+        </div>
+        <div className="d-flex gap-2">
+          <label className="w-50">
             <span>Description</span>
             <textarea
-              name="type"
+              name="description"
               cols={100}
-              rows={10}
-              value={formData.type}
+              rows={5}
+              value={formData.description}
               className="w-100 p-2 border"
               placeholder="Description"
               onChange={handleValue}
             ></textarea>
           </label>
-        </div>
-        <div className="my-4">
-          <label>
-            <span>Tags</span>
+          <label className="w-50">
+            <span>Image URL</span>
+            <input
+              type="text"
+              name="imageUrl"
+              value={formData.imageUrl}
+              className="form-control w-100 rounded-0 p-2"
+              placeholder="Image URL"
+              onChange={handleValue}
+            />
           </label>
-          <textarea
-            name="tags"
-            cols={100}
-            rows={10}
-            value={formData.tags}
-            className="w-100 p-2 border"
-            placeholder="Tags"
-            onChange={handleValue}
-          ></textarea>
         </div>
         <div className="mt-3">
           <ToastContainer />
@@ -463,7 +507,7 @@ const ListOfProducts = ({
   } = useGetAllProductsQuery("api/products");
   const [deleteProduct, deletedResult] = useDeleteProductMutation();
 
-  const parseProduct = (product: ProductType) => {
+  const parseProduct = (product: Product) => {
     setProduct(product);
     setPage("add");
   };
@@ -490,7 +534,7 @@ const ListOfProducts = ({
   let content: React.ReactNode;
 
   // Filter products based on the search input
-    const filteredProducts = productsList?.content.filter((product: ProductType) =>{
+    const filteredProducts = productsList?.content.filter((product: Product) =>{
       const productname = product.name?.toLowerCase();
       const search = searchInput.toLowerCase();
     
@@ -509,14 +553,14 @@ const ListOfProducts = ({
     isLoading || isError
       ? null
       : isSuccess
-      ? filteredProducts.map((product: ProductType) => {
-          // ? sortProducts.map((product: ProductType) => {
+      ? filteredProducts.map((product: Product) => {
+          // ? sortProducts.map((product: Product) => {
 
           return (
             <tr className="p-3" key={product._id}>
               <td scope="row w-25">
                 <img
-                  src={product.images[0]}
+                  src={product.imageUrl}
                   alt={product.name}
                   style={{ width: "50px", height: "50px" }}
                 />
