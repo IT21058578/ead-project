@@ -20,7 +20,8 @@ export const productApiSlice = createApi({
 
   endpoints: (builder) => ({
     getAllProducts: builder.query({
-      query: () => "/products/search",
+      // query: () => "/products/search",
+      query: () => "/products/",
       providesTags: ["Products"],
     }),
 
