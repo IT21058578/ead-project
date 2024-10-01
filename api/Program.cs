@@ -17,10 +17,10 @@ var mailSettings = builder.Configuration.GetSection("MailSettings").Get<MailSett
 // Add services to the container.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigins",
+    options.AddPolicy("AllowAnyOrigin",
         builder =>
         {
-            builder.WithOrigins("http://localhost:5173")
+            builder.AllowAnyOrigin()
                    .AllowAnyMethod()
                    .AllowAnyHeader();
         });

@@ -174,7 +174,8 @@ const UpdateProduct = ({ product }: { product: Product }) => {
           <input
             type="checkbox"
             name="isActive"
-            value={formData.isActive}
+            checked={formData.isActive}
+            value={formData.isActive ? 'true' : 'false'}
             className="form-check-input"
             onChange={handleUpdateValue}
           />
@@ -432,7 +433,8 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
             <input
               type="checkbox"
               name="isActive"
-              value={formData.isActive}
+              checked={formData.isActive}
+              value={formData.isActive ? 'true' : 'false'}
               className="form-check-input"
               onChange={handleValue}
             />
