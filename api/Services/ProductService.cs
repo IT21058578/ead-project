@@ -55,5 +55,37 @@ namespace api.Services
             _logger.LogInformation("Product updated with id {id}", updatedProduct.Id);
             return updatedProduct;
         }
+
+        public bool IsProductValid(string id)
+        {
+            _logger.LogInformation("Checking whether product {id} is valid", id);
+            var product = _productRepository.GetById(id);
+            return product != null;
+        }
+
+        public bool IsProductStocked(string id, int quantity)
+        {
+            _logger.LogInformation("Checking whether product {id} has enough stock", id);
+            var product = _productRepository.GetById(id);
+            return product != null && product.CountInStock >= quantity;
+        }
+
+        public void DecreaseProductStock(string id, int quantity)
+        {
+            var product = GetProduct(id);
+            if (product.CountInStock < quantity)
+            {
+                throw new Exception("Not enough stock");
+            }
+            product.CountInStock -= quantity;
+            _productRepository.Update(product);
+        }
+
+        public void IncreaseProductStock(string id, int quantity)
+        {
+            var product = GetProduct(id);
+            product.CountInStock += quantity;
+            _productRepository.Update(product);
+        }
     }
 }

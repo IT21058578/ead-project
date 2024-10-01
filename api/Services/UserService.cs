@@ -29,5 +29,12 @@ namespace api.Services
             _logger.LogInformation("Found {count} users", users.Data.Count());
             return users;
         }
+
+        public bool IsUserValid(string id)
+        {
+            _logger.LogInformation("Checking whether user {id} is valid", id);
+            var user = _userRepository.GetById(id);
+            return user != null;
+        }
     }
 }
