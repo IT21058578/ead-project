@@ -21,15 +21,20 @@ export interface Product {
 export interface Order {
     _id: string;
     userId: string;
-    createdBy: string;
-    items: {
+    vendorId: string;
+    products: {
       [productId: string]: {
+        vendorId: string;
+        quantity: number;
+        name: string;
         price: number;
-        qty: number;
       };
     };
-    totalPrice: number;
+    deliveryNote: string;
+    deliveryAddress: string;
+    deliveryDate: string;
     deliveryStatus: string;
+    totalPrice: number;
 }
 
 

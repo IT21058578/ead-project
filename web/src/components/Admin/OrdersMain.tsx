@@ -119,9 +119,9 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
             <td scope="row w-25">{++count}</td>
             <td className='fw-bold'>
                         <ul>
-                            {Object.entries(Orders?.items).map(([productId, item]) => (
+                            {Object.entries(Orders?.products).map(([productId, item]) => (
                             <li key={productId}>
-                                Price: {item.price}, Qty: {item.qty}
+                                Price: {item.price}, Qty: {item.quantity}
                             </li>
                             ))}
                         </ul>
