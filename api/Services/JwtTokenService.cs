@@ -12,9 +12,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
-    public class JwtTokenService(IOptions<JwtSettings> config, Logger<JwtTokenService> logger)
+    public class JwtTokenService(IOptions<JwtSettings> config, ILogger<JwtTokenService> logger)
     {
-        private readonly Logger<JwtTokenService> _logger = logger;
+        private readonly ILogger<JwtTokenService> _logger = logger;
         private readonly IOptions<JwtSettings> _config = config;
         private readonly SymmetricSecurityKey _accessKey = new(Encoding.UTF8.GetBytes(config.Value.AccessSecret));
         private readonly SymmetricSecurityKey _refreshKey = new(Encoding.UTF8.GetBytes(config.Value.RefreshSecret));
