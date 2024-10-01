@@ -21,11 +21,11 @@ export const productApiSlice = createApi({
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       // query: () => "/products/search",
-      query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'desc') => ({
+      query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
         url: 'products/search',
         method: 'POST',
         body: {
-          page,
+          page: 1,
           pageSize,
           sortBy,
           sortDirection,
