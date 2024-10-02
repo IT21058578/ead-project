@@ -36,5 +36,15 @@ namespace api.Services
             var user = _userRepository.GetById(id);
             return user != null;
         }
+
+        public async Task<User> UpdateRating(string id, double rating)
+        {
+            _logger.LogInformation("Updating user rating for user {id}", id);
+            var user = _userRepository.GetById(id) ?? throw new Exception("User not found");
+            user.Rating = rating;
+            _userRepository.Update(user);
+            _logger.LogInformation("User rating updated to {rating}", rating);
+            return user;
+        }
     }
 }

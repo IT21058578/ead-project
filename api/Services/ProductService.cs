@@ -10,10 +10,11 @@ using api.Utilities;
 
 namespace api.Services
 {
-    public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger)
+    public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger, NotificationService notificationService)
     {
         private readonly ILogger<ProductService> _logger = logger;
         private readonly ProductRepository _productRepository = productRepository;
+        private readonly NotificationService _notificationService = notificationService;
 
         public Product CreateProduct(CreateProductRequestDto request)
         {
@@ -39,6 +40,14 @@ namespace api.Services
             return product;
         }
 
+        public IEnumerable<Product> GetProducts(IEnumerable<string> ids)
+        {
+            _logger.LogInformation("Getting all products");
+            var products = _productRepository.GetByIds(ids);
+            _logger.LogInformation("Found {count} products", products.Count());
+            return products;
+        }
+
         public Page<Product> SearchProducts(PageRequest<Product> request)
         {
             _logger.LogInformation("Searching products with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -54,6 +63,15 @@ namespace api.Services
             var updatedProduct = _productRepository.Update(product);
             _logger.LogInformation("Product updated with id {id}", updatedProduct.Id);
             return updatedProduct;
+        }
+
+        public async Task UpdateRating(string id, double rating)
+        {
+            _logger.LogInformation("Updating product rating for product {id}", id);
+            var product = GetProduct(id);
+            product.Rating = rating;
+            _productRepository.Update(product);
+            _logger.LogInformation("Product rating updated to {rating}", rating);
         }
 
         public bool IsProductValid(string id)
@@ -72,6 +90,7 @@ namespace api.Services
 
         public void DecreaseProductStock(string id, int quantity)
         {
+            _logger.LogInformation("Decreasing stock for product {id} by {quantity}", id, quantity);
             var product = GetProduct(id);
             if (product.CountInStock < quantity)
             {
@@ -79,13 +98,31 @@ namespace api.Services
             }
             product.CountInStock -= quantity;
             _productRepository.Update(product);
+
+
+            if (product.CountInStock < product.LowStockThreshold)
+            {
+                _logger.LogWarning("Product {id} has low stock", id);
+                _notificationService.CreateNotification(new Notification
+                {
+                    Type = NotificationType.LowStockWarning,
+                    Recipient = AppUserRole.Vendor,
+                    ProductId = product.Id,
+                    UserId = product.VendorId,
+                    Reason = $"Product with Id {product.Id} and Name {product.Name} has low stock",
+                });
+                _logger.LogInformation("Low stock notification created for product {id}", id);
+            }
+            _logger.LogInformation("Stock decreased for product {id}", id);
         }
 
         public void IncreaseProductStock(string id, int quantity)
         {
+            _logger.LogInformation("Increasing stock for product {id} by {quantity}", id, quantity);
             var product = GetProduct(id);
             product.CountInStock += quantity;
             _productRepository.Update(product);
+            _logger.LogInformation("Stock increased for product {id}", id);
         }
     }
 }

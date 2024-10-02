@@ -23,6 +23,7 @@ namespace api.Services
                 Purpose = purpose,
                 Status = TokenStatus.Active
             });
+            _logger.LogInformation("Token with {Id} has been created", result.Id);
             return result;
         }
 

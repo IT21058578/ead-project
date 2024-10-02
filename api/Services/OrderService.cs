@@ -7,16 +7,18 @@ using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
+using FluentEmail.Core;
 using MongoDB.Bson;
 
 namespace api.Services
 {
-    public class OrderService(OrderRepository orderRepository, ILogger<OrderService> logger, UserService userService, ProductService productService)
+    public class OrderService(OrderRepository orderRepository, ILogger<OrderService> logger, UserService userService, ProductService productService, NotificationService notificationService)
     {
         private readonly ILogger<OrderService> _logger = logger;
         private readonly OrderRepository _orderRepository = orderRepository;
         private readonly UserService _userService = userService;
         private readonly ProductService _productService = productService;
+        private readonly NotificationService _notificationService = notificationService;
 
         public Order CreateOrder(CreateOrderRequestDto request)
         {
@@ -59,15 +61,20 @@ namespace api.Services
             return orders;
         }
 
-        public Order UpdateOrder(string id, CreateOrderRequestDto request)
+        public Order UpdateOrder(string id, UpdateOrderRequestDto request)
         {
             _logger.LogInformation("Updating order {id}", id);
 
             var oldOrder = GetOrder(id);
-
             var order = request.ToModel();
             order.Id = new ObjectId(id);
-            ValidateOrderAndThrowIfInvalid(order);
+
+            // Get all relevant products
+            var productIdsSet = new HashSet<string>(order.Products.Select(p => p.ProductId.ToString()));
+            oldOrder.Products.Select(p => p.ProductId.ToString()).ForEach(p => productIdsSet.Add(p));
+            var products = _productService.GetProducts(productIdsSet);
+
+            ValidateOrderAndThrowIfInvalid(order, oldOrder, products);
 
             // Add products allocated to old order back
             foreach (var product in oldOrder.Products)
@@ -79,6 +86,31 @@ namespace api.Services
             foreach (var product in order.Products)
             {
                 _productService.DecreaseProductStock(product.ProductId.ToString(), product.Quantity);
+            }
+
+            // Send notifications depending on flow
+            var isOrderCancelled = order.Status == OrderStatus.Cancelled && oldOrder.Status != OrderStatus.Cancelled;
+            if (isOrderCancelled)
+            {
+                _notificationService.CreateNotification(new Notification
+                {
+                    Recipient = AppUserRole.Customer,
+                    UserId = oldOrder.UserId,
+                    Reason = $"Your order with id {oldOrder.Id} has been cancelled",
+                    Status = NotificationStatus.Unread,
+                    Type = NotificationType.OrderCancelledWarning,
+                });
+            }
+            else if (order.Status == OrderStatus.Delivered && oldOrder.Status != OrderStatus.Delivered)
+            {
+                _notificationService.CreateNotification(new Notification
+                {
+                    Recipient = AppUserRole.Customer,
+                    UserId = oldOrder.UserId,
+                    Reason = $"Your order with id {oldOrder.Id} has been delivered",
+                    Status = NotificationStatus.Unread,
+                    Type = NotificationType.OrderCompletedNotification,
+                });
             }
 
             var updatedOrder = _orderRepository.Update(order);
@@ -114,6 +146,39 @@ namespace api.Services
                 if (!_productService.IsProductStocked(product.ProductId.ToString(), product.Quantity))
                 {
                     throw new Exception($"Product {product.ProductId} does not have ${product.Quantity} items in stock");
+                }
+            }
+        }
+
+        public void ValidateOrderAndThrowIfInvalid(Order order, Order oldOrder, IEnumerable<Product> products)
+        {
+            // Check whether all id references are valid
+            if (!_userService.IsUserValid(order.UserId.ToString()))
+            {
+                throw new Exception("User not found");
+            }
+
+            foreach (var vendorId in order.VendorIds)
+            {
+                if (!_userService.IsUserValid(vendorId.ToString()))
+                {
+                    throw new Exception("Vendor not found");
+                }
+            }
+
+            // Check whether enough stock exists for all products
+            foreach (var item in order.Products)
+            {
+                var matchedProduct = products.FirstOrDefault(p => p.Id == item.ProductId);
+                var oldOrderProduct = oldOrder.Products.FirstOrDefault(p => p.ProductId == item.ProductId);
+                if (matchedProduct == null)
+                {
+                    throw new Exception($"Product {item.ProductId} not found");
+                }
+                var countInStockAfterOrder = matchedProduct.CountInStock + oldOrderProduct?.Quantity ?? 0 - item.Quantity;
+                if (countInStockAfterOrder < 0)
+                {
+                    throw new Exception($"Product {item.ProductId} does not have ${item.Quantity} items in stock");
                 }
             }
         }

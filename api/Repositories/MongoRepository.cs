@@ -26,6 +26,17 @@ namespace api.Repositories
             return this.GetById(new ObjectId(id)); // Assuming Id is a string in IMongoModel
         }
 
+        public IEnumerable<T> GetByIds(IEnumerable<ObjectId> ids)
+        {
+            return _dbSet.Where(e => ids.Contains(e.Id)).ToList();
+        }
+
+        public IEnumerable<T> GetByIds(IEnumerable<string> ids)
+        {
+            var objectIds = ids.Select(id => new ObjectId(id));
+            return _dbSet.Where(e => objectIds.Contains(e.Id)).ToList();
+        }
+
         public IEnumerable<T> GetAll()
         {
             return _dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries

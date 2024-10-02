@@ -18,7 +18,7 @@ namespace api.Models
         public bool IsActive { get; set; } = true;
         public int CountInStock { get; set; } = 0;
         public int LowStockThreshold { get; set; } = 10;
-        public int Rating { get; set; } = 10;
+        public double Rating { get; set; } = 0;
         public string ImageUrl { get; set; } = null!;
     }
 }
