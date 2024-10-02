@@ -36,7 +36,7 @@ namespace api.Services
         public async Task Register(CreateUserRequestDto createUserRequestDto)
         {
             _logger.LogInformation("Registering user with email {Email}", createUserRequestDto.Email);
-            var existingUser = _userRepository.FindByEmailAsync(createUserRequestDto.Email);
+            var existingUser = await _userRepository.FindByEmailAsync(createUserRequestDto.Email);
             if (existingUser != null)
             {
                 throw new Exception($"User with email {createUserRequestDto.Email} already exists");
