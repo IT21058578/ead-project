@@ -580,6 +580,13 @@ const ListOfProducts = ({
               <td className="fw-bold">{product.name}</td>
               <td>{product.price}</td>
               <td>{product.countInStock}</td>
+              <td>
+                {product.isActive ? (
+                  <i className="bi bi-check-circle-fill" style={{ color: "green" }}></i>
+                ) : (
+                  <i className="bi bi-x-circle-fill" style={{ color: "red" }}></i>
+                )}
+              </td>
               <td className="fw-bold d-flex gap-2 justify-content-center">
                 <a
                   href="#"
@@ -641,6 +648,9 @@ const ListOfProducts = ({
             </th>
             <th scope="col" className="p-3">
               TOTAL STOCK
+            </th>
+            <th scope="col" className="p-3">
+              ACTIVE
             </th>
             <th scope="col" className="p-3">
               ACTION
