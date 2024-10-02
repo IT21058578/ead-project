@@ -223,17 +223,39 @@ namespace api.Repositories
 
         public Page<T> GetPage(PageRequest<T> pageRequest)
         {
-            var query = pageRequest.Query;
+            // Start with the DbSet<T> as the base query
+            var query = _dbSet.AsQueryable();
+
+            // Apply the filter expression, if any
+            if (pageRequest.FilterExpression != null)
+            {
+                query = query.Where(pageRequest.FilterExpression);
+            }
+
+            // Apply the sorting expression, if any
+            if (pageRequest.SortExpression != null)
+            {
+                query = pageRequest.SortExpression(query);
+            }
+
+            // Get the total count before applying pagination
             var totalItems = query.Count();
             var totalPages = (int)Math.Ceiling((double)totalItems / pageRequest.PageSize);
-            var items = query.Skip((pageRequest.Page - 1) * pageRequest.PageSize).Take(pageRequest.PageSize).ToList();
+
+            // Apply pagination (Skip and Take)
+            var items = query
+                .Skip((pageRequest.Page - 1) * pageRequest.PageSize)
+                .Take(pageRequest.PageSize)
+                .ToList();
+
             var isFirst = pageRequest.Page == 1;
             var isLast = pageRequest.Page == totalPages;
 
+            // Return the paginated result as a Page<T>
             return new Page<T>
             {
                 Data = items,
-                Meta = new Page<T>.Metadata
+                Meta = new PageMetadata
                 {
                     Page = pageRequest.Page,
                     PageSize = pageRequest.PageSize,

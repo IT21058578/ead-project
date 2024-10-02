@@ -2,15 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MongoDB.Bson;
-using MongoDB.EntityFrameworkCore;
 
-namespace api.Models
+namespace api.DTOs.Models
 {
-    [Collection("products")]
-    public class Product : BaseModel
+    public class ProductDto
     {
-        public ObjectId VendorId { get; set; } = ObjectId.Empty;
+        public string Id { get; set; } = "";
+        public string CreatedBy { get; set; } = "";
+        public DateTime CreatedAt { get; set; }
+        public string UpdatedBy { get; set; } = "";
+        public DateTime UpdatedAt { get; set; }
+        public string VendorId { get; set; } = "";
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
         public string Category { get; set; } = null!;

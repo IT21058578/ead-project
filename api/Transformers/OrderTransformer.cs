@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
 using api.Utilities;
@@ -56,6 +57,35 @@ namespace api.Transformers
                         Quantity = item.Quantity,
                     };
                 }).ToList(),
+            };
+        }
+
+        public static OrderDto ToDto(this Order model)
+        {
+            return new OrderDto
+            {
+                Id = model.Id.ToString(),
+                UserId = model.UserId.ToString(),
+                DeliveryAddress = model.DeliveryAddress,
+                Status = model.Status,
+                DeliveryDate = model.DeliveryDate,
+                DeliveryNote = model.DeliveryNote,
+                Products = model.Products.Select(item =>
+                {
+                    return new OrderDto.Item
+                    {
+                        ProductId = item.ProductId.ToString(),
+                        VendorId = item.VendorId.ToString(),
+                        Status = item.Status,
+                        Name = item.Name,
+                        Price = item.Price,
+                        Quantity = item.Quantity,
+                    };
+                }).ToList(),
+                CreatedAt = model.CreatedAt,
+                CreatedBy = model.CreatedBy.ToString(),
+                UpdatedAt = model.UpdatedAt,
+                UpdatedBy = model.UpdatedBy.ToString(),
             };
         }
     }

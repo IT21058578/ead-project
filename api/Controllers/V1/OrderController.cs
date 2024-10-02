@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
 using api.Services;
+using api.Transformers;
+using api.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -22,14 +25,19 @@ namespace api.Controllers.V1
         public IActionResult GetOrder([FromRoute] string id)
         {
             var result = _orderService.GetOrder(id);
-            return Ok(result);
+            return Ok(result.ToDto());
         }
 
         [HttpPost("search")]
         public IActionResult SearchOrders([FromBody] SearchRequestDto<Order> request)
         {
             var result = _orderService.SearchOrders(request.ToPageRequest());
-            return Ok(result);
+            var resultDtos = result.Data.Select(item => item.ToDto());
+            return Ok(new Page<OrderDto>
+            {
+                Data = resultDtos,
+                Meta = result.Meta,
+            });
         }
 
         [HttpDelete("{id}")]
@@ -43,14 +51,14 @@ namespace api.Controllers.V1
         public IActionResult UpdateOrder([FromRoute] string id, [FromBody] UpdateOrderRequestDto request)
         {
             var result = _orderService.UpdateOrder(id, request);
-            return Ok(result);
+            return Ok(result.ToDto());
         }
 
         [HttpPost]
         public IActionResult CreateOrder([FromBody] CreateOrderRequestDto request)
         {
             var result = _orderService.CreateOrder(request);
-            return Ok(result);
+            return Ok(result.ToDto());
         }
     }
 }

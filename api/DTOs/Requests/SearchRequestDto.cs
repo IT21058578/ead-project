@@ -33,39 +33,55 @@ namespace api.DTOs.Requests
 
         public PageRequest<T> ToPageRequest()
         {
-            // Create a new IQueryable based on the generic type T
-            var query = Enumerable.Empty<T>().AsQueryable();
-
-            // Apply sorting if SortBy is provided
-            if (!string.IsNullOrEmpty(SortBy))
-            {
-                var property = typeof(T).GetProperty(SortBy) ?? throw new ArgumentException($"Invalid SortBy property: {SortBy}");
-                query = SortDirection == "asc" ? query.OrderBy(x => property.GetValue(x)) : query.OrderByDescending(x => property.GetValue(x));
-            }
+            // Create an empty filter expression (allow everything)
+            Expression<Func<T, bool>> filterExpression = x => true;
 
             // Apply filters if available
             if (Filters != null)
             {
                 foreach (var (filterKey, filter) in Filters)
                 {
-                    // Validate filter key against properties of T
                     var property = typeof(T).GetProperty(filterKey) ?? throw new ArgumentException($"Invalid filter key: {filterKey}");
-
-                    // Apply filter based on the operator and property type
-                    query = filter.Operator switch
+                    var parameter = Expression.Parameter(typeof(T), "x");
+                    var propertyAccess = Expression.Property(parameter, property);
+                    var constant = Expression.Constant(filter.Value);
+                    var comparison = filter.Operator switch
                     {
-                        Criteria.Equals => query.Where(x => filter.Value.Equals(property.GetValue(x))),
-                        Criteria.NotEquals => query.Where(x => !filter.Value.Equals(property.GetValue(x))),
-                        _ => throw new ArgumentException($"Unsupported filter operator: {filter.Operator}"),
+                        Criteria.Equals => Expression.Equal(propertyAccess, constant),
+                        Criteria.NotEquals => Expression.NotEqual(propertyAccess, constant),
+                        _ => throw new ArgumentException($"Unsupported filter operator: {filter.Operator}")
                     };
+
+                    // Update the filter expression by combining it with the existing one
+                    filterExpression = Expression.Lambda<Func<T, bool>>(
+                        Expression.AndAlso(filterExpression.Body, comparison),
+                        parameter
+                    );
                 }
+            }
+
+            // Construct sorting expression
+            Func<IQueryable<T>, IOrderedQueryable<T>>? sortExpression = null;
+            if (!string.IsNullOrEmpty(SortBy) && !string.IsNullOrEmpty(SortDirection))
+            {
+                var property = typeof(T).GetProperty(SortBy) ?? throw new ArgumentException($"Invalid sort key: {SortBy}");
+                var parameter = Expression.Parameter(typeof(T), "x");
+                var propertyAccess = Expression.Property(parameter, property);
+
+                var keySelector = Expression.Lambda<Func<T, object>>(Expression.Convert(propertyAccess, typeof(object)), parameter);
+
+                // Sorting expression based on SortDirection
+                sortExpression = SortDirection == "asc"
+                    ? (q => q.OrderBy(keySelector))
+                    : (q => q.OrderByDescending(keySelector));
             }
 
             return new PageRequest<T>
             {
-                Page = this.Page,
-                PageSize = this.PageSize,
-                Query = query
+                Page = Page,
+                PageSize = PageSize,
+                FilterExpression = filterExpression,
+                SortExpression = sortExpression
             };
         }
 
