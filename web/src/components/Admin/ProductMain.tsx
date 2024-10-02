@@ -39,8 +39,13 @@ const UpdateProduct = ({ product }: { product: Product }) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+
+    if (target instanceof HTMLInputElement && target.type === 'checkbox') {
+      setFormData({ ...formData, [target.name]: target.checked });
+    } else {
+      setFormData({ ...formData, [target.name]: target.value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -174,8 +179,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
           <input
             type="checkbox"
             name="isActive"
-            checked={formData.isActive}
-            value={formData.isActive ? 'true' : 'false'}
+            checked={formData.isActive ? true : false }
             className="form-check-input"
             onChange={handleUpdateValue}
           />
@@ -290,8 +294,15 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
+    const { name, value } = target;
+    const checked = (target as HTMLInputElement).checked;
+
+    if (target.type === 'checkbox') {
+      setFormData({ ...formData, [name]: checked });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -433,8 +444,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
             <input
               type="checkbox"
               name="isActive"
-              checked={formData.isActive}
-              value={formData.isActive ? 'true' : 'false'}
+              checked={formData.isActive ? true : false }
               className="form-check-input"
               onChange={handleValue}
             />

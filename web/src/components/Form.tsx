@@ -113,8 +113,6 @@ const SignUpForm = () => {
         firstName: '',
         lastName: '',
         email: '',
-        region: '',
-        country: '',
         password: '',
       });
     
@@ -141,8 +139,6 @@ const SignUpForm = () => {
                 firstName: '',
                 lastName: '',
                 email: '',
-                region: '',
-                country: '',
                 password: ''});
             return <Navigate to={RoutePaths.login} replace />
           } else if ('error' in result && result.error) {
@@ -178,14 +174,14 @@ const SignUpForm = () => {
                             <span>Email :</span> <input type="email" value={userDto.email} name="email" placeholder="Enter Email" className="form-control rounded-0 p-2" onChange={handleChange}/>
                         </label>
                     </div>
-                    <div className="d-flex w-100 gap-2 mt-4">
+                    {/* <div className="d-flex w-100 gap-2 mt-4">
                         <label className="w-50">
                             <span>Region :</span> <input type="text" value={userDto.region} name="region" placeholder="Enter Region" className="form-control rounded-0 p-2" onChange={handleChange}/>
                         </label>
                         <label className="w-50">
                             <span>Country :</span> <input type="text" value={userDto.country} name="country" placeholder="Enter Country" className="form-control rounded-0 p-2" onChange={handleChange}/>
                         </label>
-                    </div>
+                    </div> */}
                     <div className="user-pass my-4">
                         <label className="w-100">
                             <span>Password :</span> <input type="password" value={userDto.password} name="password" placeholder="Create New Password" className="form-control rounded-0 p-2" onChange={handleChange}/>
