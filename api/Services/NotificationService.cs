@@ -15,10 +15,19 @@ namespace api.Services
 		private readonly ILogger<NotificationService> _logger = logger;
 		private readonly NotificationRepository _notificationRepository = notificationRepository;
 
-		public Notification CreateNotification(Notification request)
+		public Notification CreateNotification(Notification notification)
 		{
 			_logger.LogInformation("Creating notification");
-			var savedNotification = _notificationRepository.Add(request);
+			var savedNotification = _notificationRepository.Add(notification);
+			_logger.LogInformation("Notification created with id {id}", savedNotification.Id);
+			return savedNotification;
+		}
+
+		public Notification CreateNotification(CreateOrderCancellationRequestDto request)
+		{
+			_logger.LogInformation("Creating notification for order cancellation request");
+			var notification = request.ToModel();
+			var savedNotification = _notificationRepository.Add(notification);
 			_logger.LogInformation("Notification created with id {id}", savedNotification.Id);
 			return savedNotification;
 		}

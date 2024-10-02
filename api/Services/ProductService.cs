@@ -10,16 +10,18 @@ using api.Utilities;
 
 namespace api.Services
 {
-    public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger, NotificationService notificationService)
+    public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger, NotificationService notificationService, UserService userService)
     {
         private readonly ILogger<ProductService> _logger = logger;
         private readonly ProductRepository _productRepository = productRepository;
         private readonly NotificationService _notificationService = notificationService;
+        private readonly UserService _userService = userService;
 
         public Product CreateProduct(CreateProductRequestDto request)
         {
             _logger.LogInformation("Creating product");
             var product = request.ToModel();
+            ValidateProductAndThrowIfInvalid(product);
             var savedProduct = _productRepository.Add(product);
             _logger.LogInformation("Product created with id {id}", savedProduct.Id);
             return savedProduct;
@@ -60,6 +62,7 @@ namespace api.Services
         {
             _logger.LogInformation("Updating product {id}", id);
             var product = request.ToModel();
+            ValidateProductAndThrowIfInvalid(product);
             var updatedProduct = _productRepository.Update(product);
             _logger.LogInformation("Product updated with id {id}", updatedProduct.Id);
             return updatedProduct;
@@ -123,6 +126,26 @@ namespace api.Services
             product.CountInStock += quantity;
             _productRepository.Update(product);
             _logger.LogInformation("Stock increased for product {id}", id);
+        }
+
+        public void ValidateProductAndThrowIfInvalid(Product product)
+        {
+            if (product.Price <= 0)
+            {
+                throw new Exception("Invalid price");
+            }
+            if (product.CountInStock < 0)
+            {
+                throw new Exception("Invalid stock");
+            }
+            if (product.LowStockThreshold < 0)
+            {
+                throw new Exception("Invalid low stock threshold");
+            }
+            if (_userService.IsUserValid(product.VendorId.ToString()))
+            {
+                throw new Exception("Invalid vendor user");
+            }
         }
     }
 }

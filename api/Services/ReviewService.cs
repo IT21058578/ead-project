@@ -2,15 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Configuratons;
 using api.DTOs.Requests;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
+using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 
 namespace api.Services
 {
-	public class ReviewService(ReviewRepository reviewRepository, ILogger<ReviewService> logger, ProductService productService, UserService userService)
+	public class ReviewService(
+		ReviewRepository reviewRepository,
+		ILogger<ReviewService> logger,
+		ProductService productService,
+		UserService userService)
 	{
 		private readonly ILogger<ReviewService> _logger = logger;
 		private readonly ReviewRepository _reviewRepository = reviewRepository;
@@ -21,6 +28,7 @@ namespace api.Services
 		{
 			_logger.LogInformation("Creating review");
 			var review = request.ToModel();
+			ValidateReviewAndThrowIfInvalid(review);
 			var savedReview = _reviewRepository.Add(review);
 			_logger.LogInformation("Review created with id {id}", savedReview.Id);
 			_ = UpdateProductRating(request.ProductId);
@@ -75,11 +83,28 @@ namespace api.Services
 		{
 			_logger.LogInformation("Updating review {id}", id);
 			var review = request.ToModel();
+			ValidateReviewAndThrowIfInvalid(review);
 			var updatedReview = _reviewRepository.Update(review);
 			_logger.LogInformation("Review updated with id {id}", updatedReview.Id);
 			_ = UpdateProductRating(request.ProductId);
 			_ = UpdateVendorRating(request.VendorId);
 			return updatedReview;
+		}
+
+		public void ValidateReviewAndThrowIfInvalid(Review review)
+		{
+			if (_userService.IsUserValid(review.UserId.ToString()))
+			{
+				throw new Exception("Invalid user");
+			};
+			if (_userService.IsUserValid(review.VendorId.ToString()))
+			{
+				throw new Exception("Invalid vendor");
+			};
+			if (_productService.IsProductValid(review.ProductId.ToString()))
+			{
+				throw new Exception("Invalid product");
+			};
 		}
 	}
 }

@@ -18,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 var databaseSettings = builder.Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>() ?? throw new InvalidOperationException("Database settings are required");
 var mailSettings = builder.Configuration.GetSection("MailSettings").Get<MailSettings>() ?? throw new InvalidOperationException("Mail settings are required");
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>() ?? throw new InvalidOperationException("JWT settings are required");
+var clientSettings = builder.Configuration.GetSection("ClientSettings").Get<ClientSettings>() ?? throw new InvalidOperationException("Client settings are required");
 
 // Add services to the container.
 builder.Services.AddCors(options =>
@@ -35,6 +36,7 @@ builder.Services.AddCors(options =>
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DatabaseSettings"));
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
+builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
 // Setup External Services
 builder.Services.AddCors(o => o.AddPolicy("MyPolicy", builder =>

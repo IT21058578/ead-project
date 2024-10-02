@@ -9,6 +9,8 @@ using api.Utilities;
 using Microsoft.AspNetCore.Identity;
 using api.Repositories;
 using api.DTOs.Templates;
+using api.Configuratons;
+using Microsoft.Extensions.Options;
 
 namespace api.Services
 {
@@ -19,8 +21,10 @@ namespace api.Services
         TokenService tokenService,
         UserRepository userRepository,
         CredentialRepository credentialRepository,
-        PasswordHasher<User> passwordHasher)
+        PasswordHasher<User> passwordHasher,
+        IOptions<ClientSettings> config)
     {
+        private readonly ClientSettings _clientSettings = config.Value;
         private readonly ILogger<NotificationService> _logger = logger;
         private readonly UserRepository _userRepository = userRepository;
         private readonly CredentialRepository _credentialRepository = credentialRepository;
@@ -62,7 +66,7 @@ namespace api.Services
                 TemplateData = new RegisterTemplateData
                 {
                     FirstName = user.FirstName,
-                    VerificationLink = "http://localhost:5000/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email,
+                    VerificationLink = _clientSettings.WebApplicationUri + "/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email,
                     VerificationCode = token.Code
                 }
             });
@@ -83,7 +87,7 @@ namespace api.Services
                 TemplateData = new RegisterTemplateData
                 {
                     FirstName = user.FirstName,
-                    VerificationLink = "http://localhost:5000/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email,
+                    VerificationLink = _clientSettings.WebApplicationUri + "/api/v1/register/auth/verify?code=" + token.Code + "&email=" + user.Email,
                     VerificationCode = token.Code
                 }
             });
@@ -187,7 +191,7 @@ namespace api.Services
                 TemplateData = new ResetPasswordTemplateData
                 {
                     FirstName = user.FirstName,
-                    ResetPasswordLink = "http://localhost:5000/api/v1/auth/password/reset?code=" + token.Code + "&email=" + user.Email,
+                    ResetPasswordLink = _clientSettings.WebApplicationUri + "/api/v1/auth/password/reset?code=" + token.Code + "&email=" + user.Email,
                     ResetPasswordCode = token.Code
                 }
             });
