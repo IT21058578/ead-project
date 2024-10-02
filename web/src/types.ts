@@ -1,12 +1,12 @@
 export interface Review {
-    _id:string;
+    _id: string;
     rating: number;
     description: string;
     productId: string;
 }
 
 export interface Product {
-  _id:string;
+  _id: string;
   vendorId: string;
   name: string;
   description: string;
@@ -41,7 +41,7 @@ export interface Order {
 
 
 export interface UserType {
-  _id:string;
+  _id: string;
   firstName?: string;
   lastName?: string;
   email?: string;

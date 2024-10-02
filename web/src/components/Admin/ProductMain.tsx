@@ -518,7 +518,6 @@ const ListOfProducts = ({
     isError,
   } = useGetAllProductsQuery("api/products");
   const [deleteProduct, deletedResult] = useDeleteProductMutation();
-
   const parseProduct = (product: Product) => {
     setProduct(product);
     setPage("add");
@@ -543,10 +542,10 @@ const ListOfProducts = ({
   // search bar coding 
   const [searchInput, setSearchInput] = useState<string>('');
 
-  let content: React.ReactNode;
+  let data: React.ReactNode;
 
   // Filter products based on the search input
-    const filteredProducts = productsList?.content.filter((product: Product) =>{
+    const filteredProducts = productsList?.data.filter((product: Product) =>{
       const productname = product.name?.toLowerCase();
       const search = searchInput.toLowerCase();
     
@@ -561,7 +560,7 @@ const ListOfProducts = ({
       );
     });
 
-  content =
+    data =
     isLoading || isError
       ? null
       : isSuccess
@@ -604,7 +603,8 @@ const ListOfProducts = ({
                   title="Delete"
                   onClick={(e) => {
                     e.preventDefault();
-                    deleteItem(product._id);
+                    // deleteItem(product._id);
+                    deleteItem((product as any)['id']);
                   }}
                 >
                   <i className="bi bi-trash"></i>
@@ -647,7 +647,7 @@ const ListOfProducts = ({
             </th>
           </tr>
         </thead>
-        <tbody>{content}</tbody>
+        <tbody>{data}</tbody>
       </table>
     </div>
     </div>
