@@ -31,5 +31,12 @@ namespace api.Controllers.V1
             var result = _userService.SearchUsers(request.ToPageRequest());
             return Ok(result);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateUser([FromRoute] string id, [FromBody] UpdateUserRequestDto request)
+        {
+            var result = _userService.UpdateUser(id, request);
+            return Ok(result);
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace api.Controllers.V1
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateOrder([FromRoute] string id, [FromBody] CreateOrderRequestDto request)
+        public IActionResult UpdateOrder([FromRoute] string id, [FromBody] UpdateOrderRequestDto request)
         {
             var result = _orderService.UpdateOrder(id, request);
             return Ok(result);

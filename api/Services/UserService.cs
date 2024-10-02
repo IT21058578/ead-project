@@ -22,6 +22,17 @@ namespace api.Services
             return user;
         }
 
+        public User UpdateUser(string id, UpdateUserRequestDto request)
+        {
+            _logger.LogInformation("Updating user {id}", id);
+            var user = _userRepository.GetById(id) ?? throw new Exception("User not found");
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            _userRepository.Update(user);
+            _logger.LogInformation("User updated with first name {firstName} and last name {lastName}", user.FirstName, user.LastName);
+            return user;
+        }
+
         public Page<User> SearchUsers(PageRequest<User> request)
         {
             _logger.LogInformation("Searching users with page {page} and page size {pageSize}", request.Page, request.PageSize);

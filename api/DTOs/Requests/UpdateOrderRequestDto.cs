@@ -21,7 +21,7 @@ namespace api.DTOs.Requests
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         [Required]
         [MinLength(1)]
-        public List<Item> Products { get; set; } = [];
+        public List<OrderItemDto> Products { get; set; } = [];
         [MinLength(300)]
         public string DeliveryNote { get; set; } = null!;
         [Required]
@@ -29,25 +29,5 @@ namespace api.DTOs.Requests
         public string DeliveryAddress { get; set; } = null!;
         [Required]
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
-
-        public class Item
-        {
-            [Required]
-            [ValidObjectId]
-            public string ProductId { get; set; } = string.Empty;
-            [Required]
-            [ValidObjectId]
-            public string VendorId { get; set; } = string.Empty;
-            [Required]
-            [Range(1, int.MaxValue)]
-            public int Quantity { get; set; } = 0;
-            [Required]
-            [MinLength(1)]
-            [MaxLength(100)]
-            public string Name { get; set; } = null!;
-            [Required]
-            [Range(0.01, double.MaxValue)]
-            public double Price { get; set; }
-        }
     }
 }
