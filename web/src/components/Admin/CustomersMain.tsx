@@ -80,6 +80,7 @@ const ListOfCustomers = () => {
         placeholder="Search Review"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
+        className="form-control w-100 p-2"
       />
     </div>
       <div className="table-responsive">

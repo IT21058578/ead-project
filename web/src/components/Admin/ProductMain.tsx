@@ -11,6 +11,7 @@ import Spinner from "../Spinner";
 import { useUploadImagesMutation } from "../../store/apiquery/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Category } from "../../views/includes/Section";
+import SearchBar from "../SearchBar";
 
 let imageIsChanged = false;
 
@@ -631,6 +632,7 @@ const ListOfProducts = ({
         placeholder="Search Products"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
+        className="form-control w-100 p-2"
       />
     </div>
     <div className="table-responsive">
