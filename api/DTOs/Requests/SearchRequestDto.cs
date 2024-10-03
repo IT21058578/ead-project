@@ -30,7 +30,7 @@ namespace api.DTOs.Requests
             [Required]
             [ValidEnumValue(typeof(Criteria))]
             public Criteria Operator { get; set; } = Criteria.Equals;
-            public object Value { get; set; } = null!;
+            public object Value { get; set; } = "";
         }
 
         public PageRequest<T> ToPageRequest()

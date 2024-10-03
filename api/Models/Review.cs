@@ -13,7 +13,7 @@ namespace api.Models
 		public ObjectId VendorId { get; set; } = ObjectId.Empty!;
 		public ObjectId ProductId { get; set; } = ObjectId.Empty!;
 		public ObjectId UserId { get; set; } = ObjectId.Empty!;
-		public string Message { get; set; } = null!;
+		public string Message { get; set; } = "";
 		public double Rating { get; set; } = 0;
 	}
 }

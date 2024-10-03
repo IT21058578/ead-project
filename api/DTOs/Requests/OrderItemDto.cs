@@ -21,7 +21,7 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = "";
         [Required]
         [Range(0.01, double.MaxValue)]
         public double Price { get; set; }

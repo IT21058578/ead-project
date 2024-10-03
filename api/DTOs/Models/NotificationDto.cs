@@ -18,7 +18,7 @@ namespace api.DTOs.Models
         public string UserId { get; set; } = "";
         public string? OrderId { get; set; }
         public string? ProductId { get; set; }
-        public string Reason { get; set; } = null!;
+        public string Reason { get; set; } = "";
         public NotificationStatus Status { get; set; } = NotificationStatus.Unread;
         public string? AddresedBy { get; set; }
     }

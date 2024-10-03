@@ -16,10 +16,10 @@ namespace api.DTOs.Models
         public string UserId { get; set; } = "";
         public OrderStatus Status { get; set; } = OrderStatus.Pending!;
         public List<Item> Products { get; set; } = [];
-        public string DeliveryNote { get; set; } = null!;
-        public string DeliveryAddress { get; set; } = null!;
+        public string DeliveryNote { get; set; } = "";
+        public string DeliveryAddress { get; set; } = "";
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
-        public DateTime? ActualDeliveryDate { get; set; } = null!;
+        public DateTime? ActualDeliveryDate { get; set; }
         public IEnumerable<string> VendorIds { get; set; } = [];
 
         public class Item
@@ -28,7 +28,7 @@ namespace api.DTOs.Models
             public string VendorId { get; set; } = "";
             public int Quantity { get; set; } = 0;
             public OrderStatus Status { get; set; } = OrderStatus.Pending!;
-            public string Name { get; set; } = null!;
+            public string Name { get; set; } = "";
             public double Price { get; set; }
         }
     }

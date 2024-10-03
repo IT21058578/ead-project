@@ -8,14 +8,14 @@ namespace api.DTOs.Responses
 {
     public class LoginResponseDto
     {
-        public string Email { get; set; } = null!;
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
+        public string Email { get; set; } = "";
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
         public AppUserRole? Role { get; set; }
         public bool IsVerified { get; set; } = false;
         public bool IsApproved { get; set; } = false;
         public double Rating { get; set; } = 0.0;
-        public string AccessToken { get; set; } = null!;
-        public string RefreshToken { get; set; } = null!;
+        public string AccessToken { get; set; } = "";
+        public string RefreshToken { get; set; } = "";
     }
 }

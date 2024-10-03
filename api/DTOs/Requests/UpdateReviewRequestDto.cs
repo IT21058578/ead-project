@@ -12,7 +12,7 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         [MaxLength(500)]
-        public string Message { get; set; } = null!;
+        public string Message { get; set; } = "";
         [Required]
         [Range(0, 5)]
         public double Rating { get; set; } = 0;

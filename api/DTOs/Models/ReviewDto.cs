@@ -15,7 +15,7 @@ namespace api.DTOs.Models
         public string VendorId { get; set; } = "";
         public string ProductId { get; set; } = "";
         public string UserId { get; set; } = "";
-        public string Message { get; set; } = null!;
+        public string Message { get; set; } = "";
         public double Rating { get; set; } = 0;
     }
 }

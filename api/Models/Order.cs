@@ -14,10 +14,10 @@ namespace api.Models
         public ObjectId UserId { get; set; } = ObjectId.Empty;
         public OrderStatus Status { get; set; } = OrderStatus.Pending!;
         public List<Item> Products { get; set; } = [];
-        public string DeliveryNote { get; set; } = null!;
-        public string DeliveryAddress { get; set; } = null!;
+        public string DeliveryNote { get; set; } = "";
+        public string DeliveryAddress { get; set; } = "";
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
-        public DateTime? ActualDeliveryDate { get; set; } = null!;
+        public DateTime? ActualDeliveryDate { get; set; }
         public IEnumerable<string> VendorIds { get; set; } = [];
         // Assumption: Payments are always done when Order is created.
 
@@ -27,8 +27,8 @@ namespace api.Models
             public ObjectId VendorId { get; set; } = ObjectId.Empty;
             public int Quantity { get; set; } = 0;
             public OrderStatus Status { get; set; } = OrderStatus.Pending!;
-            public string Name { get; set; } = null!;
-            public double Price { get; set; }
+            public string Name { get; set; } = "";
+            public double Price { get; set; } = 0.0;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace api.Models
         public ObjectId UserId { get; set; } = ObjectId.Empty;
         public ObjectId? OrderId { get; set; } = ObjectId.Empty;
         public ObjectId? ProductId { get; set; } = ObjectId.Empty;
-        public string Reason { get; set; } = null!;
+        public string Reason { get; set; } = "";
         public NotificationStatus Status { get; set; } = NotificationStatus.Unread;
         public ObjectId? AddresedBy { get; set; }
     }

@@ -23,10 +23,10 @@ namespace api.DTOs.Requests
         [MinLength(1)]
         public List<OrderItemDto> Products { get; set; } = [];
         [MinLength(300)]
-        public string DeliveryNote { get; set; } = null!;
+        public string DeliveryNote { get; set; } = "";
         [Required]
         [MinLength(300)]
-        public string DeliveryAddress { get; set; } = null!;
+        public string DeliveryAddress { get; set; } = "";
         [Required]
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
     }

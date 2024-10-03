@@ -11,6 +11,6 @@ namespace api.Models
     public class Credential : BaseModel
     {
         public ObjectId UserId { get; set; } = ObjectId.Empty;
-        public string Password { get; set; } = null!;
+        public string Password { get; set; } = "";
     }
 }

@@ -48,7 +48,7 @@ namespace api.Controllers.V1
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct([FromRoute] string id, [FromBody] CreateProductRequestDto request)
+        public IActionResult UpdateProduct([FromRoute] string id, [FromBody] UpdateProductRequestDto request)
         {
             var result = _productService.UpdateProduct(id, request);
             return Ok(result.ToDto());

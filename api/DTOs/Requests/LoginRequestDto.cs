@@ -10,9 +10,9 @@ namespace api.DTOs.Requests
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; } = null!;
+        public string Email { get; set; } = "";
         [Required]
         [MinLength(8)]
-        public string Password { get; set; } = null!;
+        public string Password { get; set; } = "";
     }
 }

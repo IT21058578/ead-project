@@ -15,13 +15,13 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         [MaxLength(100)]
-        public string Name { get; set; } = null!;
+        public string Name { get; set; } = "";
         [Required]
         [MinLength(1)]
         [MaxLength(500)]
-        public string Description { get; set; } = null!;
+        public string Description { get; set; } = "";
         [Required]
-        public string Category { get; set; } = null!;
+        public string Category { get; set; } = "";
         [Required]
         [Range(0.01, double.MaxValue)]
         public double Price { get; set; } = 0;
@@ -34,6 +34,6 @@ namespace api.DTOs.Requests
         public int LowStockThreshold { get; set; } = 10;
         [Url]
         [Required]
-        public string ImageUrl { get; set; } = null!;
+        public string ImageUrl { get; set; } = "";
     }
 }

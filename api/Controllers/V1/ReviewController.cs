@@ -48,7 +48,7 @@ namespace api.Controllers.V1
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateReview([FromRoute] string id, [FromBody] CreateReviewRequestDto request)
+        public IActionResult UpdateReview([FromRoute] string id, [FromBody] UpdateReviewRequestDto request)
         {
             var result = _reviewService.UpdateReview(id, request);
             return Ok(result.ToDto());

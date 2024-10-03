@@ -10,11 +10,11 @@ using MongoDB.EntityFrameworkCore;
 namespace api.Models
 {
     [Collection("users")]
-    public class User: BaseModel
+    public class User : BaseModel
     {
-        public string Email { get; set; } = null!;
-        public string FirstName { get; set; } = null!;
-        public string LastName { get; set; } = null!;
+        public string Email { get; set; } = "";
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
         public AppUserRole Role { get; set; } = AppUserRole.Customer;
         public bool IsVerified { get; set; } = false;
         public bool IsApproved { get; set; } = false;

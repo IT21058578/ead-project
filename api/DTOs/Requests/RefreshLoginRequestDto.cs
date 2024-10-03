@@ -10,6 +10,6 @@ namespace api.DTOs.Requests
     {
         [Required]
         // TODO: JWT Token data validation
-        public string RefreshToken { get; set; } = null!;
+        public string RefreshToken { get; set; } = "";
     }
 }
