@@ -24,7 +24,18 @@ export const orderApiSlice = createApi({
     endpoints : (builder) => ({
 
         getAllOrder : builder.query(({
-            query : () => '/Orders/search',
+            // query : () => '/Orders/search',
+            query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+                url: 'orders/search',
+                method: 'POST',
+                body: {
+                  page: 1,
+                  pageSize,
+                  sortBy,
+                  sortDirection,
+                  filters: {},
+                },
+              }),
             providesTags : ['Order'],
             
         })),

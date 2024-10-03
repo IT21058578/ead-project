@@ -1,4 +1,4 @@
-import React, { useState, SyntheticEvent } from 'react'
+import React, { useState, SyntheticEvent, useEffect } from 'react'
 import Swal from 'sweetalert2';
 import Spinner from '../Spinner';
 import { HandleResult } from '../HandleResult';
@@ -18,7 +18,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
   console.log("After:", orderID);
 
   const [formData, setFormData] = useState({
-    deliveryStatus: updateData.deliveryStatus,
+    status: updateData.status,
   });
 
   const handleUpdateValue = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -26,7 +26,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const status = formData.deliveryStatus.toString();
+  const status = formData.status?.toString();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +37,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
       if ('data' in result && result.data) {
         console.log('Order States Updated successfully');
         toast.success("Order States Updated successfully");
-        setFormData({ deliveryStatus:''});
+        setFormData({ status:''});
       } else if ('error' in result && result.error) {
         console.error('Order States Update failed', result.error);
         toast.error("Order States Update failed");
@@ -55,7 +55,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
       <div>
           <label className='w-100'>
             <span>Order Status</span>
-            <input type="text" name="deliveryStatus" value={formData.deliveryStatus} className="form-control w-100 rounded-0 p-2" placeholder='Orders Status' onChange={handleUpdateValue}/>
+            <input type="text" name="status" value={formData.status} className="form-control w-100 rounded-0 p-2" placeholder='Orders Status' onChange={handleUpdateValue}/>
           </label>
         </div>
         <div className="mt-4">
@@ -101,18 +101,21 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
   // search bar coding 
   const [searchInput, setSearchInput] = useState<string>('');
 
-  let content: React.ReactNode;
+  let data: React.ReactNode;
   let count = 0;
 
   // Filter products based on the search input
-  const filteredOrders = OrdersList?.content.filter((order: Order) =>
-    order.deliveryStatus.toLowerCase().includes(searchInput.toLowerCase())
+  const filteredOrders = OrdersList?.data.filter((order: Order) =>
+    order.status?.toLowerCase().includes(searchInput.toLowerCase())
   );
 
-  content = isLoading || isError
+  data = isLoading || isError
     ? null
     : isSuccess
       ? filteredOrders.map((Orders: Order) => {
+        const totalPrice = Object.values(Orders.products).reduce((acc, product) => {
+          return acc + product.price * product.quantity;
+        }, 0);
 
         return (
           <tr className="p-3" key={Orders._id}>
@@ -126,10 +129,10 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
                             ))}
                         </ul>
             </td>
-            <td>{Orders.totalPrice}</td>
+            <td>{totalPrice}</td>
             <td>
-                  <span style={{ color: Orders.deliveryStatus === 'COMPLETED' ? 'green' : 'red' }}>
-                                {Orders?.deliveryStatus}
+                  <span style={{ color: Orders.status === 'COMPLETED' ? 'green' : 'red' }}>
+                                {Orders?.status}
                   </span>
             </td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
@@ -157,16 +160,16 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
       <table className="table table-default text-center table-bordered">
         <thead>
           <tr className='fd-bg-primary text-white'>
-            <th scope="col" className='p-3'>N°</th>
+            <th scope="col" className='p-3'>No.</th>
             <th scope="col" className='p-3'>ITEMS</th>
             <th scope="col" className='p-3'>TOTAL</th>
-            <th scope="col" className='p-3'>DELIVERY STATUS</th>
+            <th scope="col" className='p-3'>ORDER STATUS</th>
             <th scope="col">MANAGE</th>
           </tr>
         </thead>
         <tbody>
           {
-            content
+            data
           }
         </tbody>
       </table>

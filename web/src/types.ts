@@ -34,8 +34,7 @@ export interface Order {
     deliveryNote: string;
     deliveryAddress: string;
     deliveryDate: string;
-    deliveryStatus: string;
-    totalPrice: number;
+    status?: string;
 }
 
 
