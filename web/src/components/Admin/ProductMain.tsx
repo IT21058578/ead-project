@@ -518,7 +518,6 @@ const ListOfProducts = ({
     isError,
   } = useGetAllProductsQuery("api/products");
   const [deleteProduct, deletedResult] = useDeleteProductMutation();
-
   const parseProduct = (product: Product) => {
     setProduct(product);
     setPage("add");
@@ -543,10 +542,10 @@ const ListOfProducts = ({
   // search bar coding 
   const [searchInput, setSearchInput] = useState<string>('');
 
-  let content: React.ReactNode;
+  let data: React.ReactNode;
 
   // Filter products based on the search input
-    const filteredProducts = productsList?.content.filter((product: Product) =>{
+    const filteredProducts = productsList?.data.filter((product: Product) =>{
       const productname = product.name?.toLowerCase();
       const search = searchInput.toLowerCase();
     
@@ -561,7 +560,7 @@ const ListOfProducts = ({
       );
     });
 
-  content =
+    data =
     isLoading || isError
       ? null
       : isSuccess
@@ -581,6 +580,13 @@ const ListOfProducts = ({
               <td className="fw-bold">{product.name}</td>
               <td>{product.price}</td>
               <td>{product.countInStock}</td>
+              <td>
+                {product.isActive ? (
+                  <i className="bi bi-check-circle-fill" style={{ color: "green" }}></i>
+                ) : (
+                  <i className="bi bi-x-circle-fill" style={{ color: "red" }}></i>
+                )}
+              </td>
               <td className="fw-bold d-flex gap-2 justify-content-center">
                 <a
                   href="#"
@@ -604,7 +610,8 @@ const ListOfProducts = ({
                   title="Delete"
                   onClick={(e) => {
                     e.preventDefault();
-                    deleteItem(product._id);
+                    // deleteItem(product._id);
+                    deleteItem((product as any)['id']);
                   }}
                 >
                   <i className="bi bi-trash"></i>
@@ -643,11 +650,14 @@ const ListOfProducts = ({
               TOTAL STOCK
             </th>
             <th scope="col" className="p-3">
+              ACTIVE
+            </th>
+            <th scope="col" className="p-3">
               ACTION
             </th>
           </tr>
         </thead>
-        <tbody>{content}</tbody>
+        <tbody>{data}</tbody>
       </table>
     </div>
     </div>

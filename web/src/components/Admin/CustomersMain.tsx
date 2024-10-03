@@ -31,29 +31,25 @@ const ListOfCustomers = () => {
   // search bar coding 
   const [searchInput, setSearchInput] = useState<string>('');
 
-  let content: React.ReactNode;
+  let data: React.ReactNode;
 
     // Filter customers based on the search input
-  const filteredCustomers = customersList?.content.filter((user: UserType) =>{
+  const filteredCustomers = customersList?.data.filter((user: UserType) =>{
     const firstname = user.firstName?.toLowerCase();
     const lastname = user.lastName?.toLowerCase();
     const email = user.email?.toLowerCase();
-    const region = user.region?.toLowerCase();
-    const country = user.country?.toLowerCase();
     const search = searchInput.toLowerCase();
 
     return (
       firstname?.includes(search) ||
       lastname?.includes(search) ||
-      email?.includes(search) ||
-      region?.includes(search) ||
-      country?.includes(search)
+      email?.includes(search) 
     );
   });
 
-  content = isLoading || isError
+  data = isLoading || isError
     ? null
-    : isSuccess && customersList && customersList.content
+    : isSuccess && customersList && customersList.data
       ? filteredCustomers.map((customer: UserType) => {
         const customerId = customer._id || '';
 
@@ -63,8 +59,6 @@ const ListOfCustomers = () => {
             <td className='fw-bold'>{customer.firstName}</td>
             <td className='fw-bold'>{customer.lastName}</td>
             <td>{customer.email}</td>
-            <td>{customer.region}</td>
-            <td>{customer.country}</td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
               <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => {
                 e.preventDefault();
@@ -77,7 +71,7 @@ const ListOfCustomers = () => {
       : null;
 
 
-  return ( !isLoading ?
+  return !isLoading ? ( 
     <div>
       {/* Add a search input field */}
       <div className="mb-3">
@@ -96,19 +90,18 @@ const ListOfCustomers = () => {
               <th scope="col" className='p-3'>FIRSTNAME</th>
               <th scope="col" className='p-3'>LASTNAME</th>
               <th scope="col" className='p-3'>EMAIL</th>
-              <th scope="col" className='p-3'>REGION</th>
-              <th scope="col" className='p-3'>COUNTRY</th>
               <th scope="col" className='p-3'>ACTION</th>
             </tr>
           </thead>
           <tbody>
-            {content}
+            {
+              data
+            }
           </tbody>
         </table>
         </div>
-      </div> :
-      <Spinner />
-  )
+      </div>) : ( <Spinner />
+  );
 }
 
 const CustomersMain = () => {

@@ -18,7 +18,7 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
   console.log("After:", reviewID);
 
   const [formData, setFormData] = useState({
-    description: updateData.description,
+    message: updateData.message,
     rating: updateData.rating,
   });
 
@@ -37,7 +37,7 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
       if ('data' in result && result.data) {
         console.log('Review Updated successfully');
         toast.success("Review Updated successfully");
-        setFormData({ description:'',rating:0});
+        setFormData({ message:'',rating:0});
       } else if ('error' in result && result.error) {
         console.error('Review Update failed', result.error);
         toast.error("Review Update failed");
@@ -58,8 +58,8 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
             <input type="number" name="rating" value={formData.rating} className="form-control w-100 rounded-0 p-2" placeholder='Rating' onChange={handleUpdateValue}/>
           </label>
           <label className='w-100'>
-            <span>Description</span>
-            <input type="text" name="description" value={formData.description} className="form-control w-100 rounded-0 p-2" placeholder='Comment' onChange={handleUpdateValue}/>
+            <span>Message</span>
+            <input type="text" name="message" value={formData.message} className="form-control w-100 rounded-0 p-2" placeholder='Comment' onChange={handleUpdateValue}/>
           </label>
         </div>
         <div className="mt-4">
@@ -105,12 +105,12 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
   // search bar coding 
   const [searchInput, setSearchInput] = useState<string>('');
 
-  let content: React.ReactNode;
+  let data: React.ReactNode;
   let count = 0;
 
     // Filter reviews based on the search input
-  const filteredReviews = ReviewsList?.content.filter((review: Review) =>{
-    const reviewDescription = review.description?.toLowerCase();
+  const filteredReviews = ReviewsList?.data.filter((review: Review) =>{
+    const reviewDescription = review.message?.toLowerCase();
     const search = searchInput.toLowerCase();
   
     // Convert numbers to strings before searching
@@ -122,7 +122,7 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
     );
   });
 
-  content = isLoading || isError
+  data = isLoading || isError
     ? null
     : isSuccess
       ? filteredReviews.map((Reviews: Review) => {
@@ -132,7 +132,7 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
             <td scope="row w-25">{++count}</td>
             <td>{Reviews.productId}</td>
             <td>{Reviews.rating}</td>
-            <td>{Reviews.description}</td>
+            <td>{Reviews.message}</td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
               <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseReviews(Reviews)} title='Edit'><i className="bi bi-pen"></i></a>
               <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Reviews._id)}><i className="bi bi-trash"></i></a>
@@ -166,7 +166,7 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
         </thead>
         <tbody>
           {
-            content
+            data
           }
         </tbody>
       </table>
