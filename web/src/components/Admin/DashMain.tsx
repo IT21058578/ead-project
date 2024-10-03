@@ -41,19 +41,19 @@ const DashMain = () => {
       <h4 className="text-dark fw-bold">Dashboard</h4>
         <div className="resume d-grid grid-4 gap-3 fw-bold mt-3">
         <div className="r-card d-flex flex-column align-items-center gap-3 border border-1 bg-secondary p-3">
-          <h1>{products?.metadata.totalDocuments}</h1>
+          <h1>{products?.meta.total}</h1>
           <h4 className="align-self-center">Total Products</h4>
         </div>
         <div className="r-card d-flex flex-column align-items-center gap-3 border border-1 bg-secondary p-3">
-          <h1>{reviews?.metadata.totalDocuments}</h1>
+          <h1>{reviews?.meta.total}</h1>
           <h4 className="align-self-center">Total Reviews</h4>
         </div>
         <div className="r-card d-flex flex-column align-items-center gap-3 border border-1 bg-secondary p-3">
-          <h1>{users?.metadata.totalDocuments}</h1>
+          <h1>{users?.meta.total}</h1>
           <h4 className="align-self-center">Total Users</h4>
         </div>
         <div className="r-card d-flex flex-column align-items-center gap-3 border border-1 bg-secondary p-3">
-          <h1>{orders?.metadata.totalDocuments}</h1>
+          <h1>{orders?.meta.total}</h1>
           <h4 className="align-self-center">Total Orders</h4>
         </div>
       </div>

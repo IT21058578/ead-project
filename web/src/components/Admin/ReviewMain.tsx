@@ -157,7 +157,7 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
       <table className="table table-default text-center table-bordered">
         <thead>
           <tr className='fd-bg-primary text-white'>
-            <th scope="col" className='p-3'>N°</th>
+            <th scope="col" className='p-3'>No.</th>
             <th scope="col" className='p-3'>PRODUCT ID</th>
             <th scope="col" className='p-3'>RATING</th>
             <th scope="col" className='p-3'>DESCRIPTION</th>
