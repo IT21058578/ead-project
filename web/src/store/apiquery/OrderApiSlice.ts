@@ -5,7 +5,7 @@ import RoutePaths from '../../config';
 import { useState } from 'react';
 
 const isLogged = getItem(RoutePaths.token);
-const user = !isLogged ? null : JSON.parse(getItem("user") || "");
+// const user = !isLogged ? null : JSON.parse(getItem("user") || "");
 
 const token = getItem(RoutePaths.token);
 
@@ -40,17 +40,17 @@ export const orderApiSlice = createApi({
             
         })),
 
-        createOrder: builder.mutation({
-            query : (createOrderDto) => ({
-                url : '/Orders',
-                method : 'POST',
-                body : createOrderDto,
-                headers: {
-                    userId: `Bearer ${user._id}`,
-                  },
-            }),
-           invalidatesTags : ['Order']
-        }),
+        // createOrder: builder.mutation({
+        //     query : (createOrderDto) => ({
+        //         url : '/Orders',
+        //         method : 'POST',
+        //         body : createOrderDto,
+        //         headers: {
+        //             userId: `Bearer ${user._id}`,
+        //           },
+        //     }),
+        //    invalidatesTags : ['Order']
+        // }),
 
         updateOrder: builder.mutation({
             query : (data) => ({
@@ -87,7 +87,7 @@ export const orderApiSlice = createApi({
 
 export const {
     useGetAllOrderQuery,
-    useCreateOrderMutation,
+    // useCreateOrderMutation,
     useUpdateOrderMutation,
     useUpdateOrderStatusMutation,
     useDeleteOrderMutation,

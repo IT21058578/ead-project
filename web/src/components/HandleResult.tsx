@@ -63,17 +63,17 @@ export const HandleResult = ({ result }: { result: any }) => {
       // Handle success response
       const responseData = result.data;
 
-      if (responseData.tokens && responseData.user) {
+      if (responseData.accessToken) {
         // Assuming responseData.tokens.accessToken contains the access token
-        setItem(RoutePaths.token, responseData.tokens.accessToken);
+        setItem(RoutePaths.token, responseData.accessToken);
 
         // Assuming responseData.user contains the user data
-          setItem("user", responseData.user);
-          dispatch(setUser(responseData.user));
+          setItem("user", responseData.userId);
+          dispatch(setUser(responseData.userId));
 
         // Redirect to the appropriate route based on user data
         navigate(
-          responseData.user.roles.includes("ADMIN")
+          responseData.role.includes("Admin")
             ? RoutePaths.admin
             : RoutePaths.userAccount
         );

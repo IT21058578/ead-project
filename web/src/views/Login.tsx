@@ -5,14 +5,16 @@ import Footer from './includes/Footer';
 import Header from './includes/Header';
 import RoutePaths from '../config';
 import { checkLogin } from '../Utils/Generals';
+import AdminHeader from '../components/Admin/AdminHeader';
+import AdminFooter from '../components/Admin/AdminFooter';
 
 const Login = () => {
 
   return (
     <>
-        <Header />
-        <LoginForm />
-        <Footer />
+      <AdminHeader />
+      <LoginForm />
+      <AdminFooter />
     </>
   )
 }

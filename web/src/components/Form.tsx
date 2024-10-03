@@ -34,7 +34,7 @@ const LoginForm = () => {
 
 
     return (
-        <div className="login-form  bg-white shadow col-11 col-lg-4 mx-auto my-5 text-black p-3" style={{ minHeight: '500px' }}>
+        <div className="login-form  bg-white shadow col-11 col-lg-4 mx-auto my-5 text-black p-3" style={{ minHeight: '400px' }}>
             <h3 className="fw-bold text-center">Sign In</h3>
             <form action="" onSubmit={handleSubmit}>
                 {/* <div className="d-flex gap-2 sign-oauth my-4 text-white text-center">
@@ -62,13 +62,13 @@ const LoginForm = () => {
                     <HandleResult result={result} />
                     <div className="submit text-center my-4">
                         <LoadingButton loadingState={result.isLoading}>
-                            <button type="submit" className="w-100 border-0 fd-btn">LOG IN</button>
+                            <button type="submit" className="w-100 border-0 fd-btn">SIGN IN</button>
                         </LoadingButton>
                     </div>
-                    <div className="bt text-center">
+                    {/* <div className="bt text-center">
                         <div><Link to="/reset-password" className="text-black opacity-75">Forget Password</Link></div>
                         <div className="signup mt-2"><span>Don't have account ?</span><Link to="/signup" className="fd-color-primary">Sign Up</Link></div>
-                    </div>
+                    </div> */}
                 </div>
             </form>
         </div>

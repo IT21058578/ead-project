@@ -5,15 +5,12 @@ import Login from "./views/Login"
 import SignUp from "./views/SignUp"
 import PageNotFound from "./views/PageNotFound"
 import Shop from "./views/Shop"
-import ViewProduct from "./views/ViewProduct"
 import BlogPage from "./views/BlogPage"
 import WishList from "./views/WishList"
 import ContactUs from "./views/ContactUs"
 import ShoppingCart from "./views/ShoppingCart"
-import Checkout from "./views/Checkout"
 import TeamMembers from "./views/TeamMembers"
 import PostView from "./views/PostView"
-import UserAccount, { UserAddress, UserDetails, UserOrders } from "./views/UserAccount"
 import AdminPanel from "./views/Admin/AdminPanel"
 import DashMain from "./components/Admin/DashMain"
 import ProductMain from "./components/Admin/ProductMain"
@@ -33,31 +30,18 @@ function App() {
     <Routes>
 
       {/* <Route path={RoutePaths.home} element={<Home />}></Route> */}
-      <Route path={RoutePaths.shop} element={<Shop />}></Route>
+      {/* <Route path={RoutePaths.shop} element={<Shop />}></Route>
       <Route path={RoutePaths.wishlist} element={<WishList />}></Route>
       <Route path={RoutePaths.blog} element={<BlogPage />}></Route>
       <Route path={RoutePaths.post} element={<PostView />}></Route>
       <Route path={RoutePaths.shopping} element={<ShoppingCart />}></Route>
-      <Route element={<PrivateRoute type={0}/>}>
-        <Route path={RoutePaths.checkout} element={<Checkout />}></Route>
-      </Route>
       <Route path={RoutePaths.contact} element={<ContactUs />}></Route>
-      <Route path={RoutePaths.team} element={<TeamMembers />}></Route>
+      <Route path={RoutePaths.team} element={<TeamMembers />}></Route> */}
       <Route element={<RedirectIfAuthenticate />} >
         <Route path={RoutePaths.login} element={<Login />}></Route>
         <Route path={RoutePaths.signup} element={<SignUp />}></Route>
       </Route>
       <Route path={RoutePaths.passwordReset} element={<ForgotPassword />}></Route>
-      <Route path={RoutePaths.productView} element={<ViewProduct />}></Route>
-
-      {/* USERS ROUTES */}
-
-      <Route element={<PrivateRoute type={0}/>}>
-        <Route path={RoutePaths.userAccount} element={<UserAccount />}></Route>
-        <Route path={RoutePaths.userOrders} element={<UserAccount currentComponent={<UserOrders />}/>}></Route>
-        <Route path={RoutePaths.userAdress} element={<UserAccount currentComponent={<UserAddress />}/>}></Route>
-        <Route path={RoutePaths.userDetails} element={<UserAccount currentComponent={<UserDetails />}/>}></Route>
-      </Route>
 
       {/* ADMINS ROUTES */}
 
@@ -77,7 +61,7 @@ function App() {
         <Route path={RoutePaths.adminCategories} element={<AdminPanel  currentComponent={<CategoryMain />} />}></Route>
         <Route path={RoutePaths.adminReview} element={<AdminPanel  currentComponent={<ReviewMain />} />}></Route>
         <Route path={RoutePaths.adminCustomers} element={<AdminPanel  currentComponent={<CustomersMain />} />}></Route>
-        <Route path={RoutePaths.adminAccount} element={<AdminPanel  currentComponent={<AdminAccount />} />}></Route>
+        {/* <Route path={RoutePaths.adminAccount} element={<AdminPanel  currentComponent={<AdminAccount />} />}></Route> */}
 
       <Route path="*" element={<PageNotFound />}></Route>
 
