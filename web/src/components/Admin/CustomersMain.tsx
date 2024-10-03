@@ -49,7 +49,7 @@ const ListOfCustomers = () => {
 
   data = isLoading || isError
     ? null
-    : isSuccess && customersList && customersList.content
+    : isSuccess && customersList && customersList.data
       ? filteredCustomers.map((customer: UserType) => {
         const customerId = customer._id || '';
 
