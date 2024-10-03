@@ -43,6 +43,30 @@ namespace api.Transformers
                 CreatedBy = model.CreatedBy.ToString(),
                 UpdatedAt = model.UpdatedAt,
                 UpdatedBy = model.UpdatedBy.ToString(),
+                ImageUrl = model.ImageUrl,
+                Rating = model.Rating,
+            };
+        }
+
+        public static Product ToModel(this UpdateProductRequestDto request, Product model)
+        {
+            return new Product
+            {
+                Id = model.Id,
+                VendorId = new ObjectId(request.VendorId),
+                Name = request.Name,
+                Description = request.Description,
+                Category = request.Category,
+                Price = request.Price,
+                IsActive = request.IsActive,
+                CountInStock = request.CountInStock,
+                LowStockThreshold = request.LowStockThreshold,
+                ImageUrl = request.ImageUrl,
+                CreatedAt = model.CreatedAt,
+                CreatedBy = model.CreatedBy,
+                UpdatedAt = model.UpdatedAt,
+                UpdatedBy = model.UpdatedBy,
+                Rating = model.Rating,
             };
         }
     }

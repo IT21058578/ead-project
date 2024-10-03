@@ -122,19 +122,16 @@ builder.Services.AddSwaggerGen(options =>
     options.SchemaFilter<ValidEnumValueFilter>();
 });
 
-// Add Exception Handlers
-builder.Services.AddProblemDetails();
+builder.Services.AddExceptionHandler<AppExceptionHandler>();
 
 // Build the application
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler(_ => { });
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpLogging();
 app.UseHttpsRedirection();
 app.MapControllers();

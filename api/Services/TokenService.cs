@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Utilities;
@@ -30,11 +31,11 @@ namespace api.Services
         public Token ClaimToken(string code, string email)
         {
             _logger.LogInformation("Claiming token with code {Code} and email {Email}", code, email);
-            var result = _tokenRepository.FindByCodeAndEmail(code, email) ?? throw new Exception("Token does not exist");
+            var result = _tokenRepository.FindByCodeAndEmail(code, email) ?? throw new NotFoundException($"Token with code {code} and email {email} not found");
             if (!IsTokenValid(result))
             {
                 _logger.LogWarning("Cannot claim token with {Id} as it has status {Status}", result.Id, result.Status);
-                throw new Exception("Token is not valid");
+                throw new BadRequestException("Token is not valid");
             }
             result.Status = TokenStatus.Claimed;
             _tokenRepository.Update(result);

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Utilities;
@@ -17,7 +18,7 @@ namespace api.Services
         public User GetUser(string id)
         {
             _logger.LogInformation("Getting user {id}", id);
-            var user = _userRepository.GetById(id) ?? throw new Exception("User not found");
+            var user = _userRepository.GetById(id) ?? throw new NotFoundException($"User with id {id} not found");
             _logger.LogInformation("User found with id {id}", user.Id);
             return user;
         }
@@ -25,7 +26,7 @@ namespace api.Services
         public User UpdateUser(string id, UpdateUserRequestDto request)
         {
             _logger.LogInformation("Updating user {id}", id);
-            var user = _userRepository.GetById(id) ?? throw new Exception("User not found");
+            var user = GetUser(id);
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             _userRepository.Update(user);
@@ -51,7 +52,7 @@ namespace api.Services
         public async Task<User> UpdateRating(string id, double rating)
         {
             _logger.LogInformation("Updating user rating for user {id}", id);
-            var user = _userRepository.GetById(id) ?? throw new Exception("User not found");
+            var user = GetUser(id);
             user.Rating = rating;
             _userRepository.Update(user);
             _logger.LogInformation("User rating updated to {rating}", rating);

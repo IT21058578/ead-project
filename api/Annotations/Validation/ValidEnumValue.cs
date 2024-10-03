@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Exceptions;
 
 namespace api.Annotations.Validation
 {
@@ -15,7 +16,7 @@ namespace api.Annotations.Validation
         {
             if (!enumType.IsEnum)
             {
-                throw new ArgumentException($"The given type is not an enum.");
+                throw new BadRequestException($"The given type is not an enum.");
             }
 
             this.enumType = enumType;

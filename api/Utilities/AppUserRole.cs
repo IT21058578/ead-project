@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using api.Exceptions;
 
 namespace api.Utilities
 {
@@ -23,7 +24,7 @@ namespace api.Utilities
                 "vendor" => AppUserRole.Vendor,
                 "csr" => AppUserRole.Csr,
                 "admin" => AppUserRole.Admin,
-                _ => throw new Exception("Invalid role")
+                _ => throw new UnauthorizedException("Invalid role")
             };
         }
     }

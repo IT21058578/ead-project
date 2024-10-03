@@ -5,8 +5,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using api.Annotations.Validation;
+using api.Exceptions;
 using api.Models;
 using api.Utilities;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace api.DTOs.Requests
 {
@@ -41,7 +43,7 @@ namespace api.DTOs.Requests
             {
                 foreach (var (filterKey, filter) in Filters)
                 {
-                    var property = typeof(T).GetProperty(filterKey) ?? throw new ArgumentException($"Invalid filter key: {filterKey}");
+                    var property = typeof(T).GetProperty(filterKey) ?? throw new BadRequestException($"Invalid filter key: {filterKey}");
                     var parameter = Expression.Parameter(typeof(T), "x");
                     var propertyAccess = Expression.Property(parameter, property);
                     var constant = Expression.Constant(filter.Value);
@@ -49,7 +51,7 @@ namespace api.DTOs.Requests
                     {
                         Criteria.Equals => Expression.Equal(propertyAccess, constant),
                         Criteria.NotEquals => Expression.NotEqual(propertyAccess, constant),
-                        _ => throw new ArgumentException($"Unsupported filter operator: {filter.Operator}")
+                        _ => throw new BadRequestException($"Unsupported filter operator: {filter.Operator}")
                     };
 
                     // Update the filter expression by combining it with the existing one
@@ -64,7 +66,7 @@ namespace api.DTOs.Requests
             Func<IQueryable<T>, IOrderedQueryable<T>>? sortExpression = null;
             if (!string.IsNullOrEmpty(SortBy) && !string.IsNullOrEmpty(SortDirection))
             {
-                var property = typeof(T).GetProperty(SortBy) ?? throw new ArgumentException($"Invalid sort key: {SortBy}");
+                var property = typeof(T).GetProperty(SortBy) ?? throw new BadRequestException($"Invalid sort key: {SortBy}");
                 var parameter = Expression.Parameter(typeof(T), "x");
                 var propertyAccess = Expression.Property(parameter, property);
 

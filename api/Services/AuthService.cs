@@ -11,6 +11,8 @@ using api.Repositories;
 using api.DTOs.Templates;
 using api.Configuratons;
 using Microsoft.Extensions.Options;
+using api.Exceptions;
+using MongoDB.Bson;
 
 namespace api.Services
 {
@@ -39,7 +41,7 @@ namespace api.Services
             var existingUser = await _userRepository.FindByEmailAsync(createUserRequestDto.Email);
             if (existingUser != null)
             {
-                throw new Exception($"User with email {createUserRequestDto.Email} already exists");
+                throw new ConflictException($"User with email {createUserRequestDto.Email} already exists");
             }
             var user = new User
             {
@@ -76,7 +78,7 @@ namespace api.Services
         public async Task ResendRegisterEmail(string email)
         {
             _logger.LogInformation("Resending register email to {Email}", email);
-            var user = await _userRepository.FindByEmailAsync(email) ?? throw new Exception($"User with email {email} does not exist");
+            var user = await GetUserOrThrow(email);
             _tokenService.ClaimAllToken(TokenPurpose.Registration, user.Email);
             var token = _tokenService.CreateToken(TokenPurpose.Registration, user.Email);
             await _emailService.SendEmail(new EmailRequest<RegisterTemplateData>
@@ -98,7 +100,7 @@ namespace api.Services
         {
             _logger.LogInformation("Verifying registration with code {Code} and email {Email}", code, email);
             var token = _tokenService.ClaimToken(code, email);
-            var user = await _userRepository.FindByEmailAsync(token.Email) ?? throw new Exception($"User with email {email} does not exist");
+            var user = await GetUserOrThrow(email);
             user.IsVerified = true;
             await _userRepository.UpdateAsync(user);
             _logger.LogInformation("Registration with code {Code} and email {Email} has been verified", code, email);
@@ -107,7 +109,7 @@ namespace api.Services
         public async Task ApproveRegistration(string email)
         {
             _logger.LogInformation("Approving registration for {Email}", email);
-            var user = await _userRepository.FindByEmailAsync(email) ?? throw new Exception($"User with email {email} does not exist");
+            var user = await GetUserOrThrow(email);
             user.IsApproved = true;
             await _userRepository.UpdateAsync(user);
             _logger.LogInformation("Registration for {Email} has been approved", email);
@@ -116,21 +118,21 @@ namespace api.Services
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             _logger.LogInformation("Logging in user with email {Email}", loginRequestDto.Email);
-            var user = await _userRepository.FindByEmailAsync(loginRequestDto.Email) ?? throw new Exception($"User with email {loginRequestDto.Email} does not exist");
+            var user = await GetUserOrThrow(loginRequestDto.Email);
             if (user.IsVerified == false)
             {
-                throw new Exception("User is not verified");
+                throw new UnauthorizedException("User is not verified");
             }
             if (user.IsApproved == false)
             {
-                throw new Exception("User is not approved");
+                throw new UnauthorizedException("User is not approved");
             }
 
-            var credential = await _credentialRepository.FindByUserIdAsync(user.Id) ?? throw new Exception($"Credential for user with email {loginRequestDto.Email} does not exist");
+            var credential = await _credentialRepository.FindByUserIdAsync(user.Id) ?? throw new NotFoundException($"Credential for user with email {loginRequestDto.Email} does not exist");
             var result = _passwordHasher.VerifyHashedPassword(user, credential.Password, loginRequestDto.Password);
             if (result.Equals(PasswordVerificationResult.Failed))
             {
-                throw new Exception("Password is incorrect");
+                throw new UnauthorizedException("Password is incorrect");
             }
             _logger.LogInformation("User with email {Email} has been logged in", loginRequestDto.Email);
             return new()
@@ -154,15 +156,15 @@ namespace api.Services
             if (principal is null)
             {
                 _logger.LogWarning("Invalid token with identity {Identity}", principal);
-                throw new Exception("Invalid token");
+                throw new UnauthorizedException("Invalid token");
             }
             var email = _jwtTokenService.GetEmailFromToken(principal);
             if (email is null)
             {
                 _logger.LogWarning("Invalid token with identity email {Email}", email);
-                throw new Exception("Invalid token");
+                throw new UnauthorizedException("Invalid token");
             }
-            var user = await _userRepository.FindByEmailAsync(email) ?? throw new Exception("User not found");
+            var user = await GetUserOrThrow(email);
             _logger.LogInformation("User with email {Email} has been refreshed", email);
             return new()
             {
@@ -181,7 +183,7 @@ namespace api.Services
         public async Task ForgotPassword(string email)
         {
             _logger.LogInformation("Forgot password for {Email}", email);
-            var user = await _userRepository.FindByEmailAsync(email) ?? throw new Exception($"User with email {email} does not exist");
+            var user = await GetUserOrThrow(email);
             var token = _tokenService.CreateToken(TokenPurpose.ResetPasssword, user.Email);
             await _emailService.SendEmail(new EmailRequest<ResetPasswordTemplateData>
             {
@@ -202,8 +204,8 @@ namespace api.Services
         {
             _logger.LogInformation("Resetting password for {Email}", resetPasswordRequestDto.Email);
             var token = _tokenService.ClaimToken(resetPasswordRequestDto.Code, resetPasswordRequestDto.Email);
-            var user = await _userRepository.FindByEmailAsync(token.Email) ?? throw new Exception($"User with email {resetPasswordRequestDto.Email} does not exist");
-            var credential = _credentialRepository.FindByUserId(user.Id) ?? throw new Exception($"Credential for user with email {resetPasswordRequestDto.Email} does not exist");
+            var user = await GetUserOrThrow(token.Email);
+            var credential = await GetCredentialOrThrow(user.Id);
             credential.Password = _passwordHasher.HashPassword(user, resetPasswordRequestDto.NewPassword);
             await _credentialRepository.UpdateAsync(credential);
             await _emailService.SendEmail(new EmailRequest<PasswordChangedTemplateData>
@@ -222,11 +224,11 @@ namespace api.Services
         public async Task ChangePassword(ChangePasswordRequestDto changePasswordRequestDto)
         {
             _logger.LogInformation("Changing password for {Email}", changePasswordRequestDto.Email);
-            var user = await _userRepository.FindByEmailAsync(changePasswordRequestDto.Email) ?? throw new Exception($"User with email {changePasswordRequestDto.Email} does not exist");
-            var credential = _credentialRepository.FindByUserId(user.Id) ?? throw new Exception($"Credential for user with email {changePasswordRequestDto.Email} does not exist");
+            var user = await GetUserOrThrow(changePasswordRequestDto.Email);
+            var credential = await GetCredentialOrThrow(user.Id);
             if (!_passwordHasher.VerifyHashedPassword(user, credential.Password, changePasswordRequestDto.OldPassword).Equals(PasswordVerificationResult.Success))
             {
-                throw new Exception("Old password is incorrect");
+                throw new UnauthorizedException("Old password is incorrect");
             }
             credential.Password = _passwordHasher.HashPassword(user, changePasswordRequestDto.NewPassword);
             await _credentialRepository.UpdateAsync(credential);
@@ -241,6 +243,16 @@ namespace api.Services
                 }
             });
             _logger.LogInformation("Password for {Email} has been changed", changePasswordRequestDto.Email);
+        }
+
+        private async Task<User> GetUserOrThrow(string email)
+        {
+            return await _userRepository.FindByEmailAsync(email) ?? throw new NotFoundException($"User with email {email} does not exist");
+        }
+
+        private async Task<Credential> GetCredentialOrThrow(ObjectId userId)
+        {
+            return await _credentialRepository.FindByUserIdAsync(userId) ?? throw new NotFoundException($"Credential for user with id {userId} does not exist");
         }
     }
 }

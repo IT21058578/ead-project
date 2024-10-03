@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
@@ -32,6 +33,16 @@ namespace api.Services
 			return savedNotification;
 		}
 
+		public Notification UpdateNotification(string id, UpdateNotificationRequestDto request)
+		{
+			_logger.LogInformation("Updating notification {id}", id);
+			var notification = GetNotification(id);
+			notification = request.ToModel(notification);
+			var updatedNotification = _notificationRepository.Update(notification);
+			_logger.LogInformation("Notification updated with id {id}", updatedNotification.Id);
+			return updatedNotification;
+		}
+
 		public void DeleteNotification(string id)
 		{
 			_logger.LogInformation("Deleting notification {id}", id);
@@ -42,7 +53,7 @@ namespace api.Services
 		public Notification GetNotification(string id)
 		{
 			_logger.LogInformation("Getting notification {id}", id);
-			var notification = _notificationRepository.GetById(id) ?? throw new Exception("Notification not found");
+			var notification = _notificationRepository.GetById(id) ?? throw new NotFoundException($"Notification with id ${id} not found");
 			_logger.LogInformation("Notification found with id {id}", notification.Id);
 			return notification;
 		}

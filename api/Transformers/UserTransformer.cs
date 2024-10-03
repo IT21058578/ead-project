@@ -31,6 +31,29 @@ namespace api.Transformers
                 CreatedBy = model.CreatedBy.ToString(),
                 UpdatedAt = model.UpdatedAt,
                 UpdatedBy = model.UpdatedBy.ToString(),
+                IsApproved = model.IsApproved,
+                IsVerified = model.IsVerified,
+                Rating = model.Rating,
+                Role = model.Role,
+            };
+        }
+
+        public static User ToModel(this DTOs.Requests.UpdateUserRequestDto request, User model)
+        {
+            return new User
+            {
+                Id = model.Id,
+                Email = model.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                CreatedAt = model.CreatedAt,
+                CreatedBy = model.CreatedBy,
+                UpdatedAt = DateTime.UtcNow,
+                UpdatedBy = model.UpdatedBy,
+                IsApproved = model.IsApproved,
+                IsVerified = model.IsVerified,
+                Rating = model.Rating,
+                Role = model.Role,
             };
         }
     }

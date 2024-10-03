@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
@@ -37,7 +38,7 @@ namespace api.Services
         public Product GetProduct(string id)
         {
             _logger.LogInformation("Getting product {id}", id);
-            var product = _productRepository.GetById(id) ?? throw new Exception("Product not found");
+            var product = _productRepository.GetById(id) ?? throw new BadRequestException($"Product with id {id} not found");
             _logger.LogInformation("Product found with id {id}", product.Id);
             return product;
         }
@@ -58,10 +59,11 @@ namespace api.Services
             return products;
         }
 
-        public Product UpdateProduct(string id, CreateProductRequestDto request)
+        public Product UpdateProduct(string id, UpdateProductRequestDto request)
         {
             _logger.LogInformation("Updating product {id}", id);
-            var product = request.ToModel();
+            var existingProduct = GetProduct(id);
+            var product = request.ToModel(existingProduct);
             ValidateProductAndThrowIfInvalid(product);
             var updatedProduct = _productRepository.Update(product);
             _logger.LogInformation("Product updated with id {id}", updatedProduct.Id);
@@ -97,7 +99,7 @@ namespace api.Services
             var product = GetProduct(id);
             if (product.CountInStock < quantity)
             {
-                throw new Exception("Not enough stock");
+                throw new BadRequestException($"Product with id {id} does not have enough stock");
             }
             product.CountInStock -= quantity;
             _productRepository.Update(product);
@@ -132,19 +134,19 @@ namespace api.Services
         {
             if (product.Price <= 0)
             {
-                throw new Exception("Invalid price");
+                throw new BadRequestException($"Invalid price");
             }
             if (product.CountInStock < 0)
             {
-                throw new Exception("Invalid stock");
+                throw new BadRequestException($"Invalid stock");
             }
             if (product.LowStockThreshold < 0)
             {
-                throw new Exception("Invalid low stock threshold");
+                throw new BadRequestException($"Invalid low stock threshold");
             }
             if (_userService.IsUserValid(product.VendorId.ToString()))
             {
-                throw new Exception("Invalid vendor user");
+                throw new BadRequestException($"User with id ${product.VendorId} not found");
             }
         }
     }

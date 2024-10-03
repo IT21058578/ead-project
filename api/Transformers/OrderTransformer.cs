@@ -86,6 +86,8 @@ namespace api.Transformers
                 CreatedBy = model.CreatedBy.ToString(),
                 UpdatedAt = model.UpdatedAt,
                 UpdatedBy = model.UpdatedBy.ToString(),
+                ActualDeliveryDate = model.ActualDeliveryDate,
+                VendorIds = model.Products.Select(item => item.VendorId.ToString()).Distinct().ToList(),
             };
         }
     }

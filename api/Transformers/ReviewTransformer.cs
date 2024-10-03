@@ -39,5 +39,22 @@ namespace api.Transformers
 				UpdatedBy = model.UpdatedBy.ToString(),
 			};
 		}
+
+		public static Review ToModel(this UpdateReviewRequestDto request, Review model)
+		{
+			return new Review
+			{
+				Id = model.Id,
+				VendorId = model.VendorId,
+				ProductId = model.ProductId,
+				UserId = model.UserId,
+				Message = request.Message,
+				Rating = request.Rating,
+				CreatedAt = model.CreatedAt,
+				CreatedBy = model.CreatedBy,
+				UpdatedAt = DateTime.UtcNow,
+				UpdatedBy = model.UpdatedBy,
+			};
+		}
 	}
 }

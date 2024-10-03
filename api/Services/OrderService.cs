@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using api.DTOs.Requests;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
 using FluentEmail.Core;
+using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Bson;
 
 namespace api.Services
@@ -48,7 +50,7 @@ namespace api.Services
         public Order GetOrder(string id)
         {
             _logger.LogInformation("Getting order {id}", id);
-            var order = _orderRepository.GetById(id) ?? throw new Exception("Order not found");
+            var order = _orderRepository.GetById(id) ?? throw new BadRequestException($"Order with id {id} not found");
             _logger.LogInformation("Order found with id {id}", order.Id);
             return order;
         }
@@ -125,14 +127,14 @@ namespace api.Services
             // Check whether all id references are valid
             if (!_userService.IsUserValid(order.UserId.ToString()))
             {
-                throw new Exception("User not found");
+                throw new BadRequestException($"User with id ${order.UserId} not found");
             }
 
             foreach (var vendorId in order.VendorIds)
             {
                 if (!_userService.IsUserValid(vendorId.ToString()))
                 {
-                    throw new Exception("Vendor not found");
+                    throw new BadRequestException($"Vendor with id ${vendorId} not found");
                 }
             }
 
@@ -141,11 +143,11 @@ namespace api.Services
             {
                 if (!_productService.IsProductValid(product.ProductId.ToString()))
                 {
-                    throw new Exception($"Product {product.ProductId} not found");
+                    throw new BadRequestException($"Product with id ${product.ProductId} not found");
                 }
                 if (!_productService.IsProductStocked(product.ProductId.ToString(), product.Quantity))
                 {
-                    throw new Exception($"Product {product.ProductId} does not have ${product.Quantity} items in stock");
+                    throw new BadRequestException($"Product ${product.ProductId} does not have ${product.Quantity} items in stock");
                 }
             }
         }
@@ -155,14 +157,14 @@ namespace api.Services
             // Check whether all id references are valid
             if (!_userService.IsUserValid(order.UserId.ToString()))
             {
-                throw new Exception("User not found");
+                throw new BadRequestException($"User with id ${order.UserId} not found");
             }
 
             foreach (var vendorId in order.VendorIds)
             {
                 if (!_userService.IsUserValid(vendorId.ToString()))
                 {
-                    throw new Exception("Vendor not found");
+                    throw new BadRequestException($"Vendor with id ${vendorId} not found");
                 }
             }
 
@@ -173,12 +175,12 @@ namespace api.Services
                 var oldOrderProduct = oldOrder.Products.FirstOrDefault(p => p.ProductId == item.ProductId);
                 if (matchedProduct == null)
                 {
-                    throw new Exception($"Product {item.ProductId} not found");
+                    throw new BadRequestException($"Product {item.ProductId} not found");
                 }
                 var countInStockAfterOrder = matchedProduct.CountInStock + oldOrderProduct?.Quantity ?? 0 - item.Quantity;
                 if (countInStockAfterOrder < 0)
                 {
-                    throw new Exception($"Product {item.ProductId} does not have ${item.Quantity} items in stock");
+                    throw new BadRequestException($"Product {item.ProductId} does not have ${item.Quantity} items in stock");
                 }
             }
         }

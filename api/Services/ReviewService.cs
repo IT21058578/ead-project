@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Configuratons;
 using api.DTOs.Requests;
+using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 
@@ -66,7 +68,7 @@ namespace api.Services
 		public Review GetReview(string id)
 		{
 			_logger.LogInformation("Getting review {id}", id);
-			var review = _reviewRepository.GetById(id) ?? throw new Exception("Review not found");
+			var review = _reviewRepository.GetById(id) ?? throw new NotFoundException($"Review with id {id} not found");
 			_logger.LogInformation("Review found with id {id}", review.Id);
 			return review;
 		}
@@ -79,15 +81,16 @@ namespace api.Services
 			return reviews;
 		}
 
-		public Review UpdateReview(string id, CreateReviewRequestDto request)
+		public Review UpdateReview(string id, UpdateReviewRequestDto request)
 		{
 			_logger.LogInformation("Updating review {id}", id);
-			var review = request.ToModel();
+			var existingReview = GetReview(id);
+			var review = request.ToModel(existingReview);
 			ValidateReviewAndThrowIfInvalid(review);
 			var updatedReview = _reviewRepository.Update(review);
 			_logger.LogInformation("Review updated with id {id}", updatedReview.Id);
-			_ = UpdateProductRating(request.ProductId);
-			_ = UpdateVendorRating(request.VendorId);
+			_ = UpdateProductRating(review.ProductId.ToString());
+			_ = UpdateVendorRating(review.VendorId.ToString());
 			return updatedReview;
 		}
 
@@ -95,15 +98,15 @@ namespace api.Services
 		{
 			if (_userService.IsUserValid(review.UserId.ToString()))
 			{
-				throw new Exception("Invalid user");
+				throw new NotFoundException($"User with id {review.UserId} not found");
 			};
 			if (_userService.IsUserValid(review.VendorId.ToString()))
 			{
-				throw new Exception("Invalid vendor");
+				throw new NotFoundException($"Vendor with id {review.VendorId} not found");
 			};
 			if (_productService.IsProductValid(review.ProductId.ToString()))
 			{
-				throw new Exception("Invalid product");
+				throw new NotFoundException($"Product with id {review.ProductId} not found");
 			};
 		}
 	}

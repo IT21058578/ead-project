@@ -38,6 +38,29 @@ namespace api.Transformers
                 CreatedBy = model.CreatedBy.ToString(),
                 UpdatedAt = model.UpdatedAt,
                 UpdatedBy = model.UpdatedBy.ToString(),
+                ProductId = model.ProductId.ToString(),
+                Recipient = model.Recipient,
+                AddresedBy = model.AddresedBy.ToString(),
+            };
+        }
+
+        public static Notification ToModel(this UpdateNotificationRequestDto request, Notification model)
+        {
+            return new Notification
+            {
+                Id = model.Id,
+                OrderId = model.OrderId,
+                UserId = model.UserId,
+                Reason = request.Reason,
+                Status = request.Status,
+                AddresedBy = new ObjectId(request.AddresedBy),
+                Type = model.Type,
+                CreatedAt = model.CreatedAt,
+                CreatedBy = model.CreatedBy,
+                UpdatedAt = DateTime.UtcNow,
+                UpdatedBy = model.UpdatedBy,
+                ProductId = model.ProductId,
+                Recipient = model.Recipient,
             };
         }
     }

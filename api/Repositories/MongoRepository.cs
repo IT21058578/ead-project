@@ -16,6 +16,17 @@ namespace api.Repositories
         private readonly AppDbContext _dbContext = dbContext;
         protected readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
+        public Task<T?> GetByIdAsync(ObjectId id)
+        {
+            return _dbSet.FirstOrDefaultAsync(e => e.Id == id); // Assuming Id is a string in IMongoModel
+        }
+
+        public async Task<T?> GetByIdAsync(string id)
+        {
+            return await this.GetByIdAsync(new ObjectId(id));
+        }
+
+
         public T? GetById(ObjectId id)
         {
             return _dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
