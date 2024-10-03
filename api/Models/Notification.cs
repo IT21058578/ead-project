@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using api.Utilities;
 using MongoDB.Bson;
+using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    [Collection("notifications")]
     public class Notification : BaseModel
     {
         public AppUserRole Recipient { get; set; } = AppUserRole.Customer;

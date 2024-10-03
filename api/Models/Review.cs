@@ -7,7 +7,7 @@ using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
-	[Collection("users")]
+	[Collection("reviews")]
 	public class Review : BaseModel
 	{
 		public ObjectId VendorId { get; set; } = ObjectId.Empty!;
