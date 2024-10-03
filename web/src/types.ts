@@ -1,8 +1,10 @@
 export interface Review {
     _id: string;
-    rating: number;
-    description: string;
+    vendorId: string;
     productId: string;
+    userId: string;
+    message: string;
+    rating: number;
 }
 
 export interface Product {
@@ -45,7 +47,7 @@ export interface UserType {
   lastName?: string;
   email?: string;
   password?: string;
-  roles?: UserRole[];
+  role?: UserRole[];
   isVerified?: boolean;
   isApproved?: boolean;
   rating?: number;

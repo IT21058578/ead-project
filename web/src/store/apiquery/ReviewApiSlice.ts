@@ -21,7 +21,18 @@ export const reviewApiSlice = createApi({
     endpoints : (builder) => ({
 
         getAllReview : builder.query(({
-            query : () => '/reviews/search',
+            // query : () => '/reviews/search',
+            query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+              url: 'reviews/search',
+              method: 'POST',
+              body: {
+                page: 1,
+                pageSize,
+                sortBy,
+                sortDirection,
+                filters: {},
+              },
+            }),
             providesTags : ['Review']
         })),
 

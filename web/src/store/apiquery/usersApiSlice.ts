@@ -20,7 +20,18 @@ export const usersApiSlice = createApi({
     endpoints : (builder) => ({
 
         getAllUsers : builder.query(({
-            query : () => '/users/search',
+            // query : () => '/users/search',
+            query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+                url: 'users/search',
+                method: 'POST',
+                body: {
+                  page: 1,
+                  pageSize,
+                  sortBy,
+                  sortDirection,
+                  filters: {},
+                },
+              }),
             providesTags : ['Users'],
         })),
 
