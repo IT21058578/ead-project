@@ -38,7 +38,7 @@ const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode })
         removeItem(RoutePaths.token);
         removeItem('user');
         dispatch(logoutCurrentUser)
-        navigate(RoutePaths.home)
+        navigate(RoutePaths.login)
       }
     })
   }

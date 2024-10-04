@@ -68,14 +68,14 @@ export const HandleResult = ({ result }: { result: any }) => {
         setItem(RoutePaths.token, responseData.accessToken);
 
         // Assuming responseData.user contains the user data
-          setItem("user", responseData.userId);
-          dispatch(setUser(responseData.userId));
+          setItem("user", responseData);
+          dispatch(setUser(responseData));
 
         // Redirect to the appropriate route based on user data
         navigate(
-          responseData.role.includes("Admin")
+          ["Admin", "Vendor", "Csr"].some(role => responseData.role.includes(role))
             ? RoutePaths.admin
-            : RoutePaths.userAccount
+            : RoutePaths.login
         );
       } else {
         // Handle invalid response data
