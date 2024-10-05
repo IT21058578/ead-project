@@ -47,10 +47,16 @@ namespace api.DTOs.Requests
                     var parameter = Expression.Parameter(typeof(T), "x");
                     var propertyAccess = Expression.Property(parameter, property);
                     var constant = Expression.Constant(filter.Value);
-                    var comparison = filter.Operator switch
+                    Expression comparison = filter.Operator switch
                     {
                         Criteria.Equals => Expression.Equal(propertyAccess, constant),
                         Criteria.NotEquals => Expression.NotEqual(propertyAccess, constant),
+                        Criteria.Contains => Expression.Call(
+                            typeof(Enumerable),
+                            "Contains",
+                            [property.PropertyType.GetGenericArguments()[0]], // Specify the type inside the collection
+                            propertyAccess,
+                            constant),
                         _ => throw new BadRequestException($"Unsupported filter operator: {filter.Operator}")
                     };
 
