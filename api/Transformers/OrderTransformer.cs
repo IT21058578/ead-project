@@ -45,6 +45,7 @@ namespace api.Transformers
                 Status = request.Status,
                 DeliveryDate = request.DeliveryDate,
                 DeliveryNote = request.DeliveryNote,
+                VendorIds = request.Products.Select(item => item.VendorId).ToList(),
                 Products = request.Products.Select(item =>
                 {
                     return new Order.Item
