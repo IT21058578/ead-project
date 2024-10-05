@@ -13,7 +13,7 @@ const AdminHeader = () => {
         <div className="d-flex header-contacts d-none d-lg-block gap-3">
           <span>
             <i className="bi bi-envelope fd-color-primary"></i>&nbsp;
-            lavana@gmail.com
+            StyleSquare@gmail.com
           </span>
           <span>
             <i className="bi bi-geo-alt fd-color-primary"></i>&nbsp; Colombo,
@@ -28,7 +28,7 @@ const AdminHeader = () => {
       <div className="header bg-white text-black shadow d-flex justify-content-between px-5 py-2">
         <div className="img align-self-center">
           <Link to={"/admin"}>
-            <img src={logo} alt="" style={{ width: "80px", height: "50px" }} />
+            <img src={logo} alt="" style={{ height: "50px" }} />
           </Link>
         </div>
         <div className="welcome-msg align-self-center">

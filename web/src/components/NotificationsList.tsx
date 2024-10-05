@@ -11,6 +11,7 @@ const NotificationsList = () => {
 
   const handleShowNotifications = () => {
     setShowNotifications(true);
+    console.log(showNotifications);
   };
 
   const handleHideNotifications = () => {
@@ -45,14 +46,14 @@ const NotificationsList = () => {
       </a>
 
       {showNotifications && (
-        <div className="position-absolute top-100 start-0 translate-middle p-4 border bg-white shadow" style={{ width: '300px' }}>
+        <div className="position-absolute top-50 start-50 translate-middle p-4 border bg-white shadow" style={{ width: '500px' }}>
           <h5>Notifications</h5>
           <ul className="list-group">
-            {notifications.data && notifications.data.map((notification: Notification) => (
-              <li key={notification._id} className="list-group-item d-flex justify-content-between align-items-center">
+            {notifications?.data && notifications?.data.map((notification: Notification) => (
+              <li key={notification._id} className="d-flex justify-content-between align-items-center">
                 <span>{notification.reason}</span>
-                <button className="btn btn-sm btn-danger" onClick={() => deleteItem(notification._id)}>
-                  <i className="bi bi-x-circle"></i>
+                <button className="btn" onClick={() => deleteItem(notification._id)}>
+                  <i className="bi bi-x-circle text-danger"></i>
                 </button>
               </li>
             ))}
