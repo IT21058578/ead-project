@@ -5,7 +5,7 @@ import RoutePaths from "../../config";
 
 const token = getItem(RoutePaths.token);
 
-export const productApiSlice = createApi({
+export const notificationsApiSlice = createApi({
   reducerPath: "api/notifications",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
@@ -82,4 +82,4 @@ export const {
   useUpdateNotificationMutation,
   useCreateNotificationMutation,
   useDeleteNotificationMutation,
-} = productApiSlice;
+} = notificationsApiSlice;

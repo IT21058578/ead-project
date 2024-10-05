@@ -4,6 +4,7 @@ import RoutePaths from "../../config";
 import logo from "../../assets/img/logo.png";
 import Lang from "../Lang";
 import { SocialsNetworks } from "../SocialsNetworks";
+import NotificationsList from "../NotificationsList";
 
 const AdminHeader = () => {
   return (
@@ -36,13 +37,14 @@ const AdminHeader = () => {
         <div className="navigation font-regular d-flex flex-wrap justify-content-between py-4">
           <div className="d-flex gap-2 align-self-center">
             <div>
-              <a
+              {/* <a
                 href="#"
                 className="position-relative border-3 shadow border-light py-2 px-3 text-dark fd-hover-bg-primary"
               >
-                <i className="bi bi-bell"></i>
-                <span className="position-absolute top-0">2</span>
-              </a>
+
+                <NotificationsList />
+              </a> */}
+              <NotificationsList />
             </div>
             {/* <div>
             <Link

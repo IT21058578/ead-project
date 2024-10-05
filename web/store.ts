@@ -9,6 +9,7 @@ import { userSlice } from "./src/store/userSlice";
 import { commandApiSlice } from "./src/store/apiquery/CommandApiSlice";
 import { reviewApiSlice } from "./src/store/apiquery/ReviewApiSlice";
 import { orderApiSlice } from "./src/store/apiquery/OrderApiSlice";
+import { notificationsApiSlice } from "./src/store/apiquery/notificationsApiSlice";
 
 export const store = configureStore({
     reducer : {
@@ -20,6 +21,7 @@ export const store = configureStore({
         [commandApiSlice.reducerPath] : commandApiSlice.reducer,
         [reviewApiSlice.reducerPath] : reviewApiSlice.reducer,
         [orderApiSlice.reducerPath] : orderApiSlice.reducer,
+        [notificationsApiSlice.reducerPath] : notificationsApiSlice.reducer,
         products : productSlice.reducer,
         productWishlist : productWhishListSlice.reducer,
         productCart : productCartSlice.reducer,
@@ -36,6 +38,7 @@ export const store = configureStore({
             commandApiSlice.middleware,
             reviewApiSlice.middleware,
             orderApiSlice.middleware,
+            notificationsApiSlice.middleware
         ),
 })
 
