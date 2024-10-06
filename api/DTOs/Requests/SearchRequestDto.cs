@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text.Json;
 using System.Threading.Tasks;
 using api.Annotations.Validation;
 using api.Exceptions;
 using api.Models;
 using api.Utilities;
 using Microsoft.AspNetCore.Http.HttpResults;
+using MongoDB.Bson;
 
 namespace api.DTOs.Requests
 {
@@ -46,16 +48,47 @@ namespace api.DTOs.Requests
                     var property = typeof(T).GetProperty(filterKey) ?? throw new BadRequestException($"Invalid filter key: {filterKey}");
                     var parameter = Expression.Parameter(typeof(T), "x");
                     var propertyAccess = Expression.Property(parameter, property);
-                    var constant = Expression.Constant(filter.Value);
+
+                    // Cant compare JsonElement so have to convert it
+                    // Extract filter value from JsonElement if it's of that type
+                    var filterValue = filter.Value;
+                    if (filter.Value is JsonElement jsonElement)
+                    {
+                        filterValue = jsonElement.ValueKind switch
+                        {
+                            JsonValueKind.String when property.PropertyType.IsEnum => Enum.Parse(property.PropertyType, filter.Value.ToString()),// Handle enum
+                            JsonValueKind.String => jsonElement.GetString(), // Handle string
+                            JsonValueKind.Number when property.PropertyType == typeof(double) => jsonElement.GetDouble(), // Handle double
+                            JsonValueKind.Number => jsonElement.GetInt32(),  // Handle int
+                            JsonValueKind.True or JsonValueKind.False => jsonElement.GetBoolean(), // Handle bool
+                            _ => throw new BadRequestException($"Unsupported JsonElement type: {jsonElement.ValueKind}")
+                        };
+                    }
+                    var constant = Expression.Constant(filterValue);
+
+                    // Handle conversion if the property is an ObjectId and the filter value is a string
+                    Expression propertyAccessExpression;
+                    if (property.PropertyType == typeof(ObjectId))
+                    {
+                        // Convert ObjectId to string for comparison
+                        var toStringMethod = typeof(ObjectId).GetMethod(nameof(ObjectId.ToString), Type.EmptyTypes);
+                        propertyAccessExpression = Expression.Call(propertyAccess, toStringMethod);
+                    }
+                    else
+                    {
+                        // We can just access it normally if no conversion is needed
+                        propertyAccessExpression = Expression.Property(parameter, property);
+                    }
+
                     Expression comparison = filter.Operator switch
                     {
-                        Criteria.Equals => Expression.Equal(propertyAccess, constant),
-                        Criteria.NotEquals => Expression.NotEqual(propertyAccess, constant),
+                        Criteria.Equals => Expression.Equal(propertyAccessExpression, constant),
+                        Criteria.NotEquals => Expression.NotEqual(propertyAccessExpression, constant),
                         Criteria.Contains => Expression.Call(
                             typeof(Enumerable),
                             "Contains",
                             [property.PropertyType.GetGenericArguments()[0]], // Specify the type inside the collection
-                            propertyAccess,
+                            propertyAccessExpression,
                             constant),
                         _ => throw new BadRequestException($"Unsupported filter operator: {filter.Operator}")
                     };

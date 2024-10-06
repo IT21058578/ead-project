@@ -9,23 +9,23 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = api
 build_property.RootNamespace = api
-build_property.ProjectDir = d:\ead-project\api\
+build_property.ProjectDir = C:\Users\USER\Documents\Repositories\ead-project\api\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = d:\ead-project\api
+build_property.MSBuildProjectDirectory = C:\Users\USER\Documents\Repositories\ead-project\api
 build_property._RazorSourceGeneratorDebug = 
 
-[d:/ead-project/api/Assets/Templates/PasswordChanged.cshtml]
+[C:/Users/USER/Documents/Repositories/ead-project/api/Assets/Templates/PasswordChanged.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXNzZXRzXFRlbXBsYXRlc1xQYXNzd29yZENoYW5nZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/ead-project/api/Assets/Templates/Registration.cshtml]
+[C:/Users/USER/Documents/Repositories/ead-project/api/Assets/Templates/Registration.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXNzZXRzXFRlbXBsYXRlc1xSZWdpc3RyYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[d:/ead-project/api/Assets/Templates/ResetPassword.cshtml]
+[C:/Users/USER/Documents/Repositories/ead-project/api/Assets/Templates/ResetPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXNzZXRzXFRlbXBsYXRlc1xSZXNldFBhc3N3b3JkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

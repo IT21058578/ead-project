@@ -22,7 +22,6 @@ namespace api.DTOs.Requests
         [Required]
         [MinLength(1)]
         public List<OrderItemDto> Products { get; set; } = [];
-        [MinLength(300)]
         public string DeliveryNote { get; set; } = "";
         [Required]
         [MinLength(300)]
