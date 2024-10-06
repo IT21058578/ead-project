@@ -137,6 +137,11 @@ namespace api.Services
             _logger.LogInformation("User with email {Email} has been logged in", loginRequestDto.Email);
             return new()
             {
+                Id = user.Id.ToString(),
+                CreatedBy = user.CreatedBy.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedBy = user.UpdatedBy.ToString(),
+                UpdatedAt = user.UpdatedAt,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -168,6 +173,11 @@ namespace api.Services
             _logger.LogInformation("User with email {Email} has been refreshed", email);
             return new()
             {
+                Id = user.Id.ToString(),
+                CreatedBy = user.CreatedBy.ToString(),
+                CreatedAt = user.CreatedAt,
+                UpdatedBy = user.UpdatedBy.ToString(),
+                UpdatedAt = user.UpdatedAt,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
