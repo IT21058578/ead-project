@@ -1,5 +1,5 @@
 export interface Review {
-    _id: string;
+    id: string;
     vendorId: string;
     productId: string;
     userId: string;
@@ -8,7 +8,7 @@ export interface Review {
 }
 
 export interface Product {
-  _id: string;
+  id: string;
   vendorId: string;
   name: string;
   description: string;
@@ -22,7 +22,7 @@ export interface Product {
 }
 
 export interface Order {
-    _id: string;
+    id: string;
     userId: string;
     vendorId: string;
     products: {
@@ -40,7 +40,7 @@ export interface Order {
 }
 
 export interface Notification {
-  _id: string;
+  id: string;
   recipient: UserRole[];
   type: string;
   userId: string;
@@ -52,7 +52,7 @@ export interface Notification {
 }
 
 export interface UserType {
-  _id: string;
+  id: string;
   firstName?: string;
   lastName?: string;
   email?: string;

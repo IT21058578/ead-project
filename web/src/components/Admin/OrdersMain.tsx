@@ -14,7 +14,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
 	const [updateData, setUpdateData] = useState(Orders);
 	const [updateOrders, udpateResult] = useUpdateOrderStatusMutation();
 
-  const orderID = Orders._id;
+  const orderID = Orders.id;
   console.log("After:", orderID);
 
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
 
 	return (
 		<form action="" method="patch" className="checkout-service p-3" onSubmit={handleSubmit}>
-			<input type="hidden" name="id" value={updateData._id} />
+			<input type="hidden" name="id" value={updateData.id} />
       <div>
           <label className='w-100'>
             <span>Order Status</span>
@@ -122,10 +122,12 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
         const totalPrice = Object.values(Orders.products).reduce((acc, product) => {
           return acc + product.price * product.quantity;
         }, 0);
+        const orderID = Orders.id;
+        console.log("After:", orderID);
 
         return (
-          <tr className="p-3" key={Orders._id}>
-            <td scope="row w-25">{++count}</td>
+          <tr className="p-3" key={Orders.id}>
+            <td scope="row w-25">{Orders.id}</td>
             <td className='fw-bold'>
                         <ul>
                             {Object.entries(Orders?.products).map(([productId, item]) => (
@@ -143,7 +145,7 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
             </td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
               <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseOrders(Orders)} title='Edit'><i className="bi bi-pen"></i></a>
-              <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Orders._id)}><i className="bi bi-trash"></i></a>
+              <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Orders.id)}><i className="bi bi-trash"></i></a>
             </td>
           </tr>
         )
@@ -167,7 +169,7 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
       <table className="table table-default text-center table-bordered">
         <thead>
           <tr className='fd-bg-primary text-white'>
-            <th scope="col" className='p-3'>No.</th>
+            <th scope="col" className='p-3'>Order No.</th>
             <th scope="col" className='p-3'>ITEMS</th>
             <th scope="col" className='p-3'>TOTAL</th>
             <th scope="col" className='p-3'>ORDER STATUS</th>

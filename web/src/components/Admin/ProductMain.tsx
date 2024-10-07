@@ -21,7 +21,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
   const [updateData, setUpdateData] = useState(product);
   const [updateProduct, udpateResult] = useUpdateProductMutation();
   const imageTag = useRef<HTMLImageElement>(null);
-  const productId = product?._id;
+  const productId = product?.id;
 
   const [formData, setFormData] = useState({
     vendorId: updateData.vendorId,
@@ -86,7 +86,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
       className="checkout-service p-3"
       onSubmit={handleSubmit}
     >
-      <input type="hidden" name="id" value={updateData._id} />
+      <input type="hidden" name="id" value={updateData.id} />
       <div
         className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary"
         style={{ height: "250px" }}
@@ -569,7 +569,7 @@ const ListOfProducts = ({
           // ? sortProducts.map((product: Product) => {
 
           return (
-            <tr className="p-3" key={product._id}>
+            <tr className="p-3" key={product.id}>
               <td scope="row w-25">
                 <img
                   src={product.imageUrl}
@@ -611,7 +611,7 @@ const ListOfProducts = ({
                   title="Delete"
                   onClick={(e) => {
                     e.preventDefault();
-                    // deleteItem(product._id);
+                    // deleteItem(product.id);
                     deleteItem((product as any)['id']);
                   }}
                 >

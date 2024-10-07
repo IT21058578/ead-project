@@ -50,9 +50,9 @@ const NotificationsList = () => {
           <h5>Notifications</h5>
           <ul className="list-group">
             {notifications?.data && notifications?.data.map((notification: Notification) => (
-              <li key={notification._id} className="d-flex justify-content-between align-items-center p-2">
+              <li key={notification.id} className="d-flex justify-content-between align-items-center p-2">
                 <span>{notification.reason}</span>
-                <button className="btn" onClick={() => deleteItem(notification._id)}>
+                <button className="btn" onClick={() => deleteItem(notification.id)}>
                   <i className="bi bi-x-circle text-danger"></i>
                 </button>
               </li>
