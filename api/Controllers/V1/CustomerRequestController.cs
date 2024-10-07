@@ -13,6 +13,8 @@ namespace api.Controllers.V1
     public class CustomerRequestController(NotificationService notificationService) : ControllerBase
     {
         private readonly NotificationService _notificationService = notificationService;
+
+        // This is an endpoint exposed for creating an order cancellation request
         [HttpPost("order-cancellation")]
         public void CancelOrder([FromBody] CreateOrderCancellationRequestDto request)
         {

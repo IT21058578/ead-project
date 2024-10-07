@@ -12,6 +12,7 @@ namespace api.Transformers
 {
     public static class OrderTransformer
     {
+        // This is a method for transforming a CreateOrderRequestDto to an Order model
         public static Order ToModel(this CreateOrderRequestDto request)
         {
             return new Order
@@ -37,6 +38,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an UpdateOrderRequestDto to an Order model
         public static Order ToModel(this UpdateOrderRequestDto request)
         {
             return new Order
@@ -62,6 +64,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an Order model to an OrderDto
         public static OrderDto ToDto(this Order model)
         {
             return new OrderDto

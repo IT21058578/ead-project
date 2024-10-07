@@ -22,6 +22,7 @@ namespace api.Annotations.Validation
             this.enumType = enumType;
         }
 
+        //  This method is called by the IsValid method to check if the value is valid.
         public override bool IsValid(object? value)
         {
             if (!IsValidEnumValue(value))
@@ -32,6 +33,7 @@ namespace api.Annotations.Validation
             return true;
         }
 
+        //  This method checks if the value is a valid enum value.
         public bool IsValidEnumValue(object? value)
         {
             if (value == null)

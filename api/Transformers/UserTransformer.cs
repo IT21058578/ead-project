@@ -9,6 +9,7 @@ namespace api.Transformers
 {
     public static class UserTransformer
     {
+        // This is a method for transforming a CreateUserRequestDto to a User model
         public static User ToModel(this DTOs.Requests.CreateUserRequestDto request)
         {
             return new User
@@ -19,6 +20,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming a User model to a UserDto
         public static UserDto ToDto(this User model)
         {
             return new UserDto
@@ -38,6 +40,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an UpdateUserRequestDto to a User model
         public static User ToModel(this DTOs.Requests.UpdateUserRequestDto request, User model)
         {
             return new User

@@ -21,6 +21,7 @@ namespace api.Controllers.V1
         private readonly ILogger<ReviewController> _logger = logger;
         private readonly ReviewService _reviewService = reviewService;
 
+        // This is an endpoint exposed for getting a review
         [HttpGet("{id}")]
         public IActionResult GetReview([FromRoute] string id)
         {
@@ -28,6 +29,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for searching reviews
         [HttpPost("search")]
         public IActionResult SearchReviews([FromBody] SearchRequestDto<Review> request)
         {
@@ -40,6 +42,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for deleting a review
         [HttpDelete("{id}")]
         public IActionResult DeleteReview([FromRoute] string id)
         {
@@ -47,6 +50,7 @@ namespace api.Controllers.V1
             return NoContent();
         }
 
+        // This is an endpoint exposed for updating a review
         [HttpPut("{id}")]
         public IActionResult UpdateReview([FromRoute] string id, [FromBody] UpdateReviewRequestDto request)
         {
@@ -54,6 +58,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for creating a review
         [HttpPost]
         public IActionResult CreateReview([FromBody] CreateReviewRequestDto request)
         {

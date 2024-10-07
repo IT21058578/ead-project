@@ -11,6 +11,7 @@ namespace api.Configuratons
 {
     public class ValidEnumValueFilter : ISchemaFilter
     {
+        //  This method is called by the Apply method to apply the filter to the schema.
         public void Apply(OpenApiSchema schema, SchemaFilterContext context)
         {
             var attr = context.MemberInfo?.CustomAttributes

@@ -18,6 +18,8 @@ namespace api.Services
         private readonly IOptions<JwtSettings> _config = config;
         private readonly SymmetricSecurityKey _accessKey = new(Encoding.UTF8.GetBytes(config.Value.AccessSecret));
         private readonly SymmetricSecurityKey _refreshKey = new(Encoding.UTF8.GetBytes(config.Value.RefreshSecret));
+        
+        // This method is used to create an access token
         public string CreateAccessToken(User user)
         {
             _logger.LogInformation("Creating access token for {Email}", user.Email);
@@ -42,6 +44,7 @@ namespace api.Services
             return result;
         }
 
+        // This method is used to create a refresh token
         public string CreateRefreshToken(User user)
         {
             _logger.LogInformation("Creating refresh token for {Email}", user.Email);
@@ -66,6 +69,7 @@ namespace api.Services
             return result;
         }
 
+        // This method is used to validate an access token
         private ClaimsPrincipal? ValidateAccessToken(string token)
         {
             _logger.LogInformation("Validating access token {Token}", token.Take(10));
@@ -81,6 +85,7 @@ namespace api.Services
             return tokenHandler.ValidateToken(token, validation, out _);
         }
 
+        // This method is used to validate a refresh token
         public ClaimsPrincipal? ValidateRefreshToken(string token)
         {
             _logger.LogInformation("Validating refresh token {Token}", token.Take(10));
@@ -96,6 +101,7 @@ namespace api.Services
             return tokenHandler.ValidateToken(token, validation, out _);
         }
 
+        // This method is used to get the email from a token
         public string? GetEmailFromToken(ClaimsPrincipal principal)
         {
             _logger.LogInformation("Getting email from principal");

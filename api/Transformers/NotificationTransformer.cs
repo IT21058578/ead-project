@@ -12,6 +12,7 @@ namespace api.Transformers
 {
     public static class NotificationTransformer
     {
+        // This is a method for transforming a CreateOrderCancellationRequestDto to a Notification model
         public static Notification ToModel(this CreateOrderCancellationRequestDto request)
         {
             return new Notification
@@ -24,6 +25,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming a Notification model to a NotificationDto
         public static NotificationDto ToDto(this Notification model)
         {
             return new NotificationDto
@@ -44,6 +46,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming a UpdateNotificationRequestDto to a Notification model
         public static Notification ToModel(this UpdateNotificationRequestDto request, Notification model)
         {
             return new Notification

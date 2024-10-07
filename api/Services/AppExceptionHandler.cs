@@ -15,6 +15,7 @@ namespace api.Services
             WriteIndented = true
         };
 
+        // This method is used to handle exceptions
         public async ValueTask<bool> TryHandleAsync(
             HttpContext httpContext,
             Exception exception,

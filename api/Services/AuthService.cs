@@ -35,6 +35,7 @@ namespace api.Services
         private readonly TokenService _tokenService = tokenService;
         private readonly JwtTokenService _jwtTokenService = jwtTokenService;
 
+        // This method is used to register a user
         public async Task Register(CreateUserRequestDto createUserRequestDto)
         {
             _logger.LogInformation("Registering user with email {Email}", createUserRequestDto.Email);
@@ -75,6 +76,7 @@ namespace api.Services
             _logger.LogInformation("User with email {Email} has been registered", createUserRequestDto.Email);
         }
 
+        // This method is used to resend the registration email
         public async Task ResendRegisterEmail(string email)
         {
             _logger.LogInformation("Resending register email to {Email}", email);
@@ -96,6 +98,7 @@ namespace api.Services
             _logger.LogInformation("Register email has been resent to {Email}", email);
         }
 
+        // This method is used to verify the registration
         public async Task VerifyRegistration(string code, string email)
         {
             _logger.LogInformation("Verifying registration with code {Code} and email {Email}", code, email);
@@ -106,6 +109,7 @@ namespace api.Services
             _logger.LogInformation("Registration with code {Code} and email {Email} has been verified", code, email);
         }
 
+        // This method is used to approve the registration
         public async Task ApproveRegistration(string email)
         {
             _logger.LogInformation("Approving registration for {Email}", email);
@@ -115,6 +119,7 @@ namespace api.Services
             _logger.LogInformation("Registration for {Email} has been approved", email);
         }
 
+        // This method is used to login a user
         public async Task<LoginResponseDto> Login(LoginRequestDto loginRequestDto)
         {
             _logger.LogInformation("Logging in user with email {Email}", loginRequestDto.Email);
@@ -154,6 +159,7 @@ namespace api.Services
             };
         }
 
+        // This method is used to refresh the login
         public async Task<LoginResponseDto> RefreshLogin(string token)
         {
             _logger.LogInformation("Refreshing login with token {Token}...", token.Take(10));
@@ -190,6 +196,7 @@ namespace api.Services
             };
         }
 
+        // This method is used to send a forgot password email
         public async Task ForgotPassword(string email)
         {
             _logger.LogInformation("Forgot password for {Email}", email);
@@ -210,6 +217,7 @@ namespace api.Services
             _logger.LogInformation("Forgot password email has been sent to {Email}", email);
         }
 
+        // This method is used to reset the password
         public async Task ResetPassword(ResetPasswordRequestDto resetPasswordRequestDto)
         {
             _logger.LogInformation("Resetting password for {Email}", resetPasswordRequestDto.Email);
@@ -231,6 +239,7 @@ namespace api.Services
             _logger.LogInformation("Password for {Email} has been reset", resetPasswordRequestDto.Email);
         }
 
+        // This method is used to change the password
         public async Task ChangePassword(ChangePasswordRequestDto changePasswordRequestDto)
         {
             _logger.LogInformation("Changing password for {Email}", changePasswordRequestDto.Email);
@@ -255,11 +264,13 @@ namespace api.Services
             _logger.LogInformation("Password for {Email} has been changed", changePasswordRequestDto.Email);
         }
 
+        // This method is used to get a user or throw an exception
         private async Task<User> GetUserOrThrow(string email)
         {
             return await _userRepository.FindByEmailAsync(email) ?? throw new NotFoundException($"User with email {email} does not exist");
         }
 
+        // This method is used to get a credential or throw an exception
         private async Task<Credential> GetCredentialOrThrow(ObjectId userId)
         {
             return await _credentialRepository.FindByUserIdAsync(userId) ?? throw new NotFoundException($"Credential for user with id {userId} does not exist");

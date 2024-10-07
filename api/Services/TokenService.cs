@@ -14,6 +14,7 @@ namespace api.Services
         private readonly ILogger<TokenService> _logger = logger;
         private readonly TokenRepository _tokenRepository = tokenRepository;
 
+        // This is a method for creating a token
         public Token CreateToken(TokenPurpose purpose, string email)
         {
             _logger.LogInformation("Creating token with purpose {Purpose} and email {Email}", purpose, email);
@@ -28,6 +29,7 @@ namespace api.Services
             return result;
         }
 
+        // This is a method for claiming a token
         public Token ClaimToken(string code, string email)
         {
             _logger.LogInformation("Claiming token with code {Code} and email {Email}", code, email);
@@ -43,6 +45,7 @@ namespace api.Services
             return result;
         }
 
+        // This is a method for claiming all tokens
         public void ClaimAllToken(TokenPurpose purpose, string email)
         {
             _logger.LogInformation("Claiming all tokens with purpose {Purpose} and email {Email}", purpose, email);
@@ -55,6 +58,7 @@ namespace api.Services
             _logger.LogInformation("All tokens with purpose {Purpose} and email {Email} have been claimed", purpose, email);
         }
 
+        // This is a method for validating a token
         public bool IsTokenValid(Token token)
         {
             _logger.LogInformation("Checking if token with {Id} is valid", token.Id);

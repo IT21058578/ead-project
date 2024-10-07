@@ -21,6 +21,7 @@ namespace api.Controllers.V1
         private readonly ILogger<OrderController> _logger = logger;
         private readonly OrderService _orderService = orderService;
 
+        // This is an endpoint exposed for getting an order
         [HttpGet("{id}")]
         public IActionResult GetOrder([FromRoute] string id)
         {
@@ -28,6 +29,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for searching orders
         [HttpPost("search")]
         public IActionResult SearchOrders([FromBody] SearchRequestDto<Order> request)
         {
@@ -40,6 +42,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for deleting an order
         [HttpDelete("{id}")]
         public IActionResult DeleteOrder([FromRoute] string id)
         {
@@ -47,6 +50,7 @@ namespace api.Controllers.V1
             return NoContent();
         }
 
+        // This is an endpoint exposed for updating an order
         [HttpPut("{id}")]
         public IActionResult UpdateOrder([FromRoute] string id, [FromBody] UpdateOrderRequestDto request)
         {
@@ -54,6 +58,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for creating an order
         [HttpPost]
         public IActionResult CreateOrder([FromBody] CreateOrderRequestDto request)
         {

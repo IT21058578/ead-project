@@ -16,43 +16,50 @@ namespace api.Repositories
         private readonly AppDbContext _dbContext = dbContext;
         protected readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
+        // A repository method for finding an entity by its id asynchronously
         public async Task<T?> GetByIdAsync(ObjectId id)
         {
             return await _dbSet.FindAsync(id); // Assuming Id is a string in IMongoModel
         }
 
+        // A repository method for finding an entity by its id asynchronously
         public async Task<T?> GetByIdAsync(string id)
         {
             return await this.GetByIdAsync(new ObjectId(id));
         }
 
-
+        // A repository method for finding entities by its id
         public T? GetById(ObjectId id)
         {
             return _dbSet.Find(id); // Assuming Id is a string in IMongoModel
         }
 
+        // A repository method for finding entities by its id
         public T? GetById(string id)
         {
             return this.GetById(new ObjectId(id)); // Assuming Id is a string in IMongoModel
         }
 
+        // A repository method for finding entities by their ids
         public IEnumerable<T> GetByIds(IEnumerable<ObjectId> ids)
         {
             return _dbSet.Where(e => ids.Contains(e.Id)).ToList();
         }
 
+        // A repository method for finding entities by their ids
         public IEnumerable<T> GetByIds(IEnumerable<string> ids)
         {
             var objectIds = ids.Select(id => new ObjectId(id));
             return _dbSet.Where(e => objectIds.Contains(e.Id)).ToList();
         }
 
+        // A repository method for finding all entities
         public IEnumerable<T> GetAll()
         {
             return _dbSet.AsNoTracking().ToList(); // AsNoTracking for better performance on read-only queries
         }
 
+        // A repository method for adding an entity to the collection
         public T Add(T entity)
         {
             if (entity.Id != ObjectId.Empty)
@@ -70,6 +77,7 @@ namespace api.Repositories
             return entity;
         }
 
+        // A repository method for adding an entity to the collection asynchronously
         public async Task<T> AddAsync(T entity)
         {
             if (entity.Id != ObjectId.Empty)
@@ -87,6 +95,7 @@ namespace api.Repositories
             return entity;
         }
 
+        // A repository method for adding multiple entities to the collection
         public IEnumerable<T> AddMany(IEnumerable<T> entities)
         {
             entities.ToList().ForEach(e =>
@@ -106,6 +115,7 @@ namespace api.Repositories
             return entities;
         }
 
+        // A repository method for adding multiple entities to the collection asynchronously
         public Task<IEnumerable<T>> AddManyAsync(IEnumerable<T> entities)
         {
             entities.ToList().ForEach(e =>
@@ -125,6 +135,7 @@ namespace api.Repositories
             return Task.FromResult(entities);
         }
 
+        // A repository method for updating an entity in the collection
         public T Update(T entity)
         {
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
@@ -144,6 +155,7 @@ namespace api.Repositories
             }
         }
 
+        // A repository method for updating an entity in the collection asynchronously
         public Task<T> UpdateAsync(T entity)
         {
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
@@ -163,6 +175,7 @@ namespace api.Repositories
             }
         }
 
+        // A repository method for updating multiple entities in the collection
         public IEnumerable<T> UpdateMany(IEnumerable<T> entities)
         {
             entities.ToList().ForEach(e =>
@@ -182,6 +195,7 @@ namespace api.Repositories
             return entities;
         }
 
+        // A repository method for updating multiple entities in the collection asynchronously
         public Task<IEnumerable<T>> UpdateManyAsync(IEnumerable<T> entities)
         {
             entities.ToList().ForEach(e =>
@@ -201,6 +215,7 @@ namespace api.Repositories
             return Task.FromResult(entities);
         }
 
+        // A repository method for deleting an entity from the collection
         public T Delete(ObjectId id)
         {
             var entityToDelete = _dbSet.FirstOrDefault(e => e.Id == id);
@@ -218,11 +233,13 @@ namespace api.Repositories
             }
         }
 
+        // A repository method for deleting an entity from the collection
         public T Delete(string id)
         {
             return this.Delete(new ObjectId(id));
         }
 
+        // A repository method for deleting multiple entities from the collection
         public IEnumerable<T> DeleteMany(IEnumerable<T> entities)
         {
             _dbSet.RemoveRange(entities);
@@ -232,6 +249,7 @@ namespace api.Repositories
             return entities;
         }
 
+        // A repository method for conducting pagination on the collection
         public Page<T> GetPage(PageRequest<T> pageRequest)
         {
             // Start with the DbSet<T> as the base query

@@ -18,6 +18,7 @@ namespace api.Controllers.V1
     {
         private readonly NotificationService _notificationService = notificationService;
 
+        // This is an endpoint exposed for deleting a notification
         [HttpDelete("{id}")]
         public IActionResult DeleteNotification([FromRoute] string id)
         {
@@ -25,6 +26,7 @@ namespace api.Controllers.V1
             return NoContent();
         }
 
+        // This is an endpoint exposed for creating a notification
         [HttpGet("{id}")]
         public IActionResult GetNotification([FromRoute] string id)
         {
@@ -32,6 +34,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for searching notifications
         [HttpPost("search")]
         public IActionResult SearchNotifications([FromBody] SearchRequestDto<Notification> request)
         {
@@ -44,6 +47,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for updating a notification
         [HttpPut("{id}")]
         public IActionResult UpdateNotification([FromRoute] string id, [FromBody] UpdateNotificationRequestDto request)
         {

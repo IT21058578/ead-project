@@ -13,6 +13,7 @@ namespace api.Services
         private readonly ILogger<EmailService> _logger = logger;
         private readonly IFluentEmailFactory _emailFactory = emailFactory;
 
+        // This method sends an email
         public async Task SendEmail<T>(EmailRequest<T> emailRequest) where T : ITemplateData
         {
             _logger.LogInformation("Sending email to {To} with subject {Subject}", emailRequest.To, emailRequest.Subject);
@@ -31,6 +32,7 @@ namespace api.Services
             _logger.LogInformation("Email to {To} with subject {Subject} has been sent", emailRequest.To, emailRequest.Subject);
         }
 
+        // This method sends multiple emails
         public async Task SendEmails(List<EmailRequest<ITemplateData>> emailRequests)
         {
             _logger.LogInformation("Sending {Count} emails", emailRequests.Count);

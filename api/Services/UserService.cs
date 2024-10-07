@@ -15,6 +15,7 @@ namespace api.Services
         private readonly ILogger<UserService> _logger = logger;
         private readonly UserRepository _userRepository = userRepository;
 
+        // This is a method for getting a user
         public User GetUser(string id)
         {
             _logger.LogInformation("Getting user {id}", id);
@@ -23,6 +24,7 @@ namespace api.Services
             return user;
         }
 
+        // This is a method for updating a user
         public User UpdateUser(string id, UpdateUserRequestDto request)
         {
             _logger.LogInformation("Updating user {id}", id);
@@ -34,6 +36,7 @@ namespace api.Services
             return user;
         }
 
+        // This is a method for searching for users
         public Page<User> SearchUsers(PageRequest<User> request)
         {
             _logger.LogInformation("Searching users with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -42,6 +45,7 @@ namespace api.Services
             return users;
         }
 
+        // This is a method for validating a user
         public bool IsUserValid(string id)
         {
             _logger.LogInformation("Checking whether user {id} is valid", id);
@@ -49,6 +53,7 @@ namespace api.Services
             return user != null;
         }
 
+        // This is a method for updating a user's rating
         public async Task<User> UpdateRating(string id, double rating)
         {
             _logger.LogInformation("Updating user rating for user {id}", id);

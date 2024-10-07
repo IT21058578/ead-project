@@ -16,6 +16,7 @@ namespace api.Utilities
 
     public static class AppUserRoleHelper
     {
+        // This is a method for converting a string to an AppUserRole
         public static AppUserRole ToValue(string role)
         {
             return role.ToLower() switch

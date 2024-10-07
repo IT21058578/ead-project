@@ -21,6 +21,7 @@ namespace api.Controllers.V1
         private readonly ILogger<ProductController> _logger = logger;
         private readonly ProductService _productService = productService;
 
+        // This is an endpoint exposed for getting a product
         [HttpGet("{id}")]
         public IActionResult GetProduct([FromRoute] string id)
         {
@@ -28,6 +29,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for searching products
         [HttpPost("search")]
         public IActionResult SearchProducts([FromBody] SearchRequestDto<Product> request)
         {
@@ -40,6 +42,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for deleting a product
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] string id)
         {
@@ -47,6 +50,7 @@ namespace api.Controllers.V1
             return NoContent();
         }
 
+        // This is an endpoint exposed for updating a product
         [HttpPut("{id}")]
         public IActionResult UpdateProduct([FromRoute] string id, [FromBody] UpdateProductRequestDto request)
         {
@@ -54,6 +58,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for creating a product
         [HttpPost]
         public IActionResult CreateProduct([FromBody] CreateProductRequestDto request)
         {

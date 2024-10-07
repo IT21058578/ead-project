@@ -18,6 +18,7 @@ namespace api.Configurations
         public DbSet<Notification> Notifications { get; init; }
         public DbSet<Token> Tokens { get; init; }
 
+        //  This method is called by the runtime. Use this method to configure the database (and other options) to be used for this context.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

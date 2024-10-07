@@ -11,6 +11,7 @@ namespace api.Transformers
 {
     public static class ProductTransformer
     {
+        // This is a method for transforming a CreateProductRequestDto to a Product model
         public static Product ToModel(this CreateProductRequestDto request)
         {
             return new Product
@@ -26,6 +27,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming a Product model to a ProductDto
         public static ProductDto ToDto(this Product model)
         {
             return new ProductDto
@@ -48,6 +50,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an UpdateProductRequestDto to a Product model
         public static Product ToModel(this UpdateProductRequestDto request, Product model)
         {
             return new Product

@@ -11,6 +11,7 @@ namespace api.Transformers
 {
 	public static class ReviewTransformer
 	{
+		// This is a method for transforming a CreateReviewRequestDto to a Review model
 		public static Review ToModel(this CreateReviewRequestDto request)
 		{
 			return new Review
@@ -23,6 +24,7 @@ namespace api.Transformers
 			};
 		}
 
+		// This is a method for transforming a Review model to a ReviewDto
 		public static ReviewDto ToDto(this Review model)
 		{
 			return new ReviewDto
@@ -40,6 +42,7 @@ namespace api.Transformers
 			};
 		}
 
+		// This is a method for transforming an UpdateReviewRequestDto to a Review model
 		public static Review ToModel(this UpdateReviewRequestDto request, Review model)
 		{
 			return new Review

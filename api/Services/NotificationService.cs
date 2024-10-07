@@ -16,6 +16,7 @@ namespace api.Services
 		private readonly ILogger<NotificationService> _logger = logger;
 		private readonly NotificationRepository _notificationRepository = notificationRepository;
 
+		// This is a method for creating a notification
 		public Notification CreateNotification(Notification notification)
 		{
 			_logger.LogInformation("Creating notification");
@@ -24,6 +25,7 @@ namespace api.Services
 			return savedNotification;
 		}
 
+		// This is a method for updating a notification
 		public Notification CreateNotification(CreateOrderCancellationRequestDto request)
 		{
 			_logger.LogInformation("Creating notification for order cancellation request");
@@ -33,6 +35,7 @@ namespace api.Services
 			return savedNotification;
 		}
 
+		// This is a method for updating a notification
 		public Notification UpdateNotification(string id, UpdateNotificationRequestDto request)
 		{
 			_logger.LogInformation("Updating notification {id}", id);
@@ -43,6 +46,7 @@ namespace api.Services
 			return updatedNotification;
 		}
 
+		// This is a method for deleting a notification
 		public void DeleteNotification(string id)
 		{
 			_logger.LogInformation("Deleting notification {id}", id);
@@ -50,6 +54,7 @@ namespace api.Services
 			_logger.LogInformation("Notification deleted");
 		}
 
+		// This is a method for getting a notification
 		public Notification GetNotification(string id)
 		{
 			_logger.LogInformation("Getting notification {id}", id);
@@ -58,6 +63,7 @@ namespace api.Services
 			return notification;
 		}
 
+		// This is a method for searching notifications
 		public Page<Notification> SearchNotifications(PageRequest<Notification> request)
 		{
 			_logger.LogInformation("Searching notifications with page {page} and page size {pageSize}", request.Page, request.PageSize);

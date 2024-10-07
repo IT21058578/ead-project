@@ -21,6 +21,7 @@ namespace api.Controllers.V1
         private readonly ILogger<UserController> _logger = logger;
         private readonly UserService _userService = userService;
 
+        // This is an endpoint exposed for getting a user
         [HttpGet("{id}")]
         public IActionResult GetUser([FromRoute] string id)
         {
@@ -28,6 +29,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for deleting a user
         [HttpPost("search")]
         public IActionResult SearchUsers([FromBody] SearchRequestDto<User> request)
         {
@@ -40,6 +42,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for deleting a user
         [HttpPut("{id}")]
         public IActionResult UpdateUser([FromRoute] string id, [FromBody] UpdateUserRequestDto request)
         {

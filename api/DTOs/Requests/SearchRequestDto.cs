@@ -35,6 +35,7 @@ namespace api.DTOs.Requests
             public object Value { get; set; } = "";
         }
 
+        // This is a method to convert the SearchRequestDto to a PageRequest
         public PageRequest<T> ToPageRequest()
         {
             // Create an empty filter expression (allow everything)
