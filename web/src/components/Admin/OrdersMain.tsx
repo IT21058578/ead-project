@@ -55,7 +55,13 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
       <div>
           <label className='w-100'>
             <span>Order Status</span>
-            <input type="text" name="status" value={formData.status} className="form-control w-100 rounded-0 p-2" placeholder='Orders Status' onChange={handleUpdateValue}/>
+            <select name="status" value={formData.status} className="form-control w-100 rounded-0 p-2" onChange={handleUpdateValue}>
+              <option value="Pending">Pending</option>
+              <option value="PartiallyDelivered">Partially Delivered</option>
+              <option value="Delivered">Delivered</option>
+              <option value="Completed">Completed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
           </label>
         </div>
         <div className="mt-4">
