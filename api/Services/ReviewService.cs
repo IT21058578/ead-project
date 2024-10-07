@@ -96,15 +96,15 @@ namespace api.Services
 
 		public void ValidateReviewAndThrowIfInvalid(Review review)
 		{
-			if (_userService.IsUserValid(review.UserId.ToString()))
+			if (!_userService.IsUserValid(review.UserId.ToString()))
 			{
 				throw new NotFoundException($"User with id {review.UserId} not found");
 			};
-			if (_userService.IsUserValid(review.VendorId.ToString()))
+			if (!_userService.IsUserValid(review.VendorId.ToString()))
 			{
 				throw new NotFoundException($"Vendor with id {review.VendorId} not found");
 			};
-			if (_productService.IsProductValid(review.ProductId.ToString()))
+			if (!_productService.IsProductValid(review.ProductId.ToString()))
 			{
 				throw new NotFoundException($"Product with id {review.ProductId} not found");
 			};

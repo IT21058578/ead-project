@@ -144,7 +144,7 @@ namespace api.Services
             {
                 throw new BadRequestException($"Invalid low stock threshold");
             }
-            if (_userService.IsUserValid(product.VendorId.ToString()))
+            if (!_userService.IsUserValid(product.VendorId.ToString()))
             {
                 throw new BadRequestException($"User with id ${product.VendorId} not found");
             }

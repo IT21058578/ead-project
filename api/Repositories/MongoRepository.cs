@@ -11,14 +11,14 @@ using MongoDB.Driver;
 
 namespace api.Repositories
 {
-    public class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : BaseModel
+    public abstract class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : BaseModel
     {
         private readonly AppDbContext _dbContext = dbContext;
         protected readonly DbSet<T> _dbSet = dbContext.Set<T>();
 
-        public Task<T?> GetByIdAsync(ObjectId id)
+        public async Task<T?> GetByIdAsync(ObjectId id)
         {
-            return _dbSet.FirstOrDefaultAsync(e => e.Id == id); // Assuming Id is a string in IMongoModel
+            return await _dbSet.FindAsync(id); // Assuming Id is a string in IMongoModel
         }
 
         public async Task<T?> GetByIdAsync(string id)
@@ -29,7 +29,7 @@ namespace api.Repositories
 
         public T? GetById(ObjectId id)
         {
-            return _dbSet.FirstOrDefault(e => e.Id == id); // Assuming Id is a string in IMongoModel
+            return _dbSet.Find(id); // Assuming Id is a string in IMongoModel
         }
 
         public T? GetById(string id)

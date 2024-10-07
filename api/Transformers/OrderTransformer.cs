@@ -18,6 +18,7 @@ namespace api.Transformers
             {
                 UserId = new ObjectId(request.UserId),
                 DeliveryAddress = request.DeliveryAddress,
+                VendorIds = request.Products.Select(item => item.VendorId).ToList(),
                 Status = OrderStatus.Pending,
                 DeliveryDate = request.DeliveryDate,
                 DeliveryNote = request.DeliveryNote,
