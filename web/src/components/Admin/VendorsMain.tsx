@@ -1,38 +1,27 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Product } from '../../types';
-import {
-  useCreateProductMutation,
-  useDeleteProductMutation,
-  useGetAllProductsQuery,
-  useUpdateProductMutation,
-} from "../../store/apiquery/productApiSlice";
+import { UserType } from '../../types';
 import Swal from "sweetalert2";
 import Spinner from "../Spinner";
-import { useUploadImagesMutation } from "../../store/apiquery/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import { Category } from "../../views/includes/Section";
 import SearchBar from "../SearchBar";
+import { useCreateUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
 
 let imageIsChanged = false;
 
-const UpdateProduct = ({ product }: { product: Product }) => {
+const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
-  const [updateData, setUpdateData] = useState(product);
-  const [updateProduct, udpateResult] = useUpdateProductMutation();
+  const [updateData, setUpdateData] = useState(vendor);
+  const [updateVendor, udpateResult] = useUpdateUserMutation();
   const imageTag = useRef<HTMLImageElement>(null);
-  const productId = product?.id;
+  const vendorId = vendor?.id;
 
   const [formData, setFormData] = useState({
-    vendorId: updateData.vendorId,
-    name: updateData.name,
-    description: updateData.description,
-    category: updateData.category,
-    price: updateData.price,
-    isActive: updateData.isActive,
-    countInStock: updateData.countInStock,
-    lowStockThreshold: updateData.lowStockThreshold,
-    imageUrl: updateData.imageUrl,
+    vendorId: updateData.id,
+    firstName: updateData.firstName,
+    lastName: updateData.lastName,
+    email: updateData.email,
   });
 
   const handleUpdateValue = (
@@ -53,29 +42,24 @@ const UpdateProduct = ({ product }: { product: Product }) => {
     e.preventDefault();
 
     try {
-      const result = await updateProduct({ productId, formData });
+      const result = await updateVendor({ vendorId, formData });
 
       if ("data" in result && result.data) {
-        console.log("Product Updated successfully");
-        toast.success("Product Updated successfully");
+        console.log("vendor Updated successfully");
+        toast.success("vendor Updated successfully");
         setFormData({
           vendorId: "",
-          name: "",
-          description: "",
-          category: "",
-          price: 0,
-          isActive: false,
-          countInStock: 0,
-          lowStockThreshold: 0,
-          imageUrl: "",
+          firstName: "",
+          lastName: "",
+          email: "",
         });
       } else if ("error" in result && result.error) {
-        console.error("Product creation failed", result.error);
-        toast.error("Product creation failed");
+        console.error("vendor creation failed", result.error);
+        toast.error("vendor creation failed");
       }
     } catch (error) {
-      console.error("Product creation failed`", error);
-      toast.error("Product creation failed");
+      console.error("vendor creation failed`", error);
+      toast.error("vendor creation failed");
     }
   };
 
@@ -87,18 +71,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
       onSubmit={handleSubmit}
     >
       <input type="hidden" name="id" value={updateData.id} />
-      <div
-        className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary"
-        style={{ height: "250px" }}
-      >
-        <img
-          src={product.imageUrl}
-          alt={product.name}
-          className="w-100 h-100"
-          ref={imageTag}
-        />
-      </div>
-      {/* <div className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary" style={{ height: '250px' }}><img src={product.img} alt={product.name} className='w-100 h-100' ref={imageTag}/></div> */}
+      {/* <div className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary" style={{ height: '250px' }}><img src={vendor.img} alt={vendor.name} className='w-100 h-100' ref={imageTag}/></div> */}
       <div className="d-flex gap-2">
         <label className="w-25">
           <span>Vendor ID</span>
@@ -117,7 +90,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             type="text"
             name="name"
             className="form-control w-100 rounded-0 p-2"
-            value={formData.name}
+            value={formData.firstName}
             onChange={handleUpdateValue}
           />
         </label>
@@ -140,7 +113,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             type="string"
             step={0.1}
             name="category"
-            value={formData.category}
+            value={formData.lastName}
             className="form-control w-100 rounded-0 p-2"
             onChange={handleUpdateValue}
           />
@@ -151,60 +124,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             type="number"
             name="price"
             className="form-control w-100 rounded-0 p-2"
-            value={formData.price}
-            onChange={handleUpdateValue}
-          />
-        </label>
-        <label>
-          <span>In Stock Quantity</span>
-          <input
-            type="number"
-            name="countInStock"
-            value={formData.countInStock}
-            className="form-control w-100 rounded-0 p-2"
-            onChange={handleUpdateValue}
-          />
-        </label>
-        <label>
-          <span>Low Stock Threshold</span>
-          <input
-            type="text"
-            name="lowStockThreshold"
-            value={formData.lowStockThreshold}
-            className="form-control w-100 rounded-0 p-2"
-            onChange={handleUpdateValue}
-          />
-        </label>
-        <label className="form-check form-switch pt-4 pl-3">
-          <span className="form-check-label">Active</span>
-          <input
-            type="checkbox"
-            name="isActive"
-            checked={formData.isActive ? true : false }
-            className="form-check-input"
-            onChange={handleUpdateValue}
-          />
-        </label>
-      </div>
-      <div className="d-flex gap-2">
-        <label className="w-50">
-          <span>Description</span>
-          <textarea
-            name="description"
-            cols={100}
-            rows={5}
-            value={formData.description}
-            className="w-100 p-2 border"
-            onChange={handleUpdateValue}
-          ></textarea>
-        </label>
-        <label className="w-50">
-          <span>Image URL</span>
-          <input
-            type="text"
-            name="imageUrl"
-            value={formData.imageUrl}
-            className="form-control w-100 rounded-0 p-2"
+            value={formData.email}
             onChange={handleUpdateValue}
           />
         </label>
@@ -224,7 +144,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
           </button>
         ) : (
           <button className="fd-btn w-25 text-center border-0" type="submit">
-            UPDATE PRODUCT
+            UPDATE vendor
           </button>
         )}
       </div>
@@ -232,12 +152,12 @@ const UpdateProduct = ({ product }: { product: Product }) => {
   );
 };
 
-const AddOrEditProduct = ({ product }: { product: null | Product }) => {
+const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
   // const [data, setData] = useState({});
 
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
-  const [createProduct, result] = useCreateProductMutation();
+  const [createvendor, result] = useCreateUserMutation();
   // const [uploadImages] = useUploadImagesMutation(); // Destructure the mutation function
   const [image, setImage] = useState<File | null>(null);
 
@@ -266,16 +186,9 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
   // };
 
   const [file, setFile] = React.useState(null);
-  const [uploadFile, { isLoading }] = useUploadImagesMutation();
 
   const handleFileChange = (e:any) => {
     setFile(e.target.files[0]);
-  };
-
-  const handleUpload = () => {
-    if (file) {
-      uploadFile(file);
-    }
   };
 
   const [formData, setFormData] = useState({
@@ -311,11 +224,11 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
     // handleUpload(); 
 
     try {
-      const result = await createProduct({ formData });
+      const result = await createvendor({ formData });
 
       if ("data" in result && result.data) {
-        console.log("Product created successfully");
-        toast.success("Product created successfully");
+        console.log("vendor created successfully");
+        toast.success("vendor created successfully");
         setFormData({
           vendorId: "",
           name: "",
@@ -328,21 +241,21 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
           imageUrl: "",
         });
       } else if ("error" in result && result.error) {
-        console.error("Product creation failed", result.error);
-        toast.error("Product creation failed");
+        console.error("vendor creation failed", result.error);
+        toast.error("vendor creation failed");
       }
     } catch (error) {
-      console.error("Product creation failed`", error);
-      toast.error("Product creation failed");
+      console.error("vendor creation failed`", error);
+      toast.error("vendor creation failed");
     }
   };
 
-  if (!product) {
+  if (!vendor) {
     return (
       <form
         action=""
         method="post"
-        className="checkout-service p-3 .form-product"
+        className="checkout-service p-3 .form-vendor"
         onSubmit={handleSubmit}
       >
         {image && (
@@ -352,7 +265,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
           >
             <img
               src={URL.createObjectURL(image)}
-              alt="Product Image Preview"
+              alt="vendor Image Preview"
               className="w-100 h-100"
             />
           </div>
@@ -376,7 +289,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               name="name"
               value={formData.name}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Product Name"
+              placeholder="vendor Name"
               onChange={handleValue}
             />
           </label>
@@ -399,7 +312,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               name="images"
               // value={formData.images}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Product Image"
+              placeholder="vendor Image"
               onChange={handleFileChange}
               accept="image/*"
             />
@@ -414,7 +327,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               name="price"
               value={formData.price}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Product Price"
+              placeholder="vendor Price"
               onChange={handleValue}
             />
           </label>
@@ -502,32 +415,32 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
     );
   }
 
-  return <UpdateProduct product={product} />;
+  return <UpdateVendor vendor={vendor} />;
 };
 
-const ListOfProducts = ({
-  setProduct,
+const ListOfVendors = ({
+  setVendor,
   setPage,
 }: {
-  setProduct: Function;
+  setVendor: Function;
   setPage: Function;
 }) => {
   const {
     isLoading,
-    data: productsList,
+    data: vendorsList,
     isSuccess,
     isError,
-  } = useGetAllProductsQuery("api/products");
-  const [deleteProduct, deletedResult] = useDeleteProductMutation();
-  const parseProduct = (product: Product) => {
-    setProduct(product);
+  } = useGetAllUsersQuery("api/users");
+  const [deleteUser, deletedResult] = useDeleteUserMutation();
+  const parsevendor = (vendor: UserType) => {
+    setVendor(vendor);
     setPage("add");
   };
 
   const deleteItem = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
-      text: "Are you sure to delete this product ?",
+      text: "Are you sure to delete this vendor ?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -535,7 +448,7 @@ const ListOfProducts = ({
       confirmButtonText: "Yes, delete it!",
     }).then((r) => {
       if (r.isConfirmed) {
-        deleteProduct(id);
+        deleteUser(id);
       }
     });
   };
@@ -545,19 +458,13 @@ const ListOfProducts = ({
 
   let data: React.ReactNode;
 
-  // Filter products based on the search input
-    const filteredProducts = productsList?.data.filter((product: Product) =>{
-      const productname = product.name?.toLowerCase();
-      const search = searchInput.toLowerCase();
-    
-      // Convert numbers to strings before searching
-      const price = product.price?.toString();
-      const totalstock = product.countInStock?.toString();
+  // Filter vendors based on the search input
+    const filteredvendors = vendorsList?.data.filter((vendor: UserType) =>{
+      const vendorname = vendor.firstName?.toLowerCase();
+      const search = searchInput.toLowerCase();   
   
       return (
-        productname?.includes(search) ||
-        price?.includes(search) ||
-        totalstock?.includes(search)
+        vendorname?.includes(search)
       );
     });
 
@@ -565,42 +472,29 @@ const ListOfProducts = ({
     isLoading || isError
       ? null
       : isSuccess
-      ? filteredProducts.map((product: Product) => {
-          // ? sortProducts.map((product: Product) => {
+      ? filteredvendors.map((vendor: UserType) => {
+          // ? sortvendors.map((vendor: vendor) => {
 
           return (
-            <tr className="p-3" key={product.id}>
-              <td scope="row w-25">
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  style={{ width: "50px", height: "50px" }}
-                />
-              </td>
-              {/* <td scope="row w-25"><img src={product.img} alt={product.name} style={{ width: '50px', height: '50px' }} /></td> */}
-              <td className="fw-bold">{product.name}</td>
-              <td>{product.price}</td>
-              <td>{product.countInStock}</td>
-              <td>
-                {product.isActive ? (
-                  <i className="bi bi-check-circle-fill" style={{ color: "green" }}></i>
-                ) : (
-                  <i className="bi bi-x-circle-fill" style={{ color: "red" }}></i>
-                )}
-              </td>
+            <tr className="p-3" key={vendor.id}>
+              <td scope="row w-25">{vendor.id}</td>
+              {/* <td scope="row w-25"><img src={vendor.img} alt={vendor.name} style={{ width: '50px', height: '50px' }} /></td> */}
+              <td className="fw-bold">{vendor.firstName}</td>
+              <td className="fw-bold">{vendor.lastName}</td>
+              <td>{vendor.email}</td>
               <td className="fw-bold d-flex gap-2 justify-content-center">
                 <a
                   href="#"
                   className="p-2 rounded-2 fd-bg-primary"
-                  onClick={(e) => parseProduct(product)}
-                  title="View Product"
+                  onClick={(e) => parsevendor(vendor)}
+                  title="View vendor"
                 >
                   <i className="bi bi-eye"></i>
                 </a>
                 <a
                   href="#"
                   className="p-2 rounded-2 bg-secondary"
-                  onClick={(e) => parseProduct(product)}
+                  onClick={(e) => parsevendor(vendor)}
                   title="Edit"
                 >
                   <i className="bi bi-pen"></i>
@@ -611,8 +505,8 @@ const ListOfProducts = ({
                   title="Delete"
                   onClick={(e) => {
                     e.preventDefault();
-                    // deleteItem(product.id);
-                    deleteItem((product as any)['id']);
+                    // deleteItem(vendor.id);
+                    deleteItem((vendor as any)['id']);
                   }}
                 >
                   <i className="bi bi-trash"></i>
@@ -640,19 +534,16 @@ const ListOfProducts = ({
         <thead>
           <tr className="fd-bg-primary text-white">
             <th scope="col" className="p-3">
-              IMAGE
+              VENDOR ID
             </th>
             <th scope="col" className="p-3">
-              PRODUCT NAME
+              VENDOR FIRST NAME
             </th>
             <th scope="col" className="p-3">
-              PRICE
+              VENDOR LAST NAME
             </th>
             <th scope="col" className="p-3">
-              TOTAL STOCK
-            </th>
-            <th scope="col" className="p-3">
-              ACTIVE
+              EMAIL
             </th>
             <th scope="col" className="p-3">
               ACTION
@@ -670,11 +561,11 @@ const ListOfProducts = ({
 
 const VendorsMain = () => {
   const [page, setPage] = useState("list");
-  const [currentProduct, setCurrentProduct] = useState(null);
+  const [currentvendor, setCurrentvendor] = useState(null);
 
   const changeToList = () => {
     setPage("add");
-    setCurrentProduct(null);
+    setCurrentvendor(null);
   };
   const changeToAdd = () => {
     setPage("list");
@@ -685,7 +576,7 @@ const VendorsMain = () => {
   return (
     <div className="text-black">
       <h4 className="fw-bold">Vendors</h4>
-      <div className="add-product my-3 d-flex justify-content-end">
+      <div className="add-vendor my-3 d-flex justify-content-end">
         {page === "list" ? (
           <a
             href="#"
@@ -706,9 +597,9 @@ const VendorsMain = () => {
       </div>
       <div className="subPartMain">
         {page === "list" ? (
-          <ListOfProducts setProduct={setCurrentProduct} setPage={setPage} />
+          <ListOfVendors setVendor={setCurrentvendor} setPage={setPage} />
         ) : (
-          <AddOrEditProduct product={currentProduct} />
+          <AddOrEditvendor vendor={currentvendor} />
         )}
       </div>
     </div>

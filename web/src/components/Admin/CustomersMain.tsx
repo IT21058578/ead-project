@@ -51,10 +51,10 @@ const ListOfCustomers = () => {
     ? null
     : isSuccess && customersList && customersList.data
       ? filteredCustomers.map((customer: UserType) => {
-        const customerId = customer._id || '';
+        const customerId = customer.id || '';
 
         return (
-          <tr className="p-3" key={customer._id}>
+          <tr className="p-3" key={customer.id}>
             <td scope="row w-25">{++count}</td>
             <td className='fw-bold'>{customer.firstName}</td>
             <td className='fw-bold'>{customer.lastName}</td>

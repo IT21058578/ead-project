@@ -14,7 +14,7 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
 	const [updateData, setUpdateData] = useState(Reviews);
 	const [updateReviews, udpateResult] = useUpdateProductMutation();
 
-  const reviewID = Reviews._id;
+  const reviewID = Reviews.id;
   console.log("After:", reviewID);
 
   const [formData, setFormData] = useState({
@@ -51,7 +51,7 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
 
 	return (
 		<form action="" method="patch" className="checkout-service p-3" onSubmit={handleSubmit}>
-			<input type="hidden" name="_id" value={updateData._id} />
+			<input type="hidden" name="id" value={updateData.id} />
       <div>
           <label className='w-100'>
             <span>Rating</span>
@@ -128,14 +128,14 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
       ? filteredReviews.map((Reviews: Review) => {
 
         return (
-          <tr className="p-3" key={Reviews._id}>
+          <tr className="p-3" key={Reviews.id}>
             <td scope="row w-25">{++count}</td>
             <td>{Reviews.productId}</td>
             <td>{Reviews.rating}</td>
             <td>{Reviews.message}</td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
               <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseReviews(Reviews)} title='Edit'><i className="bi bi-pen"></i></a>
-              <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Reviews._id)}><i className="bi bi-trash"></i></a>
+              <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Reviews.id)}><i className="bi bi-trash"></i></a>
             </td>
           </tr>
         )
