@@ -31,6 +31,7 @@ const RoutePaths = {
     adminCategories : '/admin/orders',
     adminCustomers: '/admin/customers',
     adminReview: '/admin/reviews',
+    adminVendors: '/admin/vendors',
     adminAccount: '/admin/account',
 
     token: 'token'

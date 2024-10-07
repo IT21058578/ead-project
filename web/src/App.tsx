@@ -23,6 +23,7 @@ import SlidesMain from "./components/Admin/SlidesMain"
 import PrivateRoute from "./components/PrivateRoute"
 import RedirectIfAuthenticate from "./components/RedirectIfAuthenticate"
 import ReviewMain from "./components/Admin/ReviewMain"
+import VendorsMain from "./components/Admin/VendorsMain"
 
 function App() {
 
@@ -52,7 +53,7 @@ function App() {
         <Route path={RoutePaths.adminCategories} element={<AdminPanel  currentComponent={<CategoryMain />} />}></Route>
         <Route path={RoutePaths.adminReview} element={<AdminPanel  currentComponent={<ReviewMain />} />}></Route>
         <Route path={RoutePaths.adminCustomers} element={<AdminPanel  currentComponent={<CustomersMain />} />}></Route>
-        {/* <Route path={RoutePaths.adminAccount} element={<AdminPanel  currentComponent={<AdminAccount />} />}></Route> */}
+        <Route path={RoutePaths.adminVendors} element={<AdminPanel  currentComponent={<VendorsMain />} />}></Route>
       </Route>
 
       <Route path="*" element={<PageNotFound />}></Route>

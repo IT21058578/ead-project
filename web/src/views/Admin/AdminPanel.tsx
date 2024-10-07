@@ -54,7 +54,7 @@ const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode })
             <div><Link to={RoutePaths.adminCategories} className={toggleLinkClass(RoutePaths.adminCategories)}>Orders<i className="bi bi-cart-check float-end"></i></Link></div>
             <div><Link to={RoutePaths.adminReview} className={toggleLinkClass(RoutePaths.adminReview)}>Reviews<i className="bi bi-chat-left-text float-end"></i></Link></div>
             <div><Link to={RoutePaths.adminCustomers} className={toggleLinkClass(RoutePaths.adminCustomers)}>Users<i className="bi bi-people float-end"></i></Link></div>
-            <div><Link to={RoutePaths.adminAccount} className={toggleLinkClass(RoutePaths.adminAccount)}>Vendors<i className="bi bi-shop-window float-end"></i></Link></div>
+            <div><Link to={RoutePaths.adminVendors} className={toggleLinkClass(RoutePaths.adminVendors)}>Vendors<i className="bi bi-shop-window float-end"></i></Link></div>
             <div><a href='#' className="d-block p-3 text-black" onClick={logoutUser}>Logout<i className="bi bi-person-slash float-end"></i></a></div>
           </aside>
           <div className="w-75 overflow-auto scroller">
