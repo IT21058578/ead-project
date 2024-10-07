@@ -75,12 +75,12 @@ const DashMain = () => {
           </button>
         </div>
 
-      <div className="user-dashboard p-3 border border-3 text-black mt-5">
+      {/* <div className="user-dashboard p-3 border border-3 text-black mt-5">
         <p className="opacity-75">
           From your admin dashboard you can view your popular products, manage
           your account and others, and edit your password and account details
         </p>
-      </div>
+      </div> */}
     </div>
   );
 };
