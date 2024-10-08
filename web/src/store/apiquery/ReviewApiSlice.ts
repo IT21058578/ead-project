@@ -18,6 +18,26 @@ export const reviewApiSlice = createApi({
           },}),
     tagTypes : ['Review'],
 
+    /**
+     * Endpoints for the review API
+     * 
+     * @remarks
+     * The endpoints are:
+     * - `getAllReview` : POST /reviews/search
+     *     - query: {page: 1, pageSize: 100, sortBy: "Id", sortDirection: "asc", filters: {}},
+     *     - providesTags: ["Review"]
+     * - `createReview` : POST /reviews
+     *     - query: {userId, review} ,
+     *     - invalidatesTags: ["Review"]
+     * - `downloadReviewsReports` : GET /reviews/
+     *     - query: () => '/reviews/'
+     * - `deleteReview` : DELETE /reviews/:id
+     *     - query: (reviewId: String) => ({url: `/reviews/${reviewId}`, method: "DELETE"}),
+     *     - invalidatesTags: ["Review"]
+     * - `updateProduct` : PUT /reviews/:id
+     *     - query: ({ reviewID, formData }) => ({url: `/reviews/${reviewID}`, method: "PUT", body: formData}),
+     *     - invalidatesTags: ["Review"]
+     */
     endpoints : (builder) => ({
 
         getAllReview : builder.query(({

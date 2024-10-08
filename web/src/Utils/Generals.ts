@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useAppSelector } from "../hooks/redux-hooks";
 import RoutePaths from "../config";
-import { ProductType } from "../components/ProductCart";
 import { UserType } from "../types";
 
 export const toggleLinkClass = (
@@ -29,13 +28,13 @@ export const removeItem = (keyname: string) => {
   return localStorage.removeItem(keyname);
 };
 
-export const getTotal = () => {
-  const state = useAppSelector((state) => state.productCart);
+// export const getTotal = () => {
+//   const state = useAppSelector((state) => state.productCart);
 
-  const total = state.reduce((a, b) => a + b.price * (b.quantity || 1), 0);
+//   const total = state.reduce((a, b) => a + b.price * (b.quantity || 1), 0);
 
-  return total;
-};
+//   return total;
+// };
 
 // export const link = (url : string) : string => BASE_STORAGE_URL + url;
 
@@ -46,26 +45,26 @@ export const checkLogin = () => {
 
 type CheckOut = { [productId: string]: number };
 
-export const buildCheckoutData = () => {
-  const products = useAppSelector((state) => state.productCart);
-  const isLogged = getItem(RoutePaths.token);
-  const user = !isLogged ? null : JSON.parse(getItem("user") || "");
+// export const buildCheckoutData = () => {
+//   const products = useAppSelector((state) => state.productCart);
+//   const isLogged = getItem(RoutePaths.token);
+//   const user = !isLogged ? null : JSON.parse(getItem("user") || "");
 
-  const checkoutData: CheckOut = {};
+//   const checkoutData: CheckOut = {};
 
-  products.forEach((product) => {
-    const productId = product._id;
-    const quantity = product.quantity || 1;
+//   products.forEach((product) => {
+//     const productId = product._id;
+//     const quantity = product.quantity || 1;
     
-    if (checkoutData[productId]) {
-      checkoutData[productId] += quantity;
-    } else {
-      checkoutData[productId] = quantity;
-    }
-  });
+//     if (checkoutData[productId]) {
+//       checkoutData[productId] += quantity;
+//     } else {
+//       checkoutData[productId] = quantity;
+//     }
+//   });
   
-  return { items: checkoutData };
-};
+//   return { items: checkoutData };
+// };
 
 
 export const BASE_URL = "http://localhost:5158/api/v1/"; // BASE URL FOR API FETCHING

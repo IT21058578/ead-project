@@ -18,6 +18,22 @@ export const productApiSlice = createApi({
   }),
   tagTypes: ["Products"],
 
+  /**
+   * Endpoints for the product API
+   * 
+   * @prop {Function} getAllProducts - Returns all products
+   * @prop {Function} getProduct - Returns a product given its id
+   * @prop {Function} searchProduct - Returns a list of products given a search query
+   * @prop {Function} getRandomProduct - Returns a random product
+   * @prop {Function} getBestProducts - Returns a list of best selling products
+   * @prop {Function} createProduct - Creates a new product and returns it
+   * @prop {Function} updateProduct - Updates a product and returns it
+   * @prop {Function} deleteProduct - Deletes a product given its id
+   * @prop {Function} downloadProductReports - Returns a list of products
+   * @prop {Function} uploadImages - Uploads images for a product
+   * @prop {Function} getRecommendations - Returns a list of recommended products
+   * @returns {Object} An object containing all the endpoints
+   */
   endpoints: (builder) => ({
     getAllProducts: builder.query({
       // query: () => "/products/search",

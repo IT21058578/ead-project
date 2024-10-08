@@ -1,5 +1,17 @@
 import React from 'react'
 
+/**
+ * AdminFooter component
+ * 
+ * This component renders a footer bar at the bottom of the page
+ * that displays the name of the application and the copyright
+ * information.
+ * 
+ * The footer bar is fixed at the bottom of the page using CSS
+ * position: fixed.
+ * 
+ * @returns {JSX.Element} - The rendered footer bar.
+ */
 const AdminFooter = () => {
 
     return (

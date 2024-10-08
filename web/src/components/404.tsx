@@ -2,6 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import RoutePaths from '../config';
 
+/**
+ * NotFound component renders a 404 error page.
+ * The page includes an image, a title, a description, and a link to the home page.
+ * @returns {JSX.Element} - The 404 error page component.
+ */
 const NotFound = () => {
 
   return (

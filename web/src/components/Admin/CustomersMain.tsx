@@ -5,6 +5,22 @@ import Spinner from '../Spinner';
 import { UserType } from '../../types';
 import { useAppSelector } from '../../hooks/redux-hooks'
 
+/**
+ * ListOfCustomers component
+ * 
+ * This component renders a table of customers with the following columns:
+ * - No.
+ * - FirstName
+ * - LastName
+ * - Email
+ * - Action (Delete)
+ * 
+ * The component also renders a search input field that allows users to search for customers by name, price, or total stock.
+ * 
+ * The component also renders a spinner if the customers list is loading.
+ * 
+ * @returns {React.ReactNode} - a React node that renders the customers table or a spinner if the customers list is loading.
+ */
 const ListOfCustomers = () => {
 
   let count = 0;
@@ -12,6 +28,12 @@ const ListOfCustomers = () => {
   const { isLoading, data: customersList, isSuccess, isError } = useGetAllUsersQuery('api/users');
   const [deleteCustomer, deletedResult] = useDeleteUserMutation();
 
+  /**
+   * Deletes a customer with the given id.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to delete the customer.
+   * If the user confirms, it calls the deleteCustomer function with the given id.
+   * @param {string} id - the id of the customer to delete
+   */
   const deleteItem = (id: string) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -105,6 +127,18 @@ const ListOfCustomers = () => {
   );
 }
 
+/**
+ * CustomersMain component
+ * 
+ * This component renders a list of customers
+ * 
+ * The component returns a JSX node that renders a table of customers
+ * with the following columns: No., FIRSTNAME, LASTNAME, EMAIL, ACTION
+ * 
+ * The component also renders a search input field that allows users to search for customers by name, email, etc.
+ * 
+ * @returns {JSX.Element} - a JSX node that renders the customers table
+ */
 const CustomersMain = () => {
   return (
     <div className='text-black'>

@@ -14,6 +14,17 @@ import RedirectIfAuthenticate from "./components/RedirectIfAuthenticate"
 import ReviewMain from "./components/Admin/ReviewMain"
 import VendorsMain from "./components/Admin/VendorsMain"
 
+/**
+ * App component
+ * 
+ * This component renders the main routes for the application.
+ * It wraps all the routes in a 'Routes' component from 'react-router-dom'.
+ * It also renders a 'RedirectIfAuthenticate' component that redirects to the login page if the user is not authenticated.
+ * It renders a 'PrivateRoute' component with a type of 0 that protects the admin routes.
+ * It renders a 'PageNotFound' component for any route that is not found.
+ * 
+ * @returns {React.ReactNode} - a React node that renders the main routes for the application
+ */
 function App() {
 
   return (

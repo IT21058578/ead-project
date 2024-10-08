@@ -21,6 +21,11 @@ export const orderApiSlice = createApi({
           },}),
     tagTypes : ['Order'],
 
+    /**
+     * Endpoints for managing orders
+     * @param {import('@reduxjs/toolkit/query/react').MutationDefinition} builder
+     * @returns {import('@reduxjs/toolkit/query/react').EndpointDefinitions}
+     */
     endpoints : (builder) => ({
 
         getAllOrder : builder.query(({

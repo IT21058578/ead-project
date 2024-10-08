@@ -6,6 +6,17 @@ import Lang from "../Lang";
 import { SocialsNetworks } from "../SocialsNetworks";
 import NotificationsList from "../NotificationsList";
 
+/**
+ * AdminHeader component
+ * 
+ * This component renders the header for the admin dashboard
+ * which includes the logo, navigation links, and a welcome message.
+ * 
+ * The component also renders a notification bell on the right side of the header.
+ * Clicking on the bell will show a dropdown of notifications.
+ * 
+ * @returns {React.ReactNode} - a React node that renders the admin header
+ */
 const AdminHeader = () => {
   return (
     <div>

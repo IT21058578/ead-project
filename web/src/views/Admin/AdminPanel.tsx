@@ -9,6 +9,20 @@ import { useAppDispatch } from '../../hooks/redux-hooks'
 import { logoutCurrentUser } from '../../store/userSlice'
 
 
+/**
+ * AdminPanel component
+ * 
+ * This component renders the admin panel with the following:
+ * - AdminHeader
+ * - AdminFooter
+ * - a sidebar with links to different admin components
+ * - a div to render the current component
+ * - a logout link
+ * 
+ * The component also sets the class list of html, body, and #root to 'h-100 overflow-hidden' when the component mounts and removes it when the component unmounts.
+ * @param {{ currentComponent: React.ReactNode }} props - an object with one property: currentComponent.
+ * @returns {React.ReactNode} - a React node that renders the admin panel.
+ */
 const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode }) => {
 
   useEffect(() => {
@@ -23,6 +37,14 @@ const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode })
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
+  /**
+   * Logout user
+   * 
+   * This function is called when the user clicks the logout link.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to logout.
+   * If the user confirms, it deletes the token from local storage, removes the user from local storage, logs out the user by calling logoutCurrentUser(), and navigates to the login page.
+   * @param {React.SyntheticEvent} e - the event object
+   */
   const logoutUser = (e: React.SyntheticEvent) => {
     e.preventDefault();
     Swal.fire({

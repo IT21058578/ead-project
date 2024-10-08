@@ -9,6 +9,12 @@ export const notificationsApiSlice = createApi({
   reducerPath: "api/notifications",
   baseQuery: fetchBaseQuery({
     baseUrl: BASE_URL,
+  /**
+   * If the user is logged in, add the Authorization header with the
+   * user's token to the request headers.
+   * @param {Headers} headers The request headers.
+   * @returns {Headers} The modified headers.
+   */
     prepareHeaders(headers) {
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -18,6 +24,19 @@ export const notificationsApiSlice = createApi({
   }),
   tagTypes: ["Notifications"],
 
+  /**
+   * The endpoints for the notifications API
+   * 
+   * - getAllNotifications: returns all notifications
+   * - getNotification: returns a single notification by id
+   * - searchNotification: returns a list of notifications that match the given query
+   * - createNotification: creates a new notification
+   * - updateNotification: updates a notification
+   * - deleteNotification: deletes a notification
+   * 
+   * @param {import("@reduxjs/toolkit").MutationDefinition<ApiState, string, never, never>} builder - the builder object from createApi
+   * @returns {import("@reduxjs/toolkit").MutationDefinition<ApiState, string, never, never>} - the endpoints object
+   */
   endpoints: (builder) => ({
     getAllNotifications: builder.query({
       // query: () => "/notifications/search",

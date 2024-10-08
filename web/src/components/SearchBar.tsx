@@ -1,5 +1,17 @@
 import React from 'react'
 
+/**
+ * SearchBar component
+ * 
+ * This component renders a search bar form with a single input field and a submit button.
+ * The search bar is a full-width container with a white background and a black text.
+ * The search bar has a hover effect that changes the border color to primary.
+ * The input field is a text input with a placeholder of "Search Here ..."
+ * The submit button is a button with a search icon and a white background.
+ * When the form is submitted, it does not do anything yet.
+ * 
+ * @returns {React.ReactNode} - The rendered search bar component.
+ */
 const SearchBar = () => {
 
   return (

@@ -7,6 +7,16 @@ export const categoryApiSlice = createApi({
     baseQuery : fetchBaseQuery({baseUrl : BASE_URL}),
     tagTypes : ['Categories'],
 
+    /**
+     * Endpoints for the category API
+     * 
+     * @prop {Function} getAllCategories - Returns all categories
+     * @prop {Function} getCategory - Returns a category given its id
+     * @prop {Function} createCategory - Creates a new category and returns it
+     * @prop {Function} updateCategory - Updates a category and returns it
+     * @prop {Function} deleteCategory - Deletes a category given its id
+     * @returns {Object} An object containing all the endpoints
+     */
     endpoints : (builder) => ({
 
         getAllCategories : builder.query(({

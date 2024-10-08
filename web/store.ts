@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productCartSlice, productSlice, productWhishListSlice } from "./src/store/productSlice";
 import { productApiSlice } from "./src/store/apiquery/productApiSlice";
 import { categoryApiSlice } from "./src/store/apiquery/categoryApiSlice";
 import { authApiSlice } from "./src/store/apiquery/AuthApiSlice";
@@ -22,11 +21,16 @@ export const store = configureStore({
         [reviewApiSlice.reducerPath] : reviewApiSlice.reducer,
         [orderApiSlice.reducerPath] : orderApiSlice.reducer,
         [notificationsApiSlice.reducerPath] : notificationsApiSlice.reducer,
-        products : productSlice.reducer,
-        productWishlist : productWhishListSlice.reducer,
-        productCart : productCartSlice.reducer,
         user : userSlice.reducer,
     },
+    
+    /**
+     * Middleware to handle all the RTK-Query APIs in the application.
+     * It combines all the individual middlewares from each API slice into one.
+     * This is what makes RTK-Query work with Redux Toolkit.
+     * @param {getDefaultMiddleware} getDefaultMiddleware - A function that returns the default middleware in Redux Toolkit.
+     * @returns {Array<Middleware>} - An array of middleware functions that can be used in the Redux store.
+     */
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
         .concat(

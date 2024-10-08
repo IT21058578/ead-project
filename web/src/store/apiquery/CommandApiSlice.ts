@@ -7,6 +7,22 @@ export const commandApiSlice = createApi({
     baseQuery : fetchBaseQuery({baseUrl : BASE_URL}),
     tagTypes : ['Commands'],
 
+    /**
+     * The endpoints for the commands API
+     *
+     * @remarks
+     * The endpoints are:
+     *
+     * - `getAllCommands` : GET /command
+     * - `getCommand` : GET /command/:id
+     * - `createCommand` : POST /command/create
+     * - `updateCommand` : POST /command/edit
+     * - `deleteCommand` : DELETE /command/delete
+     *
+     * The tags are:
+     *
+     * - `Commands`
+     */
     endpoints : (builder) => ({
 
         getAllCommands : builder.query(({

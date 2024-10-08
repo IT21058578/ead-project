@@ -9,6 +9,12 @@ import { useGetAllOrderQuery } from '../../store/apiquery/OrderApiSlice';
 import { ToastContainer, toast } from "react-toastify";
 
 
+/**
+ * @function UpdateOrders
+ * @description Form to update the status of an order
+ * @param {Order} Orders - The order to be updated
+ * @returns {JSX.Element} - A form with a select for the order status
+ */
 const UpdateOrders = ({Orders}: {Orders : Order}) => {
 
 	const [updateData, setUpdateData] = useState(Orders);
@@ -21,6 +27,11 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
     status: updateData.status,
   });
 
+  /**
+   * Handles the change event for the form fields.
+   * Updates the formData state with the changed value.
+   * @param e - The change event.
+   */
   const handleUpdateValue = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -28,6 +39,12 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
 
   const status = formData.status?.toString();
 
+  /**
+   * Handles the submission of the form. Calls the updateOrders mutation and
+   * displays a toast notification based on the result.
+   * @param e - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -78,8 +95,29 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
 
 }
 
+/**
+ * ListOfOrders component
+ * 
+ * This component renders a table of orders with the following columns:
+ * - Order No.
+ * - Items
+ * - Total
+ * - Order Status
+ * - Manage (Edit, Delete)
+ * 
+ * The component also renders a search input field that allows users to search for orders by name, price, or total stock.
+ * 
+ * The component also renders a spinner if the orders list is loading.
+ * 
+ * @param {{ setOrders: Function, setPage: Function }} props - an object with two properties: setOrders and setPage.
+ * @returns {React.ReactNode} - a React node that renders the orders table or a spinner if the orders list is loading.
+ */
 const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Function }) => {
 
+  /**
+   * Sets the current orders to the given orders and changes the page to 'add'.
+   * @param {Order} Orders - the orders to set as the current orders
+   */
   const parseOrders = (Orders: Order) => {
     setOrders(Orders);
     setPage('add');
@@ -88,6 +126,12 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
   const [deleteOrders, deletedResult] = useDeleteOrderMutation();
 
 
+  /**
+   * Deletes an order with the given id.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to delete the order.
+   * If the user confirms, it calls the deleteOrders function with the given id.
+   * @param {string} id - the id of the order to delete
+   */
   const deleteItem = (id: string) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -187,6 +231,18 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
   );
 }
 
+/**
+ * The main component for the Orders page. This component renders a list of orders
+ * and provides the ability to view an order report or add a new order.
+ *
+ * The component state is managed by the `useState` hook, which is used to store the
+ * current page and the order to be edited.
+ *
+ * The component renders a list of orders if the current page is "list", or it renders
+ * the form to add or edit an order if the current page is "add".
+ *
+ * The component also renders a button to switch between the list and add/edit pages.
+ */
 const OrdersMain = () => {
   const [page, setPage] = useState('list');
   const [currentOrder, setCurrentOrder] = useState(null);

@@ -7,6 +7,13 @@ import { useGetAllOrderQuery } from "../../store/apiquery/OrderApiSlice";
 import { useGetAllReviewQuery } from "../../store/apiquery/ReviewApiSlice";
 
 
+/**
+ * The main component for the admin dashboard
+ * @function
+ * @returns {ReactElement} The component
+ * @example
+ *   <DashMain />
+ */
 const DashMain = () => {
   // const { data: starts, isLoading } = useGetStartisticsQuery("api/users");
   const {data: products } = useGetAllProductsQuery("api/products");
@@ -15,22 +22,44 @@ const DashMain = () => {
   const {data: orders } = useGetAllOrderQuery("api/orders");
 
 
+  /**
+   * Redirects to the product reports download page
+   * @function
+   */
   const handleProductsDownload = () => {
       const reportURL = 'http://localhost:3000/products/reports'; 
       window.location.href = reportURL;
   };
 
+  /**
+   * Redirects to the order reports download page
+   * @function
+   */
   const handleOrdersDownload = () => {
     const reportURL = 'http://localhost:3000/orders/reports'; 
     window.location.href = reportURL;
   };
 
+  /**
+   * Redirects to the customer reports download page
+   * @function
+   */
   const handleCustomersDownload = () => {
     const reportURL = 'http://localhost:3000/users/reports'; 
     window.location.href = reportURL;
   };
 
 
+  /**
+   * Formats a number or string by padding it with zeros to the given length
+   * @param {number|string} nb - the number or string to format
+   * @param {number} [lenght=2] - the length of the formatted string
+   * @returns {string} the formatted string
+   * @example
+   *   format(1) // returns "01"
+   *   format(1, 3) // returns "001"
+   *   format("1") // returns "01"
+   */
   const format = (nb: number | string, lenght: number = 2) => {
     const value = nb.toString();
     return value.padStart(lenght, "0");

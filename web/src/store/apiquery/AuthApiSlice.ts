@@ -8,6 +8,12 @@ export const authApiSlice = createApi({
     baseQuery : fetchBaseQuery({baseUrl : BASE_URL}),
     tagTypes : ['Auth'],
 
+    /**
+     * Endpoints for authentication.
+     * @property {function} refresh - Refresh user's token.
+     * @property {function} login - Login user.
+     * @property {function} register - Register a new user.
+     */
     endpoints : (builder) => ({
 
         refresh : builder.query(({
@@ -16,6 +22,11 @@ export const authApiSlice = createApi({
         })),
 
         login: builder.mutation({
+        /**
+         * Login user.
+         * @param {Object} category - User's email and password.
+         * @returns {Promise<Object>} - The user's token.
+         */
             query : (category) => ({
                 url : `/auth/login`,
                 method : 'POST',
@@ -25,6 +36,11 @@ export const authApiSlice = createApi({
         }),
 
         register: builder.mutation({
+        /**
+         * Register a new user.
+         * @param {Object} userDto - The user to register.
+         * @returns {Promise<Object>} - The user's token.
+         */
             query : (userDto) => ({
                 url : '/auth/register',
                 method : 'POST',

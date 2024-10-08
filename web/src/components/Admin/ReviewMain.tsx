@@ -9,6 +9,12 @@ import { useGetAllReviewQuery } from '../../store/apiquery/ReviewApiSlice';
 import { ToastContainer, toast } from "react-toastify";
 
 
+/**
+ * @function UpdateReviews
+ * @description Form to update a Review
+ * @param {Review} Reviews - The Review to be updated
+ * @returns {JSX.Element} - A form with a text input for the message and a number input for the rating
+ */
 const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
 
 	const [updateData, setUpdateData] = useState(Reviews);
@@ -22,12 +28,23 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
     rating: updateData.rating,
   });
 
+  /**
+   * Handles the change event for the form fields.
+   * Updates the formData state with the changed value.
+   * @param e - The change event.
+   */
   const handleUpdateValue = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
 
+  /**
+   * Handles the submission of the form. Calls the updateReviews mutation and
+   * displays a toast notification based on the result.
+   * @param e - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -76,8 +93,29 @@ const UpdateReviews = ({Reviews}: {Reviews : Review}) => {
 
 }
 
+/**
+ * ListofReviews component
+ * 
+ * This component renders a table of reviews with the following columns:
+ * - No.
+ * - PRODUCT ID
+ * - RATING
+ * - DESCRIPTION
+ * - ACTIONS (Edit, Delete)
+ * 
+ * The component also renders a search input field that allows users to search for reviews by product id, rating, or description.
+ * 
+ * The component also renders a spinner if the reviews list is loading.
+ * 
+ * @param {{ setReviews: Function, setPage: Function }} props - an object with two properties: setReviews and setPage.
+ * @returns {React.ReactNode} - a React node that renders the reviews table or a spinner if the reviews list is loading.
+ */
 const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage: Function }) => {
 
+  /**
+   * Sets the current reviews to the given reviews and changes the page to 'add'.
+   * @param {Review} Reviews - the reviews to set as the current reviews
+   */
   const parseReviews = (Reviews: Review) => {
     setReviews(Reviews);
     setPage('add');
@@ -86,6 +124,12 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
   const [deleteReviews, deletedResult] = useDeleteReviewMutation();
 
 
+  /**
+   * Deletes a review with the given id.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to delete the review.
+   * If the user confirms, it calls the deleteReviews function with the given id.
+   * @param {string} id - the id of the review to delete
+   */
   const deleteItem = (id: string) => {
     Swal.fire({
       title: 'Are you sure?',
@@ -176,6 +220,20 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
   );
 }
 
+/**
+ * The main component for the Reviews page. This component renders a list of reviews
+ * and provides the ability to add a new review or edit an existing one.
+ *
+ * The component state is managed by the `useState` hook, which is used to store the
+ * current page and the review to be edited.
+ *
+ * The component renders a list of reviews if the current page is "list", or it renders
+ * the form to add or edit a review if the current page is "add".
+ *
+ * The component also renders a button to switch between the list and add/edit pages.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const ReviewMain = () => {
   const [page, setPage] = useState('list');
   const [currentReview, setCurrentReview] = useState(null);

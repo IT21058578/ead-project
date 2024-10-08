@@ -6,6 +6,12 @@ import { ToastContainer, toast } from "react-toastify";
 import SearchBar from "../SearchBar";
 import { useCreateUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
 
+/**
+ * @function UpdateVendor
+ * @description Form to update a vendor
+ * @param {UserType} vendor - The vendor to be updated
+ * @returns {JSX.Element} - A form with two text inputs for the first and last name, and a text input for the email and password
+ */
 const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
@@ -21,6 +27,12 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
     password: updateData.password,
   });
 
+  /**
+   * Handles the change event for the form fields.
+   * If the field is a checkbox, it updates the formData with the checked status.
+   * If the field is not a checkbox, it updates the formData with the value of the field.
+   * @param e - The change event.
+   */
   const handleUpdateValue = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -35,6 +47,12 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
     }
   };
 
+  /**
+   * Handles the submission of the form. Calls the updateVendor mutation and
+   * displays a toast notification based on the result.
+   * @param e - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -136,6 +154,20 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
   );
 };
 
+/**
+ * AddOrEditvendor component
+ * 
+ * This component renders a form for adding or editing a vendor.
+ * If the vendor is null, it renders a form for adding a new vendor.
+ * If the vendor is not null, it renders a form for editing the vendor.
+ * The form includes fields for the vendor name, description, price, category, image, and active status.
+ * It also includes a button for uploading an image and a button for saving the vendor.
+ * When the form is submitted, it calls the createvendor or updatevendor mutation.
+ * If the mutation is successful, it shows a success toast message.
+ * If the mutation fails, it shows an error toast message.
+ * @param {null | UserType} vendor - The vendor to be edited. If null, the form is for adding a new vendor.
+ * @returns {JSX.Element} - The form for adding or editing a vendor.
+ */
 const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
   // const [data, setData] = useState({});
   const [createvendor, result] = useCreateUserMutation();
@@ -147,6 +179,13 @@ const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
     password: "",
   });
 
+  /**
+   * Handles the change event for the form fields.
+   * Updates the formData state with the changed value.
+   * If the field is a checkbox, it updates the formData with the checked status.
+   * If the field is not a checkbox, it updates the formData with the value of the field.
+   * @param e - The change event.
+   */
   const handleValue = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -163,6 +202,12 @@ const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
     }
   };
 
+  /**
+   * Handles the submission of the form. Calls the createvendor mutation and
+   * displays a toast notification based on the result.
+   * @param e - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // handleUpload(); 
@@ -276,6 +321,21 @@ const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
   return <UpdateVendor vendor={vendor} />;
 };
 
+  /**
+   * Renders a table of vendors with the following columns:
+   * - Vendor ID
+   * - First Name
+   * - Last Name
+   * - Email
+   * - Action (View, Edit, Delete)
+   *
+   * The component also renders a search input field that allows users to search for vendors by name, email, etc.
+   *
+   * The component also renders a spinner if the vendors list is loading.
+   *
+   * @param {{ setVendor: Function, setPage: Function }} props - an object with two properties: setVendor and setPage.
+   * @returns {React.ReactNode} - a React node that renders the vendors table or a spinner if the vendors list is loading.
+   */
 const ListOfVendors = ({
   setVendor,
   setPage,
@@ -290,11 +350,22 @@ const ListOfVendors = ({
     isError,
   } = useGetAllUsersQuery("api/users");
   const [deleteUser, deletedResult] = useDeleteUserMutation();
+  
+  /**
+   * Sets the current vendor to the given vendor and changes the page to 'add'.
+   * @param {UserType} vendor - the vendor to set as the current vendor
+   */
   const parsevendor = (vendor: UserType) => {
     setVendor(vendor);
     setPage("add");
   };
 
+  /**
+   * Deletes a vendor with the given id.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to delete the vendor.
+   * If the user confirms, it calls the deleteUser function with the given id.
+   * @param {string} id - the id of the vendor to delete
+   */
   const deleteItem = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -417,14 +488,37 @@ const ListOfVendors = ({
   );
 };
 
+/**
+ * The main component for the Vendors page. This component renders a list of vendors
+ * and provides the ability to add a new vendor or edit an existing one.
+ *
+ * The component state is managed by the `useState` hook, which is used to store the
+ * current page and the vendor to be edited.
+ *
+ * The component renders a list of vendors if the current page is "list", or it renders
+ * the form to add or edit a vendor if the current page is "add".
+ *
+ * The component also renders a button to switch between the list and add/edit pages.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const VendorsMain = () => {
   const [page, setPage] = useState("list");
   const [currentvendor, setCurrentvendor] = useState(null);
 
+  /**
+   * Changes the page to "add" and resets the current vendor to null.
+   * This function is used to switch from the list page to the add/edit page.
+   */
   const changeToList = () => {
     setPage("add");
     setCurrentvendor(null);
   };
+  
+  /**
+   * Changes the page to "list".
+   * This function is used to switch from the add/edit page to the list page.
+   */
   const changeToAdd = () => {
     setPage("list");
   };

@@ -14,6 +14,12 @@ import SearchBar from "../SearchBar";
 
 let imageIsChanged = false;
 
+/**
+ * @function UpdateProduct
+ * @description Form to update a product
+ * @param {Product} product - The product to be updated
+ * @returns {JSX.Element} - A form with all the product details
+ */
 const UpdateProduct = ({ product }: { product: Product }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
@@ -34,6 +40,12 @@ const UpdateProduct = ({ product }: { product: Product }) => {
     imageUrl: updateData.imageUrl,
   });
 
+  /**
+   * @function handleUpdateValue
+   * @description Handle the change event on any of the form elements
+   * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The event
+   * @returns {void}
+   */
   const handleUpdateValue = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -48,6 +60,13 @@ const UpdateProduct = ({ product }: { product: Product }) => {
     }
   };
 
+  /**
+   * @function handleSubmit
+   * @description Handle the submission of the form. Calls the updateProduct mutation and
+   * displays a toast notification based on the result.
+   * @param {React.FormEvent} e - The event
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -120,17 +139,6 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             onChange={handleUpdateValue}
           />
         </label>
-        {/* <label className="w-50">
-          <span>Image</span>
-          <input
-            type="file"
-            name="images"
-            value={formData.images}
-            className="form-control w-100 rounded-0 p-2"
-            placeholder="Change Image"
-            onChange={handleUpdateValue}
-          />
-        </label> */}
       </div>
       <div className="d-grid grid-4 gap-2 mt-3">
         <label>
@@ -231,51 +239,29 @@ const UpdateProduct = ({ product }: { product: Product }) => {
   );
 };
 
+/**
+ * This component renders a form for adding or editing a product.
+ * It takes a product property which is an object with the product details.
+ * If the product is null, it renders a form for adding a new product.
+ * If the product is not null, it renders a form for editing the product.
+ * The form includes fields for the product name, description, price, category, image, and active status.
+ * It also includes a button for uploading an image and a button for saving the product.
+ * When the form is submitted, it calls the createProduct or updateProduct mutation.
+ * If the mutation is successful, it shows a success toast message.
+ * If the mutation fails, it shows an error toast message.
+ * @param {null | Product} product - The product to be edited. If null, the form is for adding a new product.
+ * @returns {JSX.Element} - The form for adding or editing a product.
+ */
 const AddOrEditProduct = ({ product }: { product: null | Product }) => {
   // const [data, setData] = useState({});
 
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
   const [createProduct, result] = useCreateProductMutation();
-  // const [uploadImages] = useUploadImagesMutation(); // Destructure the mutation function
   const [image, setImage] = useState<File | null>(null);
-
-  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setImage(e.target.files[0]);
-  //   }
-  // };
-
-  // const handleImageUpload = async () => {
-  //   if (image) {
-  //     const formData = new FormData();
-  //     formData.append("file", image);
-
-  //     try {
-  //       const result = await uploadImages(formData);
-  //       if ("data" in result && result.data) {
-  //         console.log("Image uploaded successfully");
-  //       } else if ("error" in result && result.error) {
-  //         console.error("Image upload failed", result.error);
-  //       }
-  //     } catch (error) {
-  //       console.error("Image upload failed", error);
-  //     }
-  //   }
-  // };
 
   const [file, setFile] = React.useState(null);
   const [uploadFile, { isLoading }] = useUploadImagesMutation();
-
-  const handleFileChange = (e:any) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleUpload = () => {
-    if (file) {
-      uploadFile(file);
-    }
-  };
 
   const [formData, setFormData] = useState({
     vendorId: "",
@@ -289,6 +275,12 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
     imageUrl: "",
   });
 
+  /**
+   * Handles the change event for the form fields.
+   * If the field is a checkbox, it updates the formData with the checked status.
+   * If the field is not a checkbox, it updates the formData with the value of the field.
+   * @param e - The change event.
+   */
   const handleValue = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -305,6 +297,12 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
     }
   };
 
+  /**
+   * Handles the form submission event.
+   * Calls the createProduct mutation and sets the form data to the initial state if successful.
+   * If the mutation fails, it logs the error and displays an error toast.
+   * @param e - The form submission event.
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // handleUpload(); 
@@ -391,18 +389,6 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               onChange={handleValue}
             />
           </label>
-          {/* <label className="w-50">
-            <span>Image</span>
-            <input
-              type="file"
-              name="images"
-              // value={formData.images}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="Product Image"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-          </label> */}
         </div>
         <div className="d-grid grid-4 gap-2 mt-3">
           <label>
@@ -504,6 +490,24 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
   return <UpdateProduct product={product} />;
 };
 
+/**
+ * ListOfProducts component
+ * 
+ * This component renders a table of products with the following columns:
+ * - Image
+ * - Product Name
+ * - Price
+ * - Total Stock
+ * - Active
+ * - Action (View, Edit, Delete)
+ * 
+ * The component also renders a search input field that allows users to search for products by name, price, or total stock.
+ * 
+ * The component also renders a spinner if the products list is loading.
+ * 
+ * @param {{ setProduct: Function, setPage: Function }} props - an object with two properties: setProduct and setPage.
+ * @returns {React.ReactNode} - a React node that renders the products table or a spinner if the products list is loading.
+ */
 const ListOfProducts = ({
   setProduct,
   setPage,
@@ -518,11 +522,28 @@ const ListOfProducts = ({
     isError,
   } = useGetAllProductsQuery("api/products");
   const [deleteProduct, deletedResult] = useDeleteProductMutation();
+  /**
+   * parseProduct function
+   * 
+   * This function takes a Product object as an argument and sets the product state to the given product.
+   * It also sets the page state to "add".
+   * 
+   * @param {Product} product - a Product object
+   */
   const parseProduct = (product: Product) => {
     setProduct(product);
     setPage("add");
   };
 
+  /**
+   * deleteItem function
+   * 
+   * This function takes a string id as an argument and deletes the product with the given id.
+   * It shows a confirmation dialog with a warning icon and asks the user if they are sure to delete the product.
+   * If the user confirms, it calls the deleteProduct function with the given id.
+   * 
+   * @param {string} id - the id of the product to delete
+   */
   const deleteItem = (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -667,14 +688,36 @@ const ListOfProducts = ({
   );
 };
 
+/**
+ * The main component for the Products page. This component renders a list of products
+ * and provides the ability to add a new product or edit an existing one.
+ *
+ * The component state is managed by the `useState` hook, which is used to store the
+ * current page and the product to be edited.
+ *
+ * The component renders a list of products if the current page is "list", or it renders
+ * the form to add or edit a product if the current page is "add".
+ *
+ * The component also renders a button to switch between the list and add/edit pages.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 const ProductMain = () => {
   const [page, setPage] = useState("list");
   const [currentProduct, setCurrentProduct] = useState(null);
 
+  /**
+   * Change the page to "add" and reset the current product to null.
+   * This function is used to switch from the list page to the add/edit page.
+   */
   const changeToList = () => {
     setPage("add");
     setCurrentProduct(null);
   };
+  /**
+   * Change the page to "list".
+   * This function is used to switch from the add/edit page to the list page.
+   */
   const changeToAdd = () => {
     setPage("list");
   };

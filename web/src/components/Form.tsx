@@ -8,6 +8,15 @@ import { checkLogin } from "../Utils/Generals";
 import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * LoginForm component renders a form for user to sign in.
+ * It first checks if the user is already logged in, if so, it redirects to the user account page.
+ * The form includes fields for email, password, and remember me.
+ * When the form is submitted, it calls the sendUserInfo mutation and handles the result.
+ * If the mutation is successful, it redirects to the user account page.
+ * If the mutation fails, it shows an error message.
+ * @returns {JSX.Element} - The login form component.
+ */
 const LoginForm = () => {
 
     if (checkLogin()) {
@@ -19,6 +28,11 @@ const LoginForm = () => {
     const [data, setData] = useState({});
     const [sendUserInfo, result] = useLoginMutation();
 
+    /**
+     * Handles the change event for the form fields.
+     * Updates the formData state with the changed value.
+     * @param e - The change event.
+     */
     const handleChange = ( e : SyntheticEvent) => {
 
         const target = e.target as HTMLInputElement
@@ -26,6 +40,11 @@ const LoginForm = () => {
         setData({...data, [target.name]: target.value });
     }
 
+    /**
+     * Handles the form submission event.
+     * Calls the sendUserInfo mutation with the formData.
+     * @param e - The form submission event.
+     */
     const handleSubmit = (e : SyntheticEvent) => {
 
         e.preventDefault();
@@ -75,6 +94,16 @@ const LoginForm = () => {
     )
 }
 
+/**
+ * The SignUpForm component renders a form for users to register for an account.
+ *
+ * If the user is already logged in, it redirects to the user account page.
+ *
+ * The component uses the useRegisterMutation hook to call the register mutation
+ * and handle the response.
+ *
+ * @returns A JSX element representing the register form
+ */
 const SignUpForm = () => {
     const navigate = useNavigate();
 
@@ -116,11 +145,23 @@ const SignUpForm = () => {
         password: '',
       });
     
+    /**
+     * Handles the change event for the form fields.
+     * Updates the formData state with the changed value.
+     * @param e - The change event.
+     */
       const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData({ ...userDto, [name]: value });
       };
     
+    /**
+     * Handles the submission of the form. Calls the sendUserInfo function and
+     * displays a toast notification based on the result.
+     * If the registration is successful, it navigates to the login form.
+     * @param e - The form submission event.
+     * @returns {Promise<void>}
+     */
       const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
     
@@ -209,6 +250,16 @@ const SignUpForm = () => {
     )
 }
 
+/**
+ * The ResetPassword component renders a form for users to reset their passwords.
+ *
+ * If the user is already logged in, it redirects to the user account page.
+ *
+ * The component renders a form with one text input for the email address and a
+ * button labeled "SEND".
+ *
+ * @returns A JSX element representing the reset password form
+ */
 const ResetPassword = () => {
     if (checkLogin()) {
     
