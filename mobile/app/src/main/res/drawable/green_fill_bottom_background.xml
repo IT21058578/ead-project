@@ -1,0 +1,27 @@
+<!-- res/drawable/fading_shadow.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Fading Shadow -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/primary_green"
+                android:centerColor="@color/primary_green"
+                android:endColor="@color/primary_green"
+                android:angle="45"/>
+            <corners android:topLeftRadius="123dp" />
+        </shape>
+    </item>
+
+    <!-- Main Gradient -->
+    <item android:top="12dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="@color/primary_green"
+                android:endColor="@color/primary_green"
+                android:angle="45"/>
+            <corners android:topLeftRadius="123dp" />
+        </shape>
+    </item>
+
+</layer-list>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_200sdp"
+    android:id="@+id/product_cardview"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/rounded_corner_card"
+    android:padding="@dimen/_5sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/iv_product"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/_15sdp"
+        android:scaleType="centerInside"
+        android:background="@drawable/rounded_corner_shape"
+        android:src="@drawable/kiwi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_product_name"/>
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintBottom_toTopOf="@id/tv_origin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_product"
+        tools:text="Avocado" />
+
+    <TextView
+        android:id="@+id/tv_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/gray_icon"
+        android:textSize="@dimen/_12ssp"
+        tools:text="Indian Product"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_price"/>
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:paddingVertical="@dimen/_8sdp"
+        android:textColor="@color/emerald_green"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_origin"
+        tools:text="$ 11.25" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/appCompatImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner_shape"
+        android:backgroundTint="@color/primary_green"
+        android:padding="@dimen/_6sdp"
+        android:tint="@color/white"
+        android:src="@drawable/add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

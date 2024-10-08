@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".windows.PaymentSuccessPage">
+
+
+    <LinearLayout
+        android:id="@+id/loginLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary_green"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:indeterminateDrawable="@drawable/progress_bg"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Please Wait...."
+            android:textSize="20dp"
+            android:textColor="#FAFAFA"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loginLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="373dp"
+            android:background="@drawable/green_fill_wave_background">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/order_completed" />
+
+
+            </LinearLayout>
+
+
+        </FrameLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/poppins_medium"
+            android:textStyle="bold"
+            android:text="Your Oder will be"
+            android:textColor="@color/primary_green_dark"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textStyle="bold"
+            android:text="Delivered by"
+            android:textColor="@color/primary_green_dark"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/poppins_medium"
+            android:textStyle="bold"
+            android:text="Our Team ! ..."
+            android:textColor="@color/primary_green_dark"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="62dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="62dp"
+            android:background="@drawable/green_fill__rounded_color"
+            android:fontFamily="@font/poppins_medium"
+            android:gravity="center"
+            android:paddingTop="14dp"
+            android:paddingBottom="14dp"
+            android:text="Continue Shoping"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/loginLayout2"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/green_fill_bottom_background">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_regular"
+                    android:gravity="center_horizontal"
+                    android:text="Happy Shopping ! .... "
+                    android:textStyle="bold"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

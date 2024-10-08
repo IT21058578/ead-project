@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ProfileFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="426dp"
+            android:background="@drawable/green_fill_wave_background"
+            android:baselineAligned="false"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:padding="5dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_profile" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal|top"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:text="PROFILE DETAILS"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            android:weightSum="100">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:paddingVertical="10dp"
+                android:singleLine="true"
+                android:text="First Name"
+                android:textColor="#E91E63"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/green_border_rounded_cornwe">
+
+                <!-- TextView -->
+                <TextView
+                    android:id="@+id/first_name_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Enter youname"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:minHeight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#787777"
+                    android:textColorHint="#787777"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:paddingVertical="10dp"
+                android:singleLine="true"
+                android:text="Last Name"
+                android:textColor="#E91E63"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/green_border_rounded_cornwe">
+
+                <!-- TextView -->
+                <TextView
+                    android:id="@+id/last_name_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Enter youname"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:minHeight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#787777"
+                    android:textColorHint="#787777"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:maxLines="1"
+                android:paddingVertical="10dp"
+                android:singleLine="true"
+                android:text="Email"
+                android:textColor="#E91E63"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/green_border_rounded_cornwe">
+
+                <!-- TextView -->
+                <TextView
+                    android:id="@+id/user_email_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Enter youname"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:minHeight="20dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#787777"
+                    android:textColorHint="#787777"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+
+
+
+            <TextView
+                android:id="@+id/editProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="62dp"
+                android:background="@drawable/green_fill__rounded_color"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="Edit Profile"
+                android:textColor="#ffffff"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

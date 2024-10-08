@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">EAD_MOBILE</string>
+    <string name="store">Store</string>
+    <string name="search_for_products">Search for products\n</string>
+    <string name="back">Back</string>
+    <string name="product_image">product image</string>
+    <string name="button">BUTTON</string>
+    <string name="description">kiwi, (Actinidia deliciosa), also called kiwifruit or Chinese gooseberry, woody vine and edible fruit of the family Actinidiaceae. The plant is native to mainland China and Taiwan and is also grown commercially in New Zealand and California. The fruit has a slightly acid taste and can be eaten raw or cooked. The juice is sometimes used as a meat tenderizer. Raw kiwis are high in vitamins C and K.</string>
+    <string name="all">All</string>
+    <string name="pending">Pending</string>
+    <string name="processed">Processing</string>
+    <string name="delivered">Delivered</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="order">Order\n</string>
+    <string name="cart">Cart\n</string>
+    <string name="about_the_product">About the product</string>
+    <string name="review">Reviews</string>
+    <string name="fruits">Fruits</string>
+    <string name="vegetables">Vegetables</string>
+    <string name="meat">Meat</string>
+    <string name="fish">Fish</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="notifications">Notifications</string>
+</resources>
