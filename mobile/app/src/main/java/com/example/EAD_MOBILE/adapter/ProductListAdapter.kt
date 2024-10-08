@@ -72,7 +72,7 @@ class ProductListAdapter(
             product.id?.let { productId ->
                 // Use a coroutine to handle the asynchronous nature of database queries
                 holder.itemView.context?.let { context ->
-                    // Launch the coroutine in the ViewModel scope or in any suitable scope
+                    // Launch the coroutine in the ViewModel scope
                     cartViewModel.viewModelScope.launch {
                         // Get the cart product in a background thread
                         val existingCartProduct = cartViewModel.getCartProductByProductId(productId)

@@ -23,8 +23,8 @@ class MyApplication : Application() {
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelId = "STYLE_SQUARE" // Your channel ID
-            val channelName = "Style Square" // User-visible name
+            val channelId = "STYLE_SQUARE"
+            val channelName = "Style Square"
             val channelDescription = "Style Square is e-commerce platform" // Description for the channel
             val channelImportance = NotificationManager.IMPORTANCE_DEFAULT // Set the importance level
 

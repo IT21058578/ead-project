@@ -13,7 +13,7 @@ import com.example.EAD_MOBILE.windows.MainActivity
 
 fun showNotification(context: Context, title: String, message: String) {
     val notificationId = System.currentTimeMillis().toInt()
-    val channelId = "STYLE_SQUARE" // This should match the channel ID you defined
+    val channelId = "STYLE_SQUARE"
 
     // Intent to open when the notification is clicked
     val intent = Intent(context, MainActivity::class.java)
@@ -26,7 +26,7 @@ fun showNotification(context: Context, title: String, message: String) {
 
     // Build the notification
     val notificationBuilder = NotificationCompat.Builder(context, channelId)
-        .setSmallIcon(R.drawable.logo_ecommerce) // Your notification icon
+        .setSmallIcon(R.drawable.logo_ecommerce)
         .setContentTitle(title)
         .setContentText(message)
         .setAutoCancel(true)
