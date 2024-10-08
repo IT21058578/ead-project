@@ -1,20 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Configuratons;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 
 namespace api.Services
 {
+	/// <summary>
+	/// The ReviewService class provides methods for managing reviews.
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The ReviewService class is responsible for creating, updating, deleting, and retrieving reviews.
+	/// It also provides methods for searching reviews and updating the ratings of vendors and products.
+	/// </remarks>
 	public class ReviewService(
 		ReviewRepository reviewRepository,
 		ILogger<ReviewService> logger,

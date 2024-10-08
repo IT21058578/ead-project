@@ -1,13 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Requests;
 using api.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The AuthController class represents the controller for handling authentication-related endpoints.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The AuthController class is responsible for handling user registration, email verification, login, password management, and other authentication-related operations.
+    /// It contains endpoints for user registration, email re-sending, verification, approval, login, refresh login, logout, forgot password, password reset, and password change.
+    /// </remarks>
     [Route("api/v1/auth")]
     [ApiController]
     public class AuthController(ILogger<AuthController> logger, AuthService authService) : ControllerBase

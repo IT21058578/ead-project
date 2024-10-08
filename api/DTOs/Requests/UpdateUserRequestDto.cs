@@ -1,11 +1,16 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The UpdateUserRequestDto class represents the data transfer object for updating user information.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UpdateUserRequestDto class is used to transfer data for updating user information.
+    /// It contains properties for the first name and last name of the user.
+    /// </remarks>
     public class UpdateUserRequestDto
     {
         [Required]

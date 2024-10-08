@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -9,6 +5,15 @@ using MongoDB.Bson;
 
 namespace api.Transformers
 {
+    /// <summary>
+    /// The ProductTransformer class provides methods for transforming data between different representations of a product.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductTransformer class contains static methods for transforming a CreateProductRequestDto to a Product model,
+    /// transforming a Product model to a ProductDto, and transforming an UpdateProductRequestDto to a Product model.
+    /// These methods are used to convert data between different layers of an application, such as the API layer and the data access layer.
+    /// </remarks>
     public static class ProductTransformer
     {
         // This is a method for transforming a CreateProductRequestDto to a Product model

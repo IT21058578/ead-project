@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
+
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using api.Configuratons;
 using api.Models;
 using Microsoft.Extensions.Options;
@@ -12,13 +9,22 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The JwtTokenService class provides methods for creating, validating, and retrieving information from JWT tokens.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The JwtTokenService class is responsible for generating access and refresh tokens for users.
+    /// It also provides methods for validating the tokens and extracting information from them.
+    /// The class requires a configuration object containing JWT settings and a logger for logging token-related activities.
+    /// </remarks>
     public class JwtTokenService(IOptions<JwtSettings> config, ILogger<JwtTokenService> logger)
     {
         private readonly ILogger<JwtTokenService> _logger = logger;
         private readonly IOptions<JwtSettings> _config = config;
         private readonly SymmetricSecurityKey _accessKey = new(Encoding.UTF8.GetBytes(config.Value.AccessSecret));
         private readonly SymmetricSecurityKey _refreshKey = new(Encoding.UTF8.GetBytes(config.Value.RefreshSecret));
-        
+
         // This method is used to create an access token
         public string CreateAccessToken(User user)
         {

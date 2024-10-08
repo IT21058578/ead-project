@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -12,6 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The NotificationController class represents the controller for managing notifications.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The NotificationController class is responsible for handling HTTP requests related to notifications.
+    /// It provides endpoints for deleting a notification, getting a notification, searching notifications, and updating a notification.
+    /// </remarks>
     [Route("api/v1/notifications")]
     [ApiController]
     public class NotificationController(NotificationService notificationService) : ControllerBase

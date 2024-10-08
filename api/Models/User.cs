@@ -1,14 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Utilities;
-using Microsoft.AspNetCore.Identity;
-using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    /// <summary>
+    /// The User class represents a user in the API.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The User class inherits from the BaseModel class and contains properties specific to a user.
+    /// These properties include the Email, FirstName, LastName, Role, IsVerified, IsApproved, and Rating properties.
+    /// </remarks>
     [Collection("users")]
     public class User : BaseModel
     {

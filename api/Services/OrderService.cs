@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -9,11 +6,20 @@ using api.Repositories;
 using api.Transformers;
 using api.Utilities;
 using FluentEmail.Core;
-using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Bson;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The OrderService class provides methods for managing orders.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderService class is responsible for creating, deleting, updating, and retrieving orders.
+    /// It interacts with the OrderRepository, UserService, ProductService, and NotificationService classes.
+    /// The class contains methods for creating an order, deleting an order, getting an order, searching orders,
+    /// and updating an order. It also includes methods for validating an order and throwing exceptions if invalid.
+    /// </remarks>
     public class OrderService(OrderRepository orderRepository, ILogger<OrderService> logger, UserService userService, ProductService productService, NotificationService notificationService)
     {
         private readonly ILogger<OrderService> _logger = logger;

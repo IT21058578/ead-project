@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,10 +5,18 @@ using api.Services;
 using api.Transformers;
 using api.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The ProductController class represents the controller for managing products.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductController class is responsible for handling HTTP requests related to products.
+    /// It contains endpoints for getting a product, searching products, deleting a product,
+    /// updating a product, and creating a product.
+    /// </remarks>
     [Route("api/v1/products")]
     [ApiController]
     public class ProductController(ILogger<ProductController> logger, ProductService productService) : ControllerBase

@@ -1,13 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Configurations;
 using api.Models;
 using api.Utilities;
 
 namespace api.Repositories
 {
+    /// <summary>
+    /// The TokenRepository class used to interact with the Token Entity
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The TokenRepository class is a repository class that inherits the MongoRepository 
+    /// class and implements the MongoRepository<T> interface. It provides methods for
+    /// interacting with the collection where Tokens are stored in the database.
+    /// </remarks>
     public class TokenRepository(AppDbContext dbContext) : MongoRepository<Token>(dbContext)
     {
         // A repository method for finding token by the code and email

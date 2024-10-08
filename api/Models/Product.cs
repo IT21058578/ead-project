@@ -1,12 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    /// <summary>
+    /// The Product class represents a product in the API.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The Product class inherits from the BaseModel class and contains properties specific to a product.
+    /// These properties include the VendorId, Name, Description, Category, Price, IsActive, CountInStock, LowStockThreshold, Rating, and ImageUrl properties.
+    /// </remarks>
     [Collection("products")]
     public class Product : BaseModel
     {

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -11,6 +8,15 @@ using api.Utilities;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The ProductService class provides methods for managing products.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductService class is responsible for creating, deleting, updating, and retrieving products.
+    /// It interacts with the ProductRepository to perform CRUD operations on products.
+    /// The class also utilizes the ILogger for logging information and the NotificationService and UserService for additional functionality.
+    /// </remarks>
     public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger, NotificationService notificationService, UserService userService)
     {
         private readonly ILogger<ProductService> _logger = logger;

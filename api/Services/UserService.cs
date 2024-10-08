@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -10,6 +7,15 @@ using api.Utilities;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The UserService class provides methods for managing users.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UserService class is responsible for handling user-related operations such as getting a user,
+    /// updating a user, searching for users, validating a user, and updating a user's rating.
+    /// It interacts with the UserRepository class to perform database operations.
+    /// </remarks>
     public class UserService(UserRepository userRepository, ILogger<UserService> logger)
     {
         private readonly ILogger<UserService> _logger = logger;

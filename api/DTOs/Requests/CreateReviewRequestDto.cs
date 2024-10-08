@@ -1,12 +1,20 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Annotations.Validation;
 
 namespace api.DTOs.Requests
 {
+	/// <summary>
+	/// The CreateReviewRequestDto class represents the data transfer object for creating a review.
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The CreateReviewRequestDto class is used to transfer data for creating a review.
+	/// It contains properties for the vendor ID, product ID, user ID, message, and rating.
+	/// The vendor ID, product ID, and user ID are required fields and must be valid object IDs.
+	/// The message must have a minimum length of 1 character and a maximum length of 500 characters.
+	/// The rating must be a number between 0 and 5.
+	/// </remarks>
 	public class CreateReviewRequestDto
 	{
 		[Required]

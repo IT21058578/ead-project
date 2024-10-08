@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,6 +6,15 @@ using MongoDB.Bson;
 
 namespace api.Transformers
 {
+    /// <summary>
+    /// The NotificationTransformer class provides methods for transforming notification objects.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The NotificationTransformer class contains static methods for transforming different types of notification objects.
+    /// It includes methods for transforming a CreateOrderCancellationRequestDto to a Notification model,
+    /// transforming a Notification model to a NotificationDto, and transforming an UpdateNotificationRequestDto to a Notification model.
+    /// </remarks>
     public static class NotificationTransformer
     {
         // This is a method for transforming a CreateOrderCancellationRequestDto to a Notification model

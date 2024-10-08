@@ -1,10 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace api.Configuratons
 {
+    /// <summary>
+    /// The JwtSettings class represents the configuration settings for JSON Web Token (JWT) authentication.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The JwtSettings class is used to store the issuer, audience, access token expiry time, access token secret,
+    /// refresh token expiry time, and refresh token secret for JWT authentication.
+    /// </remarks>
     public class JwtSettings
     {
         public string Issuer { get; set; } = "";

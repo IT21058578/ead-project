@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.DTOs.Responses;
 using api.Models;
@@ -16,6 +13,14 @@ using MongoDB.Bson;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The AuthService class provides authentication and authorization services for the application.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The AuthService class is responsible for handling user registration, login, password reset, and other authentication-related operations.
+    /// It interacts with repositories and services to perform the necessary operations.
+    /// </remarks>
     public class AuthService(
         JwtTokenService jwtTokenService,
         ILogger<NotificationService> logger,

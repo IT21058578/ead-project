@@ -7,6 +7,15 @@ using api.Models;
 
 namespace api.Transformers
 {
+    /// <summary>
+    /// The UserTransformer class provides methods for transforming user-related data between different models and DTOs.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UserTransformer class contains static methods for transforming data between the CreateUserRequestDto, User, and UserDto classes.
+    /// It provides methods for transforming a CreateUserRequestDto to a User model, a User model to a UserDto, and an UpdateUserRequestDto to a User model.
+    /// The transformation involves mapping properties such as email, first name, last name, created at, updated at, etc.
+    /// </remarks>
     public static class UserTransformer
     {
         // This is a method for transforming a CreateUserRequestDto to a User model

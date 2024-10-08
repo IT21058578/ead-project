@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.Models;
 using api.Configurations;
 using api.Utilities;
@@ -11,6 +8,12 @@ using MongoDB.Driver;
 
 namespace api.Repositories
 {
+    /// <summary>
+    /// The MongoRepository class is a repository class that provides methods for interacting with the collection where entities are stored in the database.
+    /// </summary>
+    /// <typeparam name="T">The type of the entity.</typeparam>
+    /// <remarks>
+    /// </remarks>
     public abstract class MongoRepository<T>(AppDbContext dbContext) : IMongoRepository<T> where T : BaseModel
     {
         private readonly AppDbContext _dbContext = dbContext;

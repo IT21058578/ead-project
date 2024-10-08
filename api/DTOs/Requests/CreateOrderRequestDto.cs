@@ -1,13 +1,22 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Annotations.Validation;
-using MongoDB.Bson;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The CreateOrderRequestDto class represents the data required for creating an order.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The CreateOrderRequestDto class is used to provide the necessary data for creating an order.
+    /// It contains the UserId property which represents the ID of the user placing the order.
+    /// It contains the VendorId property which represents the ID of the vendor from whom the order is being placed.
+    /// It contains the Products property which represents the list of order items.
+    /// It contains the DeliveryNote property which represents the delivery note for the order.
+    /// It contains the DeliveryAddress property which represents the delivery address for the order.
+    /// It contains the DeliveryDate property which represents the delivery date for the order.
+    /// </remarks>
     public class CreateOrderRequestDto
     {
         [Required]

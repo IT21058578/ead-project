@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,10 +5,18 @@ using api.Services;
 using api.Transformers;
 using api.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The ReviewController class represents the controller for managing reviews.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ReviewController class is responsible for handling HTTP requests related to reviews.
+    /// It contains endpoints for getting a review, searching reviews, deleting a review,
+    /// updating a review, and creating a review.
+    /// </remarks>
     [Route("api/v1/reviews")]
     [ApiController]
     public class ReviewController(ILogger<ReviewController> logger, ReviewService reviewService) : ControllerBase

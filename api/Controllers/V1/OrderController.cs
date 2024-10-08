@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,10 +5,18 @@ using api.Services;
 using api.Transformers;
 using api.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The OrderController class represents the controller for managing orders.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderController class is responsible for handling HTTP requests related to orders.
+    /// It contains endpoints for getting an order, searching orders, deleting an order,
+    /// updating an order, and creating an order.
+    /// </remarks>
     [Route("api/v1/orders")]
     [ApiController]
     public class OrderController(ILogger<OrderController> logger, OrderService orderService) : ControllerBase

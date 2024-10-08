@@ -1,12 +1,17 @@
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Annotations.Validation;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The UpdateProductRequestDto class represents the data transfer object for updating a product.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UpdateProductRequestDto class is used to transfer data for updating a product.
+    /// It contains properties for the vendor ID, name, description, category, price, 
+    /// active status, count in stock, low stock threshold, and image URL of the product.
+    /// </remarks>
     public class UpdateProductRequestDto
     {
         [Required]

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -11,6 +8,14 @@ using api.Utilities;
 
 namespace api.Services
 {
+	/// <summary>
+	/// The NotificationService class provides methods for managing notifications.
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The NotificationService class is responsible for creating, updating, deleting, and retrieving notifications.
+	/// It interacts with the NotificationRepository to perform database operations.
+	/// </remarks>
 	public class NotificationService(NotificationRepository notificationRepository, ILogger<NotificationService> logger)
 	{
 		private readonly ILogger<NotificationService> _logger = logger;

@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.Exceptions;
 using api.Models;
 using api.Repositories;
@@ -9,6 +6,16 @@ using api.Utilities;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The TokenService class provides methods for creating, claiming, and validating tokens.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The TokenService class is responsible for managing tokens in the system.
+    /// It contains methods for creating a token, claiming a token, claiming all tokens,
+    /// and validating a token. The class relies on a TokenRepository for data storage
+    /// and a logger for logging purposes.
+    /// </remarks>
     public class TokenService(TokenRepository tokenRepository, ILogger<TokenService> logger)
     {
         private readonly ILogger<TokenService> _logger = logger;

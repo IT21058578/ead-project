@@ -1,13 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Templates;
 using api.Utilities;
 using FluentEmail.Core;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The EmailService class provides functionality for sending emails.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The EmailService class is responsible for sending emails using the provided email factory and logger.
+    /// It contains methods for sending a single email and multiple emails.
+    /// The SendEmail method sends an email using the specified email request, including the recipient, subject, template, and template data.
+    /// The SendEmails method sends multiple emails using a list of email requests.
+    /// </remarks>
     public class EmailService(IFluentEmailFactory emailFactory, ILogger<EmailService> logger)
     {
         private readonly ILogger<EmailService> _logger = logger;
