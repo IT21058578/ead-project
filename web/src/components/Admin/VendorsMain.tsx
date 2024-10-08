@@ -6,8 +6,6 @@ import { ToastContainer, toast } from "react-toastify";
 import SearchBar from "../SearchBar";
 import { useCreateUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
 
-let imageIsChanged = false;
-
 const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
 
@@ -17,10 +15,10 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
   const vendorId = vendor?.id;
 
   const [formData, setFormData] = useState({
-    vendorId: updateData.id,
     firstName: updateData.firstName,
     lastName: updateData.lastName,
     email: updateData.email,
+    password: updateData.password,
   });
 
   const handleUpdateValue = (
@@ -47,10 +45,10 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
         console.log("vendor Updated successfully");
         toast.success("vendor Updated successfully");
         setFormData({
-          vendorId: "",
           firstName: "",
           lastName: "",
           email: "",
+          password: "",
         });
       } else if ("error" in result && result.error) {
         console.error("vendor creation failed", result.error);
@@ -73,57 +71,44 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
       {/* <div className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary" style={{ height: '250px' }}><img src={vendor.img} alt={vendor.name} className='w-100 h-100' ref={imageTag}/></div> */}
       <div className="d-flex gap-2">
         <label className="w-25">
-          <span>Vendor ID</span>
+          <span>First Name</span>
           <input
             type="text"
-            name="vendorId"
-            value={formData.vendorId}
+            name="firstName"
+            value={formData.firstName}
             className="form-control w-100 rounded-0 p-2"
-            placeholder="Vendor ID"
             onChange={handleUpdateValue}
           />
         </label>
         <label className="w-50">
-          <span>Name</span>
+          <span>Last Name</span>
           <input
             type="text"
-            name="name"
+            name="lastName"
             className="form-control w-100 rounded-0 p-2"
-            value={formData.firstName}
+            value={formData.lastName}
             onChange={handleUpdateValue}
           />
         </label>
-        {/* <label className="w-50">
-          <span>Image</span>
-          <input
-            type="file"
-            name="images"
-            value={formData.images}
-            className="form-control w-100 rounded-0 p-2"
-            placeholder="Change Image"
-            onChange={handleUpdateValue}
-          />
-        </label> */}
       </div>
       <div className="d-grid grid-4 gap-2 mt-3">
         <label>
-          <span>Category</span>
+          <span>Email</span>
           <input
             type="string"
-            step={0.1}
-            name="category"
-            value={formData.lastName}
+            name="email"
+            value={formData.email}
             className="form-control w-100 rounded-0 p-2"
             onChange={handleUpdateValue}
           />
         </label>
         <label>
-          <span>Price - LKR</span>
+          <span>Password</span>
           <input
-            type="number"
-            name="price"
+            type="string"
+            name="password"
             className="form-control w-100 rounded-0 p-2"
-            value={formData.email}
+            value={formData.password}
             onChange={handleUpdateValue}
           />
         </label>
@@ -153,53 +138,13 @@ const UpdateVendor = ({ vendor }: { vendor: UserType }) => {
 
 const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
   // const [data, setData] = useState({});
-
-  // const { data : categories } = useGetAllCategoriesQuery('api/categories')
-
   const [createvendor, result] = useCreateUserMutation();
-  // const [uploadImages] = useUploadImagesMutation(); // Destructure the mutation function
-  const [image, setImage] = useState<File | null>(null);
-
-  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     setImage(e.target.files[0]);
-  //   }
-  // };
-
-  // const handleImageUpload = async () => {
-  //   if (image) {
-  //     const formData = new FormData();
-  //     formData.append("file", image);
-
-  //     try {
-  //       const result = await uploadImages(formData);
-  //       if ("data" in result && result.data) {
-  //         console.log("Image uploaded successfully");
-  //       } else if ("error" in result && result.error) {
-  //         console.error("Image upload failed", result.error);
-  //       }
-  //     } catch (error) {
-  //       console.error("Image upload failed", error);
-  //     }
-  //   }
-  // };
-
-  const [file, setFile] = React.useState(null);
-
-  const handleFileChange = (e:any) => {
-    setFile(e.target.files[0]);
-  };
 
   const [formData, setFormData] = useState({
-    vendorId: "",
-    name: "",
-    description: "",
-    category: "",
-    price: 0,
-    isActive: false,
-    countInStock: 0,
-    lowStockThreshold: 0,
-    imageUrl: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
   });
 
   const handleValue = (
@@ -229,15 +174,10 @@ const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
         console.log("vendor created successfully");
         toast.success("vendor created successfully");
         setFormData({
-          vendorId: "",
-          name: "",
-          description: "",
-          category: "",
-          price: 0,
-          isActive: false,
-          countInStock: 0,
-          lowStockThreshold: 0,
-          imageUrl: "",
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
         });
       } else if ("error" in result && result.error) {
         console.error("vendor creation failed", result.error);
@@ -257,133 +197,52 @@ const AddOrEditvendor = ({ vendor }: { vendor: null | UserType }) => {
         className="checkout-service p-3 .form-vendor"
         onSubmit={handleSubmit}
       >
-        {image && (
-          <div
-            className="w-25 mx-auto p-3 border border-1 rounded-5 fd-hover-border-primary mb-4"
-            style={{ height: "250px" }}
-          >
-            <img
-              src={URL.createObjectURL(image)}
-              alt="vendor Image Preview"
-              className="w-100 h-100"
-            />
-          </div>
-        )}
         <div className="d-flex gap-2">
           <label className="w-25">
-            <span>Vendor ID</span>
+            <span>First Name</span>
             <input
               type="text"
-              name="vendorId"
-              value={formData.vendorId}
+              name="firstName"
+              value={formData.firstName}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Vendor ID"
+              placeholder="First Name"
               onChange={handleValue}
             />
           </label>
           <label className="w-50">
-            <span>Name</span>
+            <span>Last Name</span>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="lastName"
+              value={formData.lastName}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="vendor Name"
+              placeholder="Last Name"
               onChange={handleValue}
             />
           </label>
-          <label className="w-25">
-            <span>Category</span>
+        </div>
+        <div className="d-grid grid-4 gap-2 mt-3">
+          <label>
+            <span>Email</span>
             <input
               type="string"
               step={0.1}
-              name="category"
-              value={formData.category}
+              name="email"
+              value={formData.email}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="Category"
+              placeholder="Email"
               onChange={handleValue}
             />
           </label>
-          {/* <label className="w-50">
-            <span>Image</span>
-            <input
-              type="file"
-              name="images"
-              // value={formData.images}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="vendor Image"
-              onChange={handleFileChange}
-              accept="image/*"
-            />
-          </label> */}
-        </div>
-        <div className="d-grid grid-4 gap-2 mt-3">
           <label>
-            <span>Price - LKR</span>
+            <span>Password</span>
             <input
               type="number"
               step={0.1}
-              name="price"
-              value={formData.price}
+              name="password"
+              value={formData.password}
               className="form-control w-100 rounded-0 p-2"
-              placeholder="vendor Price"
-              onChange={handleValue}
-            />
-          </label>
-          <label>
-            <span>In Stock Quantity</span>
-            <input
-              type="number"
-              name="countInStock"
-              value={formData.countInStock}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="Quantity"
-              onChange={handleValue}
-            />
-          </label>
-          <label>
-            <span>Low Stock Threshold</span>
-            <input
-              type="text"
-              name="lowStockThreshold"
-              value={formData.lowStockThreshold}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="Low Stock Threshold"
-              onChange={handleValue}
-            />
-          </label>
-          <label className="form-check form-switch pt-4 pl-3">
-            <span className="form-check-label">Active</span>
-            <input
-              type="checkbox"
-              name="isActive"
-              checked={formData.isActive ? true : false }
-              className="form-check-input"
-              onChange={handleValue}
-            />
-          </label>
-        </div>
-        <div className="d-flex gap-2">
-          <label className="w-50">
-            <span>Description</span>
-            <textarea
-              name="description"
-              cols={100}
-              rows={5}
-              value={formData.description}
-              className="w-100 p-2 border"
-              placeholder="Description"
-              onChange={handleValue}
-            ></textarea>
-          </label>
-          <label className="w-50">
-            <span>Image URL</span>
-            <input
-              type="text"
-              name="imageUrl"
-              value={formData.imageUrl}
-              className="form-control w-100 rounded-0 p-2"
-              placeholder="Image URL"
+              placeholder="password"
               onChange={handleValue}
             />
           </label>
