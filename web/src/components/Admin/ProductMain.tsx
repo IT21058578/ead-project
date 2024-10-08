@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 import Spinner from "../Spinner";
 import { useUploadImagesMutation } from "../../store/apiquery/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
-import { Category } from "../../views/includes/Section";
 import SearchBar from "../SearchBar";
 
 let imageIsChanged = false;

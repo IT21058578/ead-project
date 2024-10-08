@@ -3,7 +3,6 @@ import { UserType } from '../../types';
 import Swal from "sweetalert2";
 import Spinner from "../Spinner";
 import { ToastContainer, toast } from "react-toastify";
-import { Category } from "../../views/includes/Section";
 import SearchBar from "../SearchBar";
 import { useCreateUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
 
@@ -537,10 +536,10 @@ const ListOfVendors = ({
               VENDOR ID
             </th>
             <th scope="col" className="p-3">
-              VENDOR FIRST NAME
+              FIRST NAME
             </th>
             <th scope="col" className="p-3">
-              VENDOR LAST NAME
+              LAST NAME
             </th>
             <th scope="col" className="p-3">
               EMAIL

@@ -1,15 +1,15 @@
 import React from 'react'
 import { ResetPassword } from '../components/Form';
-import Footer from './includes/Footer';
-import Header from './includes/Header';
+import AdminHeader from '../components/Admin/AdminHeader';
+import AdminFooter from '../components/Admin/AdminFooter';
 
 const ForgotPassword = () => {
 
   return (
     <>
-        <Header />
+        <AdminHeader />
         <ResetPassword />
-        <Footer />
+        <AdminFooter />
     </>
   )
 }

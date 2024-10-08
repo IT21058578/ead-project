@@ -1,25 +1,14 @@
 import { Route, Routes } from "react-router-dom"
 import ForgotPassword from "./views/ForgotPassword"
-import Home from "./views/Home"
 import Login from "./views/Login"
-import SignUp from "./views/SignUp"
 import PageNotFound from "./views/PageNotFound"
-import Shop from "./views/Shop"
-import BlogPage from "./views/BlogPage"
-import WishList from "./views/WishList"
-import ContactUs from "./views/ContactUs"
-import ShoppingCart from "./views/ShoppingCart"
-import TeamMembers from "./views/TeamMembers"
-import PostView from "./views/PostView"
 import AdminPanel from "./views/Admin/AdminPanel"
 import DashMain from "./components/Admin/DashMain"
 import ProductMain from "./components/Admin/ProductMain"
 import RoutePaths from "./config"
 import CategoryMain from "./components/Admin/OrdersMain"
 import CustomersMain from "./components/Admin/CustomersMain"
-import BlogMain from "./components/Admin/ReviewMain"
 import AdminAccount from "./components/Admin/AdminAccount"
-import SlidesMain from "./components/Admin/SlidesMain"
 import PrivateRoute from "./components/PrivateRoute"
 import RedirectIfAuthenticate from "./components/RedirectIfAuthenticate"
 import ReviewMain from "./components/Admin/ReviewMain"
@@ -40,7 +29,7 @@ function App() {
       <Route path={RoutePaths.team} element={<TeamMembers />}></Route> */}
       <Route element={<RedirectIfAuthenticate />} >
         <Route path={RoutePaths.login} element={<Login />}></Route>
-        <Route path={RoutePaths.signup} element={<SignUp />}></Route>
+        {/* <Route path={RoutePaths.signup} element={<SignUp />}></Route> */}
       </Route>
       <Route path={RoutePaths.passwordReset} element={<ForgotPassword />}></Route>
 
@@ -49,7 +38,7 @@ function App() {
       <Route element={<PrivateRoute type={0} />} >
         <Route path={RoutePaths.admin} element={<AdminPanel  currentComponent={<DashMain />} />}></Route>
         <Route path={RoutePaths.adminProducts} element={<AdminPanel  currentComponent={<ProductMain />} />}></Route>
-        <Route path={RoutePaths.adminSlides} element={<AdminPanel  currentComponent={<SlidesMain />} />}></Route>
+        {/* <Route path={RoutePaths.adminSlides} element={<AdminPanel  currentComponent={<SlidesMain />} />}></Route> */}
         <Route path={RoutePaths.adminCategories} element={<AdminPanel  currentComponent={<CategoryMain />} />}></Route>
         <Route path={RoutePaths.adminReview} element={<AdminPanel  currentComponent={<ReviewMain />} />}></Route>
         <Route path={RoutePaths.adminCustomers} element={<AdminPanel  currentComponent={<CustomersMain />} />}></Route>
