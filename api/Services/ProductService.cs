@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -11,6 +8,15 @@ using api.Utilities;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The ProductService class provides methods for managing products.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductService class is responsible for creating, deleting, updating, and retrieving products.
+    /// It interacts with the ProductRepository to perform CRUD operations on products.
+    /// The class also utilizes the ILogger for logging information and the NotificationService and UserService for additional functionality.
+    /// </remarks>
     public class ProductService(ProductRepository productRepository, ILogger<ProductService> logger, NotificationService notificationService, UserService userService)
     {
         private readonly ILogger<ProductService> _logger = logger;
@@ -18,6 +24,7 @@ namespace api.Services
         private readonly NotificationService _notificationService = notificationService;
         private readonly UserService _userService = userService;
 
+        // This is a method for creating a product
         public Product CreateProduct(CreateProductRequestDto request)
         {
             _logger.LogInformation("Creating product");
@@ -28,6 +35,7 @@ namespace api.Services
             return savedProduct;
         }
 
+        // This is a method for deleting a product
         public void DeleteProduct(string id)
         {
             _logger.LogInformation("Deleting product {id}", id);
@@ -35,6 +43,7 @@ namespace api.Services
             _logger.LogInformation("Product deleted");
         }
 
+        // This is a method for getting a product
         public Product GetProduct(string id)
         {
             _logger.LogInformation("Getting product {id}", id);
@@ -43,6 +52,7 @@ namespace api.Services
             return product;
         }
 
+        //  This is a method for getting all products
         public IEnumerable<Product> GetProducts(IEnumerable<string> ids)
         {
             _logger.LogInformation("Getting all products");
@@ -51,6 +61,7 @@ namespace api.Services
             return products;
         }
 
+        // This is a method for searching products
         public Page<Product> SearchProducts(PageRequest<Product> request)
         {
             _logger.LogInformation("Searching products with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -59,6 +70,7 @@ namespace api.Services
             return products;
         }
 
+        // This is a method for updating a product
         public Product UpdateProduct(string id, UpdateProductRequestDto request)
         {
             _logger.LogInformation("Updating product {id}", id);
@@ -70,6 +82,7 @@ namespace api.Services
             return updatedProduct;
         }
 
+        // This is a method for updating the rating of a product
         public async Task UpdateRating(string id, double rating)
         {
             _logger.LogInformation("Updating product rating for product {id}", id);
@@ -79,6 +92,7 @@ namespace api.Services
             _logger.LogInformation("Product rating updated to {rating}", rating);
         }
 
+        // This is a method for checking whether a product is valid
         public bool IsProductValid(string id)
         {
             _logger.LogInformation("Checking whether product {id} is valid", id);
@@ -86,6 +100,7 @@ namespace api.Services
             return product != null;
         }
 
+        // This is a method for checking whether a product has enough stock
         public bool IsProductStocked(string id, int quantity)
         {
             _logger.LogInformation("Checking whether product {id} has enough stock", id);
@@ -93,6 +108,7 @@ namespace api.Services
             return product != null && product.CountInStock >= quantity;
         }
 
+        // This is a method for decreasing the stock of a product
         public void DecreaseProductStock(string id, int quantity)
         {
             _logger.LogInformation("Decreasing stock for product {id} by {quantity}", id, quantity);
@@ -121,6 +137,7 @@ namespace api.Services
             _logger.LogInformation("Stock decreased for product {id}", id);
         }
 
+        // This is a method for increasing the stock of a product
         public void IncreaseProductStock(string id, int quantity)
         {
             _logger.LogInformation("Increasing stock for product {id} by {quantity}", id, quantity);
@@ -130,6 +147,7 @@ namespace api.Services
             _logger.LogInformation("Stock increased for product {id}", id);
         }
 
+        // This is a method for validating a product and throwing an exception if invalid
         public void ValidateProductAndThrowIfInvalid(Product product)
         {
             if (product.Price <= 0)

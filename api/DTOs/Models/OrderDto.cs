@@ -1,11 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+
 using api.Utilities;
 
 namespace api.DTOs.Models
 {
+    /// <summary>
+    /// The OrderDto class represents the data transfer object for an order.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderDto class is used to transfer data for an order.
+    /// It contains properties for the order ID, created by user, creation date, 
+    /// updated by user, update date, user ID, order status, products, delivery note, 
+    /// delivery address, delivery date, actual delivery date, and vendor IDs.
+    /// </remarks>
     public class OrderDto
     {
         public string Id { get; set; } = "";

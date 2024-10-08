@@ -1,11 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+
 using api.Utilities;
 
 namespace api.DTOs.Models
 {
+    /// <summary>
+    /// The UserDto class represents the data transfer object for a user.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UserDto class is used to transfer data for a user.
+    /// It contains properties for the user ID, created by, created at,
+    /// updated by, updated at, email, first name, last name, role,
+    /// verification status, approval status, and rating of the user.
+    /// </remarks>
     public class UserDto
     {
         public string Id { get; set; } = "";

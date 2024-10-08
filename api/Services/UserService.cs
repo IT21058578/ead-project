@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -10,11 +7,21 @@ using api.Utilities;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The UserService class provides methods for managing users.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The UserService class is responsible for handling user-related operations such as getting a user,
+    /// updating a user, searching for users, validating a user, and updating a user's rating.
+    /// It interacts with the UserRepository class to perform database operations.
+    /// </remarks>
     public class UserService(UserRepository userRepository, ILogger<UserService> logger)
     {
         private readonly ILogger<UserService> _logger = logger;
         private readonly UserRepository _userRepository = userRepository;
 
+        // This is a method for getting a user
         public User GetUser(string id)
         {
             _logger.LogInformation("Getting user {id}", id);
@@ -23,6 +30,7 @@ namespace api.Services
             return user;
         }
 
+        // This is a method for updating a user
         public User UpdateUser(string id, UpdateUserRequestDto request)
         {
             _logger.LogInformation("Updating user {id}", id);
@@ -34,6 +42,7 @@ namespace api.Services
             return user;
         }
 
+        // This is a method for searching for users
         public Page<User> SearchUsers(PageRequest<User> request)
         {
             _logger.LogInformation("Searching users with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -42,6 +51,7 @@ namespace api.Services
             return users;
         }
 
+        // This is a method for validating a user
         public bool IsUserValid(string id)
         {
             _logger.LogInformation("Checking whether user {id} is valid", id);
@@ -49,6 +59,7 @@ namespace api.Services
             return user != null;
         }
 
+        // This is a method for updating a user's rating
         public async Task<User> UpdateRating(string id, double rating)
         {
             _logger.LogInformation("Updating user rating for user {id}", id);

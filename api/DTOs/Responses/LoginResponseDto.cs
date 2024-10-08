@@ -1,11 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.Utilities;
 
 namespace api.DTOs.Responses
 {
+    /// <summary>
+    /// The LoginResponseDto class represents the response data for a login operation.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The LoginResponseDto class contains properties that represent the user's information after a successful login.
+    /// The properties include Id, CreatedBy, CreatedAt, UpdatedBy, UpdatedAt, Email, FirstName, LastName, Role, IsVerified, IsApproved, Rating, AccessToken, and RefreshToken.
+    /// </remarks>
     public class LoginResponseDto
     {
         public string Id { get; set; } = "";

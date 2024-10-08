@@ -1,12 +1,21 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Annotations.Validation;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The OrderItemDto class represents the data transfer object for an order item.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderItemDto class is used to transfer data related to an order item.
+    /// It contains properties such as ProductId, VendorId, Quantity, Name, and Price.
+    /// The ProductId and VendorId properties are required and must be valid object IDs.
+    /// The Quantity property is required and must be a positive integer.
+    /// The Name property is required and must have a minimum length of 1 and a maximum length of 100.
+    /// The Price property is required and must be a positive decimal number.
+    /// </remarks>
     public class OrderItemDto
     {
         [Required]

@@ -1,10 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace api.DTOs.Models
 {
+    /// <summary>
+    /// The ProductDto class represents the data transfer object for a product.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductDto class is used to transfer data for a product.
+    /// It contains properties for the ID, created by, created at, updated by, updated at,
+    /// vendor ID, name, description, category, price, active status, count in stock,
+    /// low stock threshold, rating, and image URL of the product.
+    /// </remarks>
     public class ProductDto
     {
         public string Id { get; set; } = "";

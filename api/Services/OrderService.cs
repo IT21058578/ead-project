@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
@@ -9,11 +6,20 @@ using api.Repositories;
 using api.Transformers;
 using api.Utilities;
 using FluentEmail.Core;
-using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Bson;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The OrderService class provides methods for managing orders.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderService class is responsible for creating, deleting, updating, and retrieving orders.
+    /// It interacts with the OrderRepository, UserService, ProductService, and NotificationService classes.
+    /// The class contains methods for creating an order, deleting an order, getting an order, searching orders,
+    /// and updating an order. It also includes methods for validating an order and throwing exceptions if invalid.
+    /// </remarks>
     public class OrderService(OrderRepository orderRepository, ILogger<OrderService> logger, UserService userService, ProductService productService, NotificationService notificationService)
     {
         private readonly ILogger<OrderService> _logger = logger;
@@ -22,6 +28,7 @@ namespace api.Services
         private readonly ProductService _productService = productService;
         private readonly NotificationService _notificationService = notificationService;
 
+        // This is a method for creating an order
         public Order CreateOrder(CreateOrderRequestDto request)
         {
             _logger.LogInformation("Attempting to create an order");
@@ -40,6 +47,7 @@ namespace api.Services
             return savedOrder;
         }
 
+        // This is a method for deleting an order
         public void DeleteOrder(string id)
         {
             _logger.LogInformation("Deleting order {id}", id);
@@ -47,6 +55,7 @@ namespace api.Services
             _logger.LogInformation("Order deleted");
         }
 
+        // This is a method for getting an order
         public Order GetOrder(string id)
         {
             _logger.LogInformation("Getting order {id}", id);
@@ -55,6 +64,7 @@ namespace api.Services
             return order;
         }
 
+        // This is a method for searching orders
         public Page<Order> SearchOrders(PageRequest<Order> request)
         {
             _logger.LogInformation("Searching orders with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -63,6 +73,7 @@ namespace api.Services
             return orders;
         }
 
+        // This is a method for updating an order
         public Order UpdateOrder(string id, UpdateOrderRequestDto request)
         {
             _logger.LogInformation("Updating order {id}", id);
@@ -120,8 +131,7 @@ namespace api.Services
             return updatedOrder;
         }
 
-
-
+        // This is a method for validating an order and throwing an exception if invalid
         public void ValidateOrderAndThrowIfInvalid(Order order)
         {
             // Check whether all id references are valid
@@ -152,6 +162,7 @@ namespace api.Services
             }
         }
 
+        // This is a method for validating an order and throwing an exception if invalid
         public void ValidateOrderAndThrowIfInvalid(Order order, Order oldOrder, IEnumerable<Product> products)
         {
             // Check whether all id references are valid

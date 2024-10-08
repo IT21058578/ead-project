@@ -1,20 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using api.Configuratons;
+
 using api.DTOs.Requests;
 using api.Exceptions;
 using api.Models;
 using api.Repositories;
 using api.Transformers;
 using api.Utilities;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Extensions.Options;
-using MongoDB.Bson;
 
 namespace api.Services
 {
+	/// <summary>
+	/// The ReviewService class provides methods for managing reviews.
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The ReviewService class is responsible for creating, updating, deleting, and retrieving reviews.
+	/// It also provides methods for searching reviews and updating the ratings of vendors and products.
+	/// </remarks>
 	public class ReviewService(
 		ReviewRepository reviewRepository,
 		ILogger<ReviewService> logger,
@@ -26,6 +27,7 @@ namespace api.Services
 		private readonly ProductService _productService = productService;
 		private readonly UserService _userService = userService;
 
+		// This method creates a review
 		public Review CreateReview(CreateReviewRequestDto request)
 		{
 			_logger.LogInformation("Creating review");
@@ -38,6 +40,7 @@ namespace api.Services
 			return savedReview;
 		}
 
+		// This method updates a vendor rating
 		public async Task UpdateVendorRating(string vendorId)
 		{
 			_logger.LogInformation("Updating vendor rating for vendor {vendorId}", vendorId);
@@ -47,6 +50,7 @@ namespace api.Services
 			_logger.LogInformation("Vendor rating updated to {rating}", vendorRating);
 		}
 
+		// This method updates a product rating
 		public async Task UpdateProductRating(string productId)
 		{
 			_logger.LogInformation("Updating product rating for product {productId}", productId);
@@ -56,6 +60,7 @@ namespace api.Services
 			_logger.LogInformation("Product rating updated to {rating}", productRating);
 		}
 
+		// This method deletes a review
 		public void DeleteReview(string id)
 		{
 			_logger.LogInformation("Deleting review {id}", id);
@@ -65,6 +70,7 @@ namespace api.Services
 			_ = UpdateVendorRating(review.VendorId.ToString());
 		}
 
+		// This method gets a review
 		public Review GetReview(string id)
 		{
 			_logger.LogInformation("Getting review {id}", id);
@@ -73,6 +79,7 @@ namespace api.Services
 			return review;
 		}
 
+		// This method searches reviews
 		public Page<Review> SearchReviews(PageRequest<Review> request)
 		{
 			_logger.LogInformation("Searching reviews with page {page} and page size {pageSize}", request.Page, request.PageSize);
@@ -81,6 +88,7 @@ namespace api.Services
 			return reviews;
 		}
 
+		// This method updates a review
 		public Review UpdateReview(string id, UpdateReviewRequestDto request)
 		{
 			_logger.LogInformation("Updating review {id}", id);
@@ -94,6 +102,7 @@ namespace api.Services
 			return updatedReview;
 		}
 
+		// This method validates a review and throws an exception if the review is invalid
 		public void ValidateReviewAndThrowIfInvalid(Review review)
 		{
 			if (!_userService.IsUserValid(review.UserId.ToString()))
