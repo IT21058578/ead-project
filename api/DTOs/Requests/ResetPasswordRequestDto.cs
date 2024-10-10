@@ -1,11 +1,19 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The ResetPasswordRequestDto class represents the data transfer object for resetting a user's password.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ResetPasswordRequestDto class is used to transfer the necessary information for resetting a user's password.
+    /// It contains the following properties:
+    /// - NewPassword: The new password to be set for the user. (Required, Minimum length: 1)
+    /// - Code: The verification code for resetting the password. (Required, Minimum length: 1)
+    /// - Email: The email address of the user. (Required, Email format)
+    /// </remarks>
     public class ResetPasswordRequestDto
     {
         [Required]

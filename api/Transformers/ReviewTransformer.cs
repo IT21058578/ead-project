@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -9,8 +5,18 @@ using MongoDB.Bson;
 
 namespace api.Transformers
 {
+	/// <summary>
+	/// The ReviewTransformer class provides methods for transforming data related to reviews.
+	/// </summary>
+	/// 
+	/// <remarks>
+	/// The ReviewTransformer class contains static methods for transforming data between different representations of reviews.
+	/// It includes methods for transforming a CreateReviewRequestDto to a Review model, a Review model to a ReviewDto,
+	/// and an UpdateReviewRequestDto to a Review model.
+	/// </remarks>
 	public static class ReviewTransformer
 	{
+		// This is a method for transforming a CreateReviewRequestDto to a Review model
 		public static Review ToModel(this CreateReviewRequestDto request)
 		{
 			return new Review
@@ -23,6 +29,7 @@ namespace api.Transformers
 			};
 		}
 
+		// This is a method for transforming a Review model to a ReviewDto
 		public static ReviewDto ToDto(this Review model)
 		{
 			return new ReviewDto
@@ -40,6 +47,7 @@ namespace api.Transformers
 			};
 		}
 
+		// This is a method for transforming an UpdateReviewRequestDto to a Review model
 		public static Review ToModel(this UpdateReviewRequestDto request, Review model)
 		{
 			return new Review

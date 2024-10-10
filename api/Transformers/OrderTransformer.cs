@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,8 +6,19 @@ using MongoDB.Bson;
 
 namespace api.Transformers
 {
+    /// <summary>
+    /// The OrderTransformer class provides methods for transforming different types of order-related DTOs and models.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The OrderTransformer class contains static methods for transforming a CreateOrderRequestDto to an Order model,
+    /// an UpdateOrderRequestDto to an Order model, and an Order model to an OrderDto.
+    /// These methods handle the conversion of properties such as user ID, delivery address, status, delivery date,
+    /// delivery note, vendor IDs, and product details between the DTOs and models.
+    /// </remarks>
     public static class OrderTransformer
     {
+        // This is a method for transforming a CreateOrderRequestDto to an Order model
         public static Order ToModel(this CreateOrderRequestDto request)
         {
             return new Order
@@ -37,6 +44,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an UpdateOrderRequestDto to an Order model
         public static Order ToModel(this UpdateOrderRequestDto request)
         {
             return new Order
@@ -62,6 +70,7 @@ namespace api.Transformers
             };
         }
 
+        // This is a method for transforming an Order model to an OrderDto
         public static OrderDto ToDto(this Order model)
         {
             return new OrderDto

@@ -6,6 +6,15 @@ using Microsoft.AspNetCore.Diagnostics;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The AppExceptionHandler class handles exceptions in the application.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The AppExceptionHandler class implements the IExceptionHandler interface and provides a method to handle exceptions.
+    /// It serializes the exception details into a ProblemDetails object and writes it to the HTTP response.
+    /// The class also sets the content type and status code of the response.
+    /// </remarks>
     public class AppExceptionHandler : IExceptionHandler
     {
         private static readonly JsonSerializerOptions _jsonSerializerOptions = new(JsonSerializerDefaults.Web)
@@ -15,6 +24,7 @@ namespace api.Services
             WriteIndented = true
         };
 
+        // This method is used to handle exceptions
         public async ValueTask<bool> TryHandleAsync(
             HttpContext httpContext,
             Exception exception,

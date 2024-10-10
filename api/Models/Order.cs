@@ -1,13 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Utilities;
 using MongoDB.Bson;
 using MongoDB.EntityFrameworkCore;
 
 namespace api.Models
 {
+    /// <summary>
+    /// The Order class represents an order in the system.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The Order class is a derived class of the BaseModel class and inherits its common properties.
+    /// It contains properties such as UserId, Status, Products, DeliveryNote, DeliveryAddress,
+    /// DeliveryDate, ActualDeliveryDate, and VendorIds that represent various aspects of an order.
+    /// The class also includes a nested class called Item, which represents an item within an order.
+    /// </remarks>
     [Collection("orders")]
     public class Order : BaseModel
     {

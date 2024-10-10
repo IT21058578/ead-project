@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_100sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="@dimen/_10sdp">
+
+    <ImageView
+        android:id="@+id/iv_product_image"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:contentDescription="@string/product_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/kiwi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/spacer"/>
+
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/iv_product_image"
+        app:layout_constraintEnd_toStartOf="@id/tv_price"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/_14ssp"
+        app:layout_constraintStart_toEndOf="@+id/spacer"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Avocado" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/primary_green"
+        android:textSize="@dimen/_14ssp"
+        android:layout_marginTop="10dp"
+        tools:text="$25.80"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+        />
+
+    <TextView
+        android:id="@+id/tv_order_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/gray_icon"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        tools:text="Processing" />
+
+
+
+    <LinearLayout
+        android:id="@+id/ll_quantity_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/_20sdp"
+        android:background="@drawable/quantity_change_card_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_delete_btn"
+            android:layout_weight="1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/delete" />
+
+    </LinearLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace api.DTOs.Models
 {
+    /// <summary>
+    /// The ReviewDto class represents the data transfer object for a review.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ReviewDto class is used to transfer data for a review.
+    /// It contains properties for the ID, creator, creation date, updater, update date,
+    /// vendor ID, product ID, user ID, message, and rating of the review.
+    /// </remarks>
     public class ReviewDto
     {
         public string Id { get; set; } = "";

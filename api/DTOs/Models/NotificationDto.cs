@@ -1,11 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.Utilities;
 
 namespace api.DTOs.Models
 {
+
+    /// <summary>
+    /// The NotificationDto class represents the data transfer object for a notification.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The NotificationDto class is used to transfer data for a notification.
+    /// It contains properties for the ID, creator, creation timestamp, updater, update timestamp,
+    /// recipient role, notification type, user ID, order ID, product ID, reason, status, and addressed by.
+    /// </remarks>
     public class NotificationDto
     {
         public string Id { get; set; } = "";

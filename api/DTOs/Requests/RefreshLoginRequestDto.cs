@@ -1,11 +1,16 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The RefreshLoginRequestDto class represents the data transfer object for refreshing login.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The RefreshLoginRequestDto class is used to transfer the refresh token for refreshing the login session.
+    /// The RefreshToken property is required and should contain the refresh token string.
+    /// </remarks>
     public class RefreshLoginRequestDto
     {
         [Required]

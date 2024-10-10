@@ -1,13 +1,20 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using api.Models;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace api.Configurations
 {
+    /// <summary>
+    /// The AppDbContext class represents the database context for the application.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The AppDbContext class is responsible for managing the connection to the database
+    /// and providing access to the various entities in the database, such as orders, products,
+    /// users, credentials, reviews, notifications, and tokens.
+    /// It also configures the database and defines the primary keys for each entity.
+    /// </remarks>
     public class AppDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Order> Orders { get; init; }
@@ -18,6 +25,7 @@ namespace api.Configurations
         public DbSet<Notification> Notifications { get; init; }
         public DbSet<Token> Tokens { get; init; }
 
+        //  This method is called by the runtime. Use this method to configure the database (and other options) to be used for this context.
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.DTOs.Models;
 using api.DTOs.Requests;
 using api.Models;
@@ -10,10 +5,18 @@ using api.Services;
 using api.Transformers;
 using api.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace api.Controllers.V1
 {
+    /// <summary>
+    /// The ProductController class represents the controller for managing products.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The ProductController class is responsible for handling HTTP requests related to products.
+    /// It contains endpoints for getting a product, searching products, deleting a product,
+    /// updating a product, and creating a product.
+    /// </remarks>
     [Route("api/v1/products")]
     [ApiController]
     public class ProductController(ILogger<ProductController> logger, ProductService productService) : ControllerBase
@@ -21,6 +24,7 @@ namespace api.Controllers.V1
         private readonly ILogger<ProductController> _logger = logger;
         private readonly ProductService _productService = productService;
 
+        // This is an endpoint exposed for getting a product
         [HttpGet("{id}")]
         public IActionResult GetProduct([FromRoute] string id)
         {
@@ -28,6 +32,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for searching products
         [HttpPost("search")]
         public IActionResult SearchProducts([FromBody] SearchRequestDto<Product> request)
         {
@@ -40,6 +45,7 @@ namespace api.Controllers.V1
             });
         }
 
+        // This is an endpoint exposed for deleting a product
         [HttpDelete("{id}")]
         public IActionResult DeleteProduct([FromRoute] string id)
         {
@@ -47,6 +53,7 @@ namespace api.Controllers.V1
             return NoContent();
         }
 
+        // This is an endpoint exposed for updating a product
         [HttpPut("{id}")]
         public IActionResult UpdateProduct([FromRoute] string id, [FromBody] UpdateProductRequestDto request)
         {
@@ -54,6 +61,7 @@ namespace api.Controllers.V1
             return Ok(result.ToDto());
         }
 
+        // This is an endpoint exposed for creating a product
         [HttpPost]
         public IActionResult CreateProduct([FromBody] CreateProductRequestDto request)
         {

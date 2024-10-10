@@ -1,19 +1,26 @@
-using System;
-using System.Collections.Generic;
+
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text.Json;
-using System.Threading.Tasks;
 using api.Annotations.Validation;
 using api.Exceptions;
 using api.Models;
 using api.Utilities;
-using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Bson;
 
 namespace api.DTOs.Requests
 {
+    /// <summary>
+    /// The SearchRequestDto class represents a search request data transfer object.
+    /// </summary>
+    /// 
+    /// <typeparam name="T">The type of the BaseModel.</typeparam>
+    /// 
+    /// <remarks>
+    /// The SearchRequestDto class is used to encapsulate the parameters for a search request.
+    /// It includes properties for pagination, sorting, and filtering.
+    /// The class also provides a method to convert the SearchRequestDto to a PageRequest.
+    /// </remarks>
     public class SearchRequestDto<T> where T : BaseModel
     {
         [Required]
@@ -35,6 +42,7 @@ namespace api.DTOs.Requests
             public object Value { get; set; } = "";
         }
 
+        // This is a method to convert the SearchRequestDto to a PageRequest
         public PageRequest<T> ToPageRequest()
         {
             // Create an empty filter expression (allow everything)

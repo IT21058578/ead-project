@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using api.Configurations;
 using api.Models;
 using api.Repositories;
@@ -13,6 +8,15 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace api.Services
 {
+    /// <summary>
+    /// The AppUserStore class represents a custom user store implementation for the application.
+    /// </summary>
+    /// 
+    /// <remarks>
+    /// The AppUserStore class provides functionality for storing and retrieving user data,
+    /// including user creation, deletion, retrieval by ID or name, and updating user information.
+    /// It also supports password management, role management, and querying users.
+    /// </remarks>
     public class AppUserStore(UserRepository userRepository, CredentialRepository credentialRepository, AppDbContext dbContext)
     : IUserStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>, IQueryableUserStore<User>
     {

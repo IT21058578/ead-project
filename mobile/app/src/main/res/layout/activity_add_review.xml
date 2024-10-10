@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".windows.AddReviewActivity">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_15sdp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            app:buttonGravity="center_vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/arrow_back">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:text="@string/back"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ImageView
+            android:id="@+id/iv_product_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:contentDescription="@string/product_image"
+            android:scaleType="centerInside"
+            android:src="@drawable/customer_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+
+        <LinearLayout
+            android:id="@+id/checkout_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+
+
+
+            <TextView
+                android:id="@+id/tv_about_heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Add a Review On Vendor."
+                android:textAlignment="center"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_about_product" />
+
+            <TextView
+                android:id="@+id/tv_about_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/_10sdp"
+                android:fontFamily="sans-serif"
+                android:lineHeight="@dimen/_18sdp"
+                android:text=" You could rank the vendor based on the product purchase experience.And Can comment on the vendor based on the product purchase
+experience."
+                android:textAlignment="center"
+                android:textColor="@color/charcoal_gray"
+                android:textSize="@dimen/_12ssp"
+                tools:ignore="MissingConstraints" />
+
+
+
+
+
+            <LinearLayout
+                android:id="@+id/price_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <RatingBar
+                    android:id="@+id/ratingBar"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressTint="@color/primary_green"
+                    android:layout_marginRight="20dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_origin" />
+
+                <LinearLayout
+                    android:id="@+id/ll_quantity_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/_20sdp"
+                    android:background="@drawable/quantity_change_card_bg"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_5sdp"
+                    app:layout_constraintBottom_toTopOf="@id/tv_about_heading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ratingBar">
+
+                    <ImageView
+                        android:id="@+id/iv_minus_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/minus" />
+
+                    <TextView
+                        android:id="@+id/tv_quantity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_10sdp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/_16ssp" />
+
+                    <ImageView
+                        android:id="@+id/iv_add_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@drawable/add" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/green_border_rounded_cornwe">
+
+                <!-- INPUT -->
+                <EditText
+                    android:id="@+id/comment_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/poppins_regular"
+                    android:hint="Enter Your Comment"
+                    android:paddingLeft="17dp"
+                    android:paddingTop="15dp"
+                    android:minHeight="100dp"
+                    android:paddingBottom="15dp"
+                    android:textColor="#787777"
+                    android:textColorHint="#787777"
+                    android:textCursorDrawable="@drawable/cursor_color"
+                    android:textSize="14sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/review_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="62dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="62dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/green_fill__rounded_color"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:text="Add Review"
+                android:textColor="#ffffff"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_100sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:elevation="10dp"
+    android:padding="@dimen/_10sdp">
+
+    <ImageView
+        android:id="@+id/iv_product_image"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:contentDescription="@string/product_image"
+        android:scaleType="fitCenter"
+        android:src="@drawable/kiwi"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/spacer"/>
+
+    <Space
+        android:id="@+id/spacer"
+        android:layout_width="@dimen/_15sdp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/iv_product_image"
+        app:layout_constraintEnd_toStartOf="@id/tv_price"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_order_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/text_black"
+        android:textSize="10dp"
+        android:textFontWeight="@integer/material_motion_duration_long_1"
+        app:layout_constraintStart_toEndOf="@+id/spacer"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Order id: 134139109351u3535354" />
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/_14ssp"
+        tools:text="Avacado"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        app:layout_constraintTop_toBottomOf="@id/tv_order_id"
+        />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:textColor="@color/primary_green"
+        android:textSize="@dimen/_14ssp"
+        tools:text="Rs. 2000"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+        />
+
+    <TextView
+        android:id="@+id/tv_order_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/warning_red"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/spacer"
+        tools:text="Processing" />
+
+    <TextView
+        android:id="@+id/tv_order_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/_7ssp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/spacer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.736"
+        tools:text="Jan 14, 2023" />
+
+    <Button
+        android:id="@+id/btn_add_review"
+        android:layout_width="100dp"
+        android:layout_height="38dp"
+        android:text="Add Review"
+        android:textSize="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.954"
+        tools:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_cancel_order"
+        android:layout_width="100dp"
+        android:layout_height="37dp"
+        android:background="@drawable/green_fill__rounded_color"
+        android:text="Cancel Order"
+        android:textSize="8dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
