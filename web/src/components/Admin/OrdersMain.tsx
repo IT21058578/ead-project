@@ -7,6 +7,7 @@ import { useUpdateOrderStatusMutation } from '../../store/apiquery/OrderApiSlice
 import { useDeleteOrderMutation } from '../../store/apiquery/OrderApiSlice';
 import { useGetAllOrderQuery } from '../../store/apiquery/OrderApiSlice';
 import { ToastContainer, toast } from "react-toastify";
+import { getItem } from '../../Utils/Generals';
 
 
 /**
@@ -17,6 +18,8 @@ import { ToastContainer, toast } from "react-toastify";
  */
 const UpdateOrders = ({Orders}: {Orders : Order}) => {
 
+  const userRole = getItem('userRole');
+
 	const [updateData, setUpdateData] = useState(Orders);
 	const [updateOrders, udpateResult] = useUpdateOrderStatusMutation();
 
@@ -24,7 +27,14 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
   console.log("After:", orderID);
 
   const [formData, setFormData] = useState({
+    // status: updateData.status,
+    userId: updateData.userId,
+    vendorId: updateData.vendorId,
     status: updateData.status,
+    products: updateData.products,
+    deliveryNote: updateData.deliveryNote,
+    deliveryAddress: updateData.deliveryAddress,
+    deliveryDate: updateData.deliveryDate,
   });
 
   /**
@@ -49,12 +59,12 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
     e.preventDefault();
 
     try {
-      const result = await updateOrders({orderID,status});
+      const result = await updateOrders({orderID, formData});
 
       if ('data' in result && result.data) {
         console.log('Order States Updated successfully');
         toast.success("Order States Updated successfully");
-        setFormData({ status:''});
+        // setFormData({ status:''});
       } else if ('error' in result && result.error) {
         console.error('Order States Update failed', result.error);
         toast.error("Order States Update failed");
@@ -76,8 +86,8 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
               <option value="Pending">Pending</option>
               <option value="PartiallyDelivered">Partially Delivered</option>
               <option value="Delivered">Delivered</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
+              <option hidden={userRole === "Vendor"} value="Completed">Completed</option>
+              <option hidden={userRole === "Vendor"} value="Cancelled">Cancelled</option>
             </select>
           </label>
         </div>
@@ -182,14 +192,16 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
                         </ul>
             </td>
             <td>{totalPrice}</td>
+            <td className="col-2">{Orders?.deliveryAddress}</td>
+            <td className="col-2">{Orders?.deliveryNote}</td>
             <td>
-                  <span style={{ color: Orders.status === 'COMPLETED' ? 'green' : 'red' }}>
+                  <span style={{ color: Orders.status === 'Completed' ? 'green' : 'red' }}>
                                 {Orders?.status}
                   </span>
             </td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
               <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseOrders(Orders)} title='Edit'><i className="bi bi-pen"></i></a>
-              <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Orders.id)}><i className="bi bi-trash"></i></a>
+              {/* <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Orders.id)}><i className="bi bi-trash"></i></a> */}
             </td>
           </tr>
         )
@@ -216,6 +228,8 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
             <th scope="col" className='p-3'>Order No.</th>
             <th scope="col" className='p-3'>ITEMS</th>
             <th scope="col" className='p-3'>TOTAL</th>
+            <th scope="col" className='p-3'>DELIVERY ADDRESS</th>
+            <th scope="col" className='p-3'>DELIVERY NOTE</th>
             <th scope="col" className='p-3'>ORDER STATUS</th>
             <th scope="col">MANAGE</th>
           </tr>

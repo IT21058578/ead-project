@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import AdminHeader from '../../components/Admin/AdminHeader'
 import AdminFooter from '../../components/Admin/AdminFooter'
 import { Link, useNavigate } from 'react-router-dom'
-import { removeItem, toggleLinkClass } from '../../Utils/Generals'
+import { getItem, removeItem, toggleLinkClass } from '../../Utils/Generals'
 import RoutePaths from '../../config'
 import Swal from 'sweetalert2'
 import { useAppDispatch } from '../../hooks/redux-hooks'
@@ -36,6 +36,8 @@ const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode })
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+
+  const userRole = getItem('userRole');
 
   /**
    * Logout user
@@ -75,8 +77,8 @@ const AdminPanel = ({ currentComponent }: { currentComponent: React.ReactNode })
             <div><Link to={RoutePaths.adminProducts} className={toggleLinkClass(RoutePaths.adminProducts)}>Products<i className="bi bi-shop float-end"></i></Link></div>
             <div><Link to={RoutePaths.adminCategories} className={toggleLinkClass(RoutePaths.adminCategories)}>Orders<i className="bi bi-cart-check float-end"></i></Link></div>
             <div><Link to={RoutePaths.adminReview} className={toggleLinkClass(RoutePaths.adminReview)}>Reviews<i className="bi bi-chat-left-text float-end"></i></Link></div>
-            <div><Link to={RoutePaths.adminCustomers} className={toggleLinkClass(RoutePaths.adminCustomers)}>Users<i className="bi bi-people float-end"></i></Link></div>
-            <div><Link to={RoutePaths.adminVendors} className={toggleLinkClass(RoutePaths.adminVendors)}>Vendors<i className="bi bi-shop-window float-end"></i></Link></div>
+            <div hidden={userRole === "Vendor"}><Link to={RoutePaths.adminCustomers} className={toggleLinkClass(RoutePaths.adminCustomers)}>Users<i className="bi bi-people float-end"></i></Link></div>
+            <div hidden={userRole === "Vendor" || userRole === "Csr"}><Link to={RoutePaths.adminVendors} className={toggleLinkClass(RoutePaths.adminVendors)}>Vendors<i className="bi bi-shop-window float-end"></i></Link></div>
             <div><a href='#' className="d-block p-3 text-black" onClick={logoutUser}>Logout<i className="bi bi-person-slash float-end"></i></a></div>
           </aside>
           <div className="w-75 overflow-auto scroller">

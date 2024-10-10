@@ -30,8 +30,10 @@ export const HandleResult = ({ result }: { result: any }) => {
         setItem(RoutePaths.token, responseData.accessToken);
 
         // Assuming responseData.user contains the user data
-          setItem("user", responseData);
-          dispatch(setUser(responseData));
+        const userRole = responseData.role;
+        setItem("user", responseData);
+        setItem("userRole", userRole); 
+        dispatch(setUser(responseData));
 
         // Redirect to the appropriate route based on user data
         navigate(
