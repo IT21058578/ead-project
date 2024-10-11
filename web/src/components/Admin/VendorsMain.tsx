@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import Spinner from "../Spinner";
 import { ToastContainer, toast } from "react-toastify";
 import SearchBar from "../SearchBar";
-import { useCreateUserMutation, useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
+import { useCreateUserMutation, useDeleteUserMutation, useGetAllVendorsQuery, useUpdateUserMutation } from "../../store/apiquery/usersApiSlice";
 
 /**
  * @function UpdateVendor
@@ -348,7 +348,7 @@ const ListOfVendors = ({
     data: vendorsList,
     isSuccess,
     isError,
-  } = useGetAllUsersQuery("api/users");
+  } = useGetAllVendorsQuery("api/users");
   const [deleteUser, deletedResult] = useDeleteUserMutation();
   
   /**

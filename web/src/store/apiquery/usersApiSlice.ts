@@ -52,6 +52,46 @@ export const usersApiSlice = createApi({
             providesTags : ['Users'],
         })),
 
+        getAllCustomers : builder.query(({
+            query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+                url: 'users/search',
+                method: 'POST',
+                body: {
+                  page: 1,
+                  pageSize,
+                  sortBy,
+                  sortDirection,
+                  filters: {
+                    Role : {
+                      operator : "Equals",
+                      value : "Customer"
+                    }
+                  },
+                },
+              }),
+            providesTags : ['Users'],
+        })),
+
+        getAllVendors : builder.query(({
+            query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+                url: 'users/search',
+                method: 'POST',
+                body: {
+                  page: 1,
+                  pageSize,
+                  sortBy,
+                  sortDirection,
+                  filters: {
+                    Role : {
+                      operator : "Equals",
+                      value : "Vendor"
+                    }
+                  },
+                },
+              }),
+            providesTags : ['Users'],
+        })),
+
         getUser : builder.query({
             query : (id) => `/users/${id}`,
             providesTags : ['Users']
@@ -92,6 +132,8 @@ export const usersApiSlice = createApi({
 
 export const {
     useGetAllUsersQuery,
+    useGetAllCustomersQuery,
+    useGetAllVendorsQuery,
     useGetUserQuery,
     useUpdateUserMutation,
     useCreateUserMutation,

@@ -1,6 +1,6 @@
 import React, {useState}from 'react'
 import Swal from 'sweetalert2';
-import { useDeleteUserMutation, useGetAllUsersQuery } from '../../store/apiquery/usersApiSlice';
+import { useDeleteUserMutation, useGetAllCustomersQuery } from '../../store/apiquery/usersApiSlice';
 import Spinner from '../Spinner';
 import { UserType } from '../../types';
 import { useAppSelector } from '../../hooks/redux-hooks'
@@ -25,7 +25,7 @@ const ListOfCustomers = () => {
 
   let count = 0;
 
-  const { isLoading, data: customersList, isSuccess, isError } = useGetAllUsersQuery('api/users');
+  const { isLoading, data: customersList, isSuccess, isError } = useGetAllCustomersQuery('api/users');
   const [deleteCustomer, deletedResult] = useDeleteUserMutation();
 
   /**

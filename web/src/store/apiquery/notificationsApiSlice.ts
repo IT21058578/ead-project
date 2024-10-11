@@ -4,6 +4,7 @@ import { getItem } from "../../Utils/Generals";
 import RoutePaths from "../../config";
 
 const token = getItem(RoutePaths.token);
+const userRole = getItem('userRole');
 
 export const notificationsApiSlice = createApi({
   reducerPath: "api/notifications",
@@ -48,7 +49,12 @@ export const notificationsApiSlice = createApi({
           pageSize,
           sortBy,
           sortDirection,
-          filters: {},
+          filters: {
+            Recipient: {
+              operator: "Equals",
+              value: userRole
+            }
+          },
         },
       }),
 
