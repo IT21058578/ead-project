@@ -31,8 +31,10 @@ export const HandleResult = ({ result }: { result: any }) => {
 
         // Assuming responseData.user contains the user data
         const userRole = responseData.role;
+        const userId = responseData.id;
         setItem("user", responseData);
         setItem("userRole", userRole); 
+        setItem("userId", userId);
         dispatch(setUser(responseData));
 
         // Redirect to the appropriate route based on user data

@@ -24,7 +24,6 @@ const UpdateOrders = ({Orders}: {Orders : Order}) => {
 	const [updateOrders, udpateResult] = useUpdateOrderStatusMutation();
 
   const orderID = Orders.id;
-  console.log("After:", orderID);
 
   const [formData, setFormData] = useState({
     // status: updateData.status,
@@ -177,7 +176,6 @@ const ListOfOrders = ({ setOrders, setPage }: { setOrders: Function, setPage: Fu
           return acc + product.price * product.quantity;
         }, 0);
         const orderID = Orders.id;
-        console.log("After:", orderID);
 
         return (
           <tr className="p-3" key={Orders.id}>
