@@ -4,6 +4,7 @@ import {
   useCreateProductMutation,
   useDeleteProductMutation,
   useGetAllProductsQuery,
+  useGetVendorProductsQuery,
   useUpdateProductMutation,
 } from "../../store/apiquery/productApiSlice";
 import Swal from "sweetalert2";
@@ -78,17 +79,17 @@ const UpdateProduct = ({ product }: { product: Product }) => {
       if ("data" in result && result.data) {
         console.log("Product Updated successfully");
         toast.success("Product Updated successfully");
-        setFormData({
-          vendorId: "",
-          name: "",
-          description: "",
-          category: "",
-          price: 0,
-          isActive: false,
-          countInStock: 0,
-          lowStockThreshold: 0,
-          imageUrl: "",
-        });
+        // setFormData({
+        //   vendorId: "",
+        //   name: "",
+        //   description: "",
+        //   category: "",
+        //   price: 0,
+        //   isActive: false,
+        //   countInStock: 0,
+        //   lowStockThreshold: 0,
+        //   imageUrl: "",
+        // });
       } else if ("error" in result && result.error) {
         console.error("Product creation failed", result.error);
         toast.error("Product creation failed");
@@ -524,12 +525,16 @@ const ListOfProducts = ({
   setProduct: Function;
   setPage: Function;
 }) => {
+  const userRole = getItem('userRole');
+
   const {
     isLoading,
     data: productsList,
     isSuccess,
     isError,
-  } = useGetAllProductsQuery("api/products");
+  } = userRole === 'Vendor'
+    ? useGetVendorProductsQuery("api/products")
+    : useGetAllProductsQuery("api/products");
   const [deleteProduct, deletedResult] = useDeleteProductMutation();
   /**
    * parseProduct function

@@ -77,7 +77,7 @@ const ListOfCustomers = () => {
 
         return (
           <tr className="p-3" key={customer.id}>
-            <td scope="row w-25">{++count}</td>
+            <td scope="row w-25">{customer.id}</td>
             <td className='fw-bold'>{customer.firstName}</td>
             <td className='fw-bold'>{customer.lastName}</td>
             <td>{customer.email}</td>
@@ -99,7 +99,7 @@ const ListOfCustomers = () => {
       <div className="mb-3">
       <input
         type="text"
-        placeholder="Search Review"
+        placeholder="Search Customers"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
         className="form-control w-100 p-2"
@@ -109,7 +109,7 @@ const ListOfCustomers = () => {
         <table className="table table-default text-center table-bordered">
           <thead>
             <tr className='fd-bg-primary text-white'>
-              <th scope="col" className='p-3'>No</th>
+              <th scope="col" className='p-3'>CUSTOMER ID</th>
               <th scope="col" className='p-3'>FIRSTNAME</th>
               <th scope="col" className='p-3'>LASTNAME</th>
               <th scope="col" className='p-3'>EMAIL</th>

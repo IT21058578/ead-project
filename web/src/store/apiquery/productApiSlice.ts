@@ -4,6 +4,7 @@ import { getItem } from "../../Utils/Generals";
 import RoutePaths from "../../config";
 
 const token = getItem(RoutePaths.token);
+const userId = getItem('userId');
 
 export const productApiSlice = createApi({
   reducerPath: "api/products",
@@ -46,6 +47,27 @@ export const productApiSlice = createApi({
           sortBy,
           sortDirection,
           filters: {},
+        },
+      }),
+
+      providesTags: ["Products"],
+    }),
+
+    getVendorProducts: builder.query({
+      query: (page = 1, pageSize = 100, sortBy = 'Id', sortDirection = 'asc') => ({
+        url: 'products/search',
+        method: 'POST',
+        body: {
+          page: 1,
+          pageSize,
+          sortBy,
+          sortDirection,
+          filters: {
+            VendorId: {
+              operator: "Equals",
+              value: userId
+            }
+          },
         },
       }),
 
@@ -125,6 +147,7 @@ export const productApiSlice = createApi({
 
 export const {
   useGetAllProductsQuery,
+  useGetVendorProductsQuery,
   useGetProductQuery,
   useSearchProductQuery,
   useGetRandomProductQuery,
