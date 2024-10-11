@@ -47,7 +47,7 @@ class OrderListAdapter(private val listOfOrders: List<OrderSearchResponse.OrderD
             // Load image using Glide for the first product
             val product = order.products!![0]
             Glide.with(holder.productImage.context)
-                .load(product.imageUrl)  // Load the image URL
+                .load(product.imageUrl)  // Load the image URL https://github.com/bumptech/glide
                 .placeholder(R.drawable.dress)  // Optional placeholder image
                 .error(R.drawable.dress)  // Optional error image
                 .into(holder.productImage)
@@ -99,7 +99,7 @@ class OrderListAdapter(private val listOfOrders: List<OrderSearchResponse.OrderD
         val rawDeliveryDate = order.deliveryDate
         val formattedDeliveryDate = rawDeliveryDate?.substring(0, 10)
         holder.orderDate.text = formattedDeliveryDate
-        // You may keep this to show overall order status if needed
+        // To show overall order status if needed
         holder.orderStatus.text = order.status
     }
 }

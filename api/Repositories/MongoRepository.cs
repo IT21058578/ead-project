@@ -5,6 +5,7 @@ using api.Utilities;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace api.Repositories
 {
@@ -144,8 +145,10 @@ namespace api.Repositories
             var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
             if (entityToUpdate != null)
             {
-                entityToUpdate.UpdatedAt = DateTime.UtcNow;
-                entityToUpdate.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
+                _dbContext.Entry(entityToUpdate).State = EntityState.Detached;
+                _dbContext.Entry(entity).State = EntityState.Modified;
+                entity.UpdatedAt = DateTime.UtcNow;
+                entity.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
                 _dbSet.Update(entity);
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
@@ -159,18 +162,20 @@ namespace api.Repositories
         }
 
         // A repository method for updating an entity in the collection asynchronously
-        public Task<T> UpdateAsync(T entity)
+        public async Task<T> UpdateAsync(T entity)
         {
-            var entityToUpdate = _dbSet.FirstOrDefault(e => e.Id == entity.Id);
+            var entityToUpdate = await _dbSet.FirstOrDefaultAsync(e => e.Id == entity.Id);
             if (entityToUpdate != null)
             {
+                _dbContext.Entry(entityToUpdate).State = EntityState.Detached;
+                _dbContext.Entry(entityToUpdate).State = EntityState.Modified;
                 entityToUpdate.UpdatedAt = DateTime.UtcNow;
                 entityToUpdate.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
                 _dbSet.Update(entity);
                 _dbContext.ChangeTracker.DetectChanges();
                 Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
-                _dbContext.SaveChanges();
-                return Task.FromResult(entity);
+                await _dbContext.SaveChangesAsync();
+                return entity;
             }
             else
             {
@@ -188,6 +193,7 @@ namespace api.Repositories
                     // Don't let these objects save
                     throw new ArgumentException("Entity ID must not be empty.");
                 }
+                _dbContext.Entry(e).State = EntityState.Modified;
                 e.CreatedBy = ObjectId.Empty; // TODO: Get id from session
                 e.CreatedAt = DateTime.UtcNow;
             });
