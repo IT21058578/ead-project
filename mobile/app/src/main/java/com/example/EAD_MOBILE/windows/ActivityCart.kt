@@ -39,29 +39,32 @@ class ActivityCart : AppCompatActivity() {
         binding = ActivityCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        binding.rvOrderList.layoutManager = LinearLayoutManager(this)
         binding.rvCartItems.layoutManager = LinearLayoutManager(this)
-
 
         window.statusBarColor = (Color.parseColor("#FFFFFF"))
         WindowInsetsControllerCompat(window, window.decorView).isAppearanceLightStatusBars = true
 
         cartViewModel.getCartProducts.observe(this) { cartItems ->
             showOrderCart(cartItems)
-            calculateTotalPrice(cartItems)
+            // Assign the calculated total price to the totalPrice variable
+            totalPrice = calculateTotalPrice(cartItems)
         }
-
 
         binding.checkoutBtn.setOnClickListener {
-            val intent = Intent(this, CheckOutActivity::class.java)
-            intent.putExtra("TOTAL_PRICE", totalPrice) // Pass the total price to CheckOutActivity
-            startActivity(intent)
-            Log.d("TOTAL_PRICE", "$totalPrice")
+            if (totalPrice != null) {
+                try {
+                    val totalPriceDouble = totalPrice!!.toDouble() // Convert the totalPrice to Double
+                    val intent = Intent(this, CheckOutActivity::class.java)
+                    intent.putExtra("TOTAL_PRICE", totalPriceDouble) // Pass the total price as Double
+                    startActivity(intent)
+                    Log.d("TOTAL_PRICE", "$totalPriceDouble")
+                } catch (e: NumberFormatException) {
+                    Log.d("TOTAL_PRICE", "Failed to convert total price to Double")
+                }
+            } else {
+                Log.d("TOTAL_PRICE", "Total price is null, cannot proceed to checkout.")
+            }
         }
-
-
-
-
     }
 
     private fun showOrderCart(cartItems: List<Cart>) {
