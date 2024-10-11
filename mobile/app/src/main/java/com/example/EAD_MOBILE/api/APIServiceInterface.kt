@@ -63,7 +63,7 @@ interface APIServiceInterface {
     fun postReview(@Body postReview: ReviewRequest): Call<ReviewResponse>
 
     @POST("customer-requests/order-cancellation")
-    fun cancelOrder(@Body cancelOrder: CancelOrderRequest): Call<CancelOrderResponse>
+    fun cancelOrder(@Body cancelOrder: CancelOrderRequest): Call<ResponseBody>
 
     @POST("reviews/search")
     fun searchReviews(@Body searchReviewRequest: ReviewSearchRequest): Call<ReviewSearchResponse>

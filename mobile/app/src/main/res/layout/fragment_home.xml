@@ -35,7 +35,7 @@
             android:gravity="start"
             android:paddingTop="@dimen/_3sdp"
             android:paddingStart="@dimen/_5sdp"
-            android:text="@string/search_for_products"
+            android:hint="@string/search_for_products"
             android:textColor="@color/gray_icon"
             android:textSize="@dimen/_12ssp" />
 
