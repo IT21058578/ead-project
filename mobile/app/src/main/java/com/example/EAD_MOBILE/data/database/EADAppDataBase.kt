@@ -34,7 +34,7 @@ abstract class EADAppDataBase: RoomDatabase() {
                     "metro_app_database"
                 )
                     // Wipes and rebuilds instead of migrating if no Migration object.
-                    // Migration is not part of this codelab.
+                    // Migration is not part of this
                     .fallbackToDestructiveMigration()
                     .addCallback(EADAppDatabaseCallback(scope))
                     // .allowMainThreadQueries()
@@ -53,8 +53,6 @@ abstract class EADAppDataBase: RoomDatabase() {
              */
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
-                // If you want to keep the data through app restarts,
-                // comment out the following line.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
                         //populateDatabase(database.jobDao())

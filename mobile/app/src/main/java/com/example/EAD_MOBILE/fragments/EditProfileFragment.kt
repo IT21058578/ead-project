@@ -104,7 +104,7 @@ class EditProfileFragment : Fragment() {
         // Create an instance of the EditProfileFragment
         val profileFragment = ProfileFragment()
 
-        // Replace the current fragment with the EditProfileFragment
+        // Replacing the current fragment with the EditProfileFragment
         val transaction: FragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container, profileFragment)
         transaction.addToBackStack(null)

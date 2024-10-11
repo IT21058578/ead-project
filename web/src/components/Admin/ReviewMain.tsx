@@ -178,7 +178,7 @@ const ListofReviews = ({ setReviews, setPage }: { setReviews: Function, setPage:
             <td>{Reviews.rating}</td>
             <td>{Reviews.message}</td>
             <td className='fw-bold d-flex gap-2 justify-content-center'>
-              <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseReviews(Reviews)} title='Edit'><i className="bi bi-pen"></i></a>
+              {/* <a href="#" className='p-2 rounded-2 bg-secondary' onClick={(e) => parseReviews(Reviews)} title='Edit'><i className="bi bi-pen"></i></a> */}
               <a href="#" className='p-2 rounded-2 bg-danger' title='Delete' onClick={(e) => deleteItem(Reviews.id)}><i className="bi bi-trash"></i></a>
             </td>
           </tr>

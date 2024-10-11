@@ -11,6 +11,7 @@ import Spinner from "../Spinner";
 import { useUploadImagesMutation } from "../../store/apiquery/productApiSlice";
 import { ToastContainer, toast } from "react-toastify";
 import SearchBar from "../SearchBar";
+import { getItem } from "../../Utils/Generals";
 
 let imageIsChanged = false;
 
@@ -22,6 +23,7 @@ let imageIsChanged = false;
  */
 const UpdateProduct = ({ product }: { product: Product }) => {
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
+  const userRole = getItem('userRole');
 
   const [updateData, setUpdateData] = useState(product);
   const [updateProduct, udpateResult] = useUpdateProductMutation();
@@ -170,6 +172,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             value={formData.countInStock}
             className="form-control w-100 rounded-0 p-2"
             onChange={handleUpdateValue}
+            disabled={userRole !== 'Admin'}
           />
         </label>
         <label>
@@ -180,6 +183,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             value={formData.lowStockThreshold}
             className="form-control w-100 rounded-0 p-2"
             onChange={handleUpdateValue}
+            disabled={userRole !== 'Admin'}
           />
         </label>
         <label className="form-check form-switch pt-4 pl-3">
@@ -190,6 +194,7 @@ const UpdateProduct = ({ product }: { product: Product }) => {
             checked={formData.isActive ? true : false }
             className="form-check-input"
             onChange={handleUpdateValue}
+            disabled={userRole !== 'Admin'}
           />
         </label>
       </div>
@@ -256,6 +261,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
   // const [data, setData] = useState({});
 
   // const { data : categories } = useGetAllCategoriesQuery('api/categories')
+  const userRole = getItem('userRole');
 
   const [createProduct, result] = useCreateProductMutation();
   const [image, setImage] = useState<File | null>(null);
@@ -412,6 +418,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               className="form-control w-100 rounded-0 p-2"
               placeholder="Quantity"
               onChange={handleValue}
+              disabled={userRole !== 'Admin'}
             />
           </label>
           <label>
@@ -423,6 +430,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               className="form-control w-100 rounded-0 p-2"
               placeholder="Low Stock Threshold"
               onChange={handleValue}
+              disabled={userRole !== 'Admin'}
             />
           </label>
           <label className="form-check form-switch pt-4 pl-3">
@@ -433,6 +441,7 @@ const AddOrEditProduct = ({ product }: { product: null | Product }) => {
               checked={formData.isActive ? true : false }
               className="form-check-input"
               onChange={handleValue}
+              disabled={userRole !== 'Admin'}
             />
           </label>
         </div>
