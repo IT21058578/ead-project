@@ -6,28 +6,28 @@ import com.google.gson.annotations.SerializedName
 class NotificationSearchRequest(
     @SerializedName("page")
     @Expose
-    var page: Int = 1, // Default page to 1
+    var page: Int = 1,
 
     @SerializedName("pageSize")
     @Expose
-    var pageSize: Int = 100, // Default page size to 100
+    var pageSize: Int = 100,
 
     @SerializedName("sortBy")
     @Expose
-    var sortBy: String = "Id", // Default sort by "Id"
+    var sortBy: String = "Id",
 
     @SerializedName("sortDirection")
     @Expose
-    var sortDirection: String = "desc", // Default sort direction to "desc"
+    var sortDirection: String = "asc",
 
     @SerializedName("filters")
     @Expose
-    var filters: NotificationFilters // Filters for notifications
+    var filters: NotificationFilters
 )
 
 class NotificationFilters(
     @SerializedName("UserId")
     @Expose
-    var userId: Filter // Filter for UserId
+    var userId: Filter
 )
 

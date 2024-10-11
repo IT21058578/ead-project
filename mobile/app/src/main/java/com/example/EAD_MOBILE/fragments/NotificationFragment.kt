@@ -82,7 +82,7 @@ class NotificationFragment : Fragment() {
             override fun onResponse(call: Call<NotificationResponse>, response: Response<NotificationResponse>) {
                 if (response.isSuccessful && response.body() != null) {
                     val notifications = response.body()!!.data
-                    if (notifications != null && notifications.isNotEmpty()) {
+                    if (notifications.isNotEmpty()) {
                         // Bind notifications to the RecyclerView
                         showNotifications(notifications)
                         // Show each notification as a real notification

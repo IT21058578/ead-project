@@ -107,7 +107,7 @@ class HomeFragment : Fragment() {
             request.page = 1
             request.pageSize = 10
             request.sortBy = "Id"
-            request.sortDirection = "desc"
+            request.sortDirection = "asc"
             request.filters = mapOf()
 
             val token = context?.let {

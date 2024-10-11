@@ -80,7 +80,7 @@ class OrderFragment : Fragment() {
             page = 1,
             pageSize = 100,
             sortBy = "Id",
-            sortDirection = "desc",
+            sortDirection = "asc",
             filters = filters
         )
 
