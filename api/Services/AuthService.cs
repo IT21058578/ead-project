@@ -81,6 +81,37 @@ namespace api.Services
             _logger.LogInformation("User with email {Email} has been registered", createUserRequestDto.Email);
         }
 
+        // This method is used to register a verified vendor user
+        public async Task RegisterVendorUser(CreateUserRequestDto createUserRequestDto)
+        {
+            _logger.LogInformation("Registering user with email {Email}", createUserRequestDto.Email);
+            var existingUser = await _userRepository.FindByEmailAsync(createUserRequestDto.Email);
+            if (existingUser != null)
+            {
+                throw new ConflictException($"User with email {createUserRequestDto.Email} already exists");
+            }
+            var user = new User
+            {
+                Email = createUserRequestDto.Email,
+                FirstName = createUserRequestDto.FirstName,
+                LastName = createUserRequestDto.LastName,
+                IsApproved = true,
+                IsVerified = true,
+                Rating = 0.0,
+                Role = AppUserRole.Vendor,
+            };
+            var savedUser = await _userRepository.AddAsync(user);
+            var credential = new Credential
+            {
+                UserId = savedUser.Id,
+                Password = _passwordHasher.HashPassword(savedUser, createUserRequestDto.Password)
+            };
+            await _credentialRepository.AddAsync(credential);
+            var token = _tokenService.CreateToken(TokenPurpose.Registration, user.Email);
+            _logger.LogInformation("User with email {Email} has been registered", createUserRequestDto.Email);
+        }
+
+
         // This method is used to resend the registration email
         public async Task ResendRegisterEmail(string email)
         {
