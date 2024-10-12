@@ -20,16 +20,13 @@ namespace api.DTOs.Requests
         [ValidObjectId]
         public string UserId { get; set; } = string.Empty;
         [Required]
-        [ValidObjectId]
-        public string VendorId { get; set; } = string.Empty;
-        [Required]
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
         [Required]
         [MinLength(1)]
         public List<OrderItemDto> Products { get; set; } = [];
+        [Required]
         public string DeliveryNote { get; set; } = "";
         [Required]
-        [MinLength(300)]
         public string DeliveryAddress { get; set; } = "";
         [Required]
         public DateTime DeliveryDate { get; set; } = DateTime.Now;
