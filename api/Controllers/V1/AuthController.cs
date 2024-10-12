@@ -27,6 +27,14 @@ namespace api.Controllers.V1
             return Ok();
         }
 
+        // This is an endpoint exposed for vendor registration
+        [HttpPost("register/vendor")] 
+        public async Task<IActionResult> RegisterVendorUser([FromBody] CreateUserRequestDto createUserRequestDto)
+        {
+            await _authService.RegisterVendorUser(createUserRequestDto);
+            return Ok();
+        }
+
         // This is an endpoint exposed for user registration email re-sending
         [HttpPost("register/re-send")]
         public async Task<IActionResult> ResendRegisterEmail([FromQuery] string email)
