@@ -161,6 +161,18 @@ namespace api.Repositories
             }
         }
 
+        // A repository method for updating an entity in the collection
+        public T UpdateForce(T entity)
+        {
+            entity.UpdatedAt = DateTime.UtcNow;
+            entity.UpdatedBy = ObjectId.Empty; // TODO: Get id from session
+            _dbSet.Update(entity);
+            _dbContext.ChangeTracker.DetectChanges();
+            Console.WriteLine(_dbContext.ChangeTracker.DebugView.LongView);
+            _dbContext.SaveChanges();
+            return entity;
+        }
+
         // A repository method for updating an entity in the collection asynchronously
         public async Task<T> UpdateAsync(T entity)
         {

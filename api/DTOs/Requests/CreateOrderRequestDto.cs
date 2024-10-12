@@ -23,9 +23,6 @@ namespace api.DTOs.Requests
         [ValidObjectId]
         public string UserId { get; set; } = string.Empty;
         [Required]
-        [ValidObjectId]
-        public string VendorId { get; set; } = string.Empty;
-        [Required]
         [MinLength(1)]
         public List<OrderItemDto> Products { get; set; } = [];
         [Required]

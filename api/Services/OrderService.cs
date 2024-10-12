@@ -79,15 +79,14 @@ namespace api.Services
             _logger.LogInformation("Updating order {id}", id);
 
             var oldOrder = GetOrder(id);
-            var order = request.ToModel();
-            order.Id = new ObjectId(id);
+            oldOrder.Status = request.Status;
 
             // Get all relevant products
-            var productIdsSet = new HashSet<string>(order.Products.Select(p => p.ProductId.ToString()));
+            var productIdsSet = new HashSet<string>(oldOrder.Products.Select(p => p.ProductId.ToString()));
             oldOrder.Products.Select(p => p.ProductId.ToString()).ForEach(p => productIdsSet.Add(p));
             var products = _productService.GetProducts(productIdsSet);
 
-            ValidateOrderAndThrowIfInvalid(order, oldOrder, products);
+            ValidateOrderAndThrowIfInvalid(oldOrder, oldOrder, products);
 
             // Add products allocated to old order back
             foreach (var product in oldOrder.Products)
@@ -96,13 +95,13 @@ namespace api.Services
             }
 
             // Remove products allocated to new order 
-            foreach (var product in order.Products)
+            foreach (var product in oldOrder.Products)
             {
                 _productService.DecreaseProductStock(product.ProductId.ToString(), product.Quantity);
             }
 
             // Send notifications depending on flow
-            var isOrderCancelled = order.Status == OrderStatus.Cancelled && oldOrder.Status != OrderStatus.Cancelled;
+            var isOrderCancelled = oldOrder.Status == OrderStatus.Cancelled && oldOrder.Status != OrderStatus.Cancelled;
             if (isOrderCancelled)
             {
                 _notificationService.CreateNotification(new Notification
@@ -114,7 +113,7 @@ namespace api.Services
                     Type = NotificationType.OrderCancelledWarning,
                 });
             }
-            else if (order.Status == OrderStatus.Delivered && oldOrder.Status != OrderStatus.Delivered)
+            else if (oldOrder.Status == OrderStatus.Delivered && oldOrder.Status != OrderStatus.Delivered)
             {
                 _notificationService.CreateNotification(new Notification
                 {
@@ -126,7 +125,7 @@ namespace api.Services
                 });
             }
 
-            var updatedOrder = _orderRepository.Update(order);
+            var updatedOrder = _orderRepository.UpdateForce(oldOrder);
             _logger.LogInformation("Order updated with id {id}", updatedOrder.Id);
             return updatedOrder;
         }
